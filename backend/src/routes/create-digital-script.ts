@@ -25,7 +25,7 @@ export async function createDigitalScript(app: FastifyInstance) {
           notes: z.string().optional(),
           payment_receipt: z.string().optional(),
           company_name: z.string().optional(),
-          technical_name: z.string().optional(),
+          technical_name: z.string(),
           order_id: z.string().optional(),
         }),
       },
