@@ -33,7 +33,6 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { api } from "@/lib/axios";
-import dayjs from "dayjs";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "sonner";
@@ -76,6 +75,8 @@ export const CreateOs = () => {
     notes: "",
   });
 
+  const [requiredFieldsError, setRequiredFieldsError] = useState(false);
+
   const [isTechnicalSelectOpen, setIsTechnicalSelectOpen] = useState(false);
 
   function handleInputChange(
@@ -91,16 +92,22 @@ export const CreateOs = () => {
 
   async function handleUpdateRow(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
-    const response = await api.post(`/digital-scripts`, {
-      ...formData,
-    });
-    window.location.reload();
-
-    if (response.status === 200) {
-      toast.message("Sucesso", {
-        description: "Informações atualizadas com sucesso!",
+    try {
+      const response = await api.post(`/digital-scripts`, {
+        ...formData,
       });
+      window.location.reload();
+
+      if (response.status === 200) {
+        toast.message("Sucesso", {
+          description: "Informações atualizadas com sucesso!",
+        });
+      }
+
+      setRequiredFieldsError(false);
+    } catch (error) {
+      console.log(error);
+      setRequiredFieldsError(true);
     }
   }
 
@@ -401,8 +408,14 @@ export const CreateOs = () => {
               onChange={handleInputChange}
             />
           </div>
+          {requiredFieldsError && (
+            <p className={"text-center text-[0.9rem] text-red-500"}>
+              Preencha todos os campos obrigatórios
+            </p>
+          )}
+
           <DialogFooter>
-            <Button type="submit">Salvar alterações</Button>
+            <Button type="submit">Criar ordem de serviço</Button>
           </DialogFooter>
         </form>
       </DialogContent>
