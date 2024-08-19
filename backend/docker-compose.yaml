@@ -4,7 +4,7 @@ services:
     container_name: mysqldb
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=music
+      - MYSQL_DATABASE=database
     ports:
       - '3306:3306'
     expose:
