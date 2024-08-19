@@ -48,6 +48,7 @@ export async function createDigitalScript(app: FastifyInstance) {
         company_name,
         technical_name,
         order_id,
+        created_at,
       } = request.body;
 
       const digitalScript = await prisma.checklistAnuntech.create({
@@ -68,6 +69,7 @@ export async function createDigitalScript(app: FastifyInstance) {
           company_name,
           technical_name,
           order_id,
+          created_at,
         },
       });
       return reply.status(201).send({ digitalScriptId: digitalScript.id });

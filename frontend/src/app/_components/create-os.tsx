@@ -59,7 +59,7 @@ type FormDataFields = Partial<{
 
 export const CreateOs = () => {
   const [formData, setFormData] = useState({
-    created_at: "",
+    created_at: new Date().toISOString().split("T")[0],
     technical_name: "",
     company_name: "",
     order_classification: "",
@@ -95,9 +95,8 @@ export const CreateOs = () => {
     console.log(formData);
     const response = await api.post(`/digital-scripts`, {
       ...formData,
-      created_at: new Date().toISOString().split("T")[0],
     });
-    window.location.reload();
+    // window.location.reload();
 
     if (response.status === 200) {
       toast.message("Sucesso", {
