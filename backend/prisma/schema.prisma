@@ -1,0 +1,83 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model ChecklistAnuntech {
+  id                   String   @id @default(uuid())
+  entity_id            Int?
+  company_id           Int?
+  created_at           DateTime @default(now())
+  company_name         String?
+  order_id             String?
+  technical_name       String?
+  order_classification String?
+  service_order_status String?
+  payment_method       String?
+  payment_condition    String?
+  parts_value          Int?
+  labor_value          Int?
+  visit_fee            Int?
+  received_value       Int?
+  advance_revenue      Int?
+  revenue_deduction    Int?
+  notes                String?
+  payment_receipt      String?
+  updated_at           DateTime @updatedAt
+
+  @@map("checklist_anuntech")
+}
+
+model ChecklistWhirlpool {
+  id                      String    @id @default(uuid())
+  entity_id               Int?
+  company_id              Int?
+  appliance_id            String?
+  sku_code                String?
+  purchase_date           String?
+  invoice_number          String?
+  invoice_photo           String?
+  engineering_version     String?
+  appliance_serial_number String?
+  label_photo             String?
+  consumer_id             String?
+  cell_phone_number       String?
+  email                   String?
+  responsible_type        String?
+  responsible_name        String?
+  responsible_doc_number  String?
+  order_id                String?
+  confirmed_defect        String?
+  confirmed_defect2       String?
+  failure_photo1          String?
+  failure_photo2          String?
+  failure_photo3          String?
+  failure_photo4          String?
+  failure_photo5          String?
+  technical_report        String?
+  signature               String?
+  final_status_id         String?
+  final_reason_id         String?
+  rescheduling_date       DateTime?
+  rescheduling_period     String?
+  parts_price             String?
+  labor_price             String?
+  visit_price             String?
+  displacement_price      String?
+  total_price             String?
+  received_price          String?
+  payment_method          String?
+  notes                   String?
+  service_warranty        String?
+  parts_warranty          String?
+  approved                String?
+  created_at              DateTime  @default(now())
+  updated_at              DateTime  @updatedAt
+
+  @@map("checklist_whirlpool")
+}
