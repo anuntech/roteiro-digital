@@ -92,11 +92,10 @@ export const CreateOs = () => {
   async function handleUpdateRow(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    console.log(formData);
     const response = await api.post(`/digital-scripts`, {
       ...formData,
     });
-    // window.location.reload();
+    window.location.reload();
 
     if (response.status === 200) {
       toast.message("Sucesso", {
