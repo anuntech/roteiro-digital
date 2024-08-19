@@ -134,7 +134,7 @@ export const CreateOs = () => {
         <form onSubmit={handleUpdateRow} className="space-y-4">
           <div className="flex gap-3">
             <div>
-              <Label htmlFor="created_at">Visita</Label>
+              <Label htmlFor="created_at">Visita*</Label>
               <Input
                 id="created_at"
                 type="date"
@@ -143,7 +143,7 @@ export const CreateOs = () => {
               />
             </div>
             <div className="flex-1">
-              <Label htmlFor="order_id">Serviço</Label>
+              <Label htmlFor="order_id">Serviço*</Label>
               <Input
                 id="order_id"
                 value={formData.order_id}
@@ -153,7 +153,7 @@ export const CreateOs = () => {
             </div>
           </div>
           <div className="flex flex-col gap-1">
-            <Label htmlFor="technician">Técnico</Label>
+            <Label htmlFor="technician">Técnico*</Label>
             <Popover
               open={isTechnicalSelectOpen}
               onOpenChange={setIsTechnicalSelectOpen}
@@ -202,7 +202,7 @@ export const CreateOs = () => {
           </div>
           <div className="flex gap-3">
             <div className="flex-1">
-              <Label htmlFor="order_classification">Classificação</Label>
+              <Label htmlFor="order_classification">Classificação*</Label>
               <Select
                 value={formData.order_classification}
                 onValueChange={(value) =>
@@ -229,7 +229,7 @@ export const CreateOs = () => {
               </Select>
             </div>
             <div className="flex-1">
-              <Label htmlFor="service_order_status">Status do serviço</Label>
+              <Label htmlFor="service_order_status">Status do serviço*</Label>
               <Select
                 value={formData.service_order_status}
                 onValueChange={(value) =>
