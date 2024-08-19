@@ -93,8 +93,11 @@ export const CreateOs = () => {
     event.preventDefault();
 
     console.log(formData);
-    const response = await api.post(`/digital-scripts`, formData);
-    // window.location.reload();
+    const response = await api.post(`/digital-scripts`, {
+      ...formData,
+      created_at: new Date().toISOString().split("T")[0],
+    });
+    window.location.reload();
 
     if (response.status === 200) {
       toast.message("Sucesso", {
