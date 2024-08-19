@@ -1,8 +1,8 @@
-import { api } from '@/lib/axios'
-import { columns, DigitalScript } from './_components/columns'
-import { DataTable } from './_components/data-table'
-import { ModeToggle } from './_components/mode-toggle'
-import { TotalValuesProps } from './_components/revenue-cards'
+import { api } from "@/lib/axios";
+import { columns, DigitalScript } from "./_components/columns";
+import { DataTable } from "./_components/data-table";
+import { ModeToggle } from "./_components/mode-toggle";
+import { TotalValuesProps } from "./_components/revenue-cards";
 
 export async function getData(
   dateFrom: string,
@@ -12,22 +12,22 @@ export async function getData(
   companyFilter?: string[],
   technicalFilter?: string[],
 ): Promise<DigitalScript[]> {
-  const response = await api.get('/digital-scripts', {
+  const response = await api.get("/digital-scripts", {
     params: {
       dateFrom,
       dateTo,
       page: pageIndex,
       orderIdFilter,
-      companyFilter: companyFilter?.join(', '),
-      technicalFilter: technicalFilter?.join(', '),
+      companyFilter: companyFilter?.join(", "),
+      technicalFilter: technicalFilter?.join(", "),
     },
-  })
+  });
 
   if (!response.data) {
-    throw new Error('Failed to fetch data')
+    throw new Error("Failed to fetch data");
   }
 
-  return response.data
+  return response.data;
 }
 
 export async function getTotalData(
@@ -37,21 +37,21 @@ export async function getTotalData(
   companyFilter?: string[],
   technicalFilter?: string[],
 ): Promise<number> {
-  const response = await api.get('/digital-scripts/total', {
+  const response = await api.get("/digital-scripts/total", {
     params: {
       dateFrom,
       dateTo,
       orderIdFilter,
-      companyFilter: companyFilter?.join(', '),
-      technicalFilter: technicalFilter?.join(', '),
+      companyFilter: companyFilter?.join(", "),
+      technicalFilter: technicalFilter?.join(", "),
     },
-  })
+  });
 
   if (!response.data) {
-    return 1
+    return 1;
   }
 
-  return response.data
+  return response.data;
 }
 
 export async function getTotalValues(
@@ -61,38 +61,42 @@ export async function getTotalValues(
   companyFilter?: string[],
   technicalFilter?: string[],
 ): Promise<TotalValuesProps> {
-  const response = await api.get('/digital-scripts/sum', {
+  const response = await api.get("/digital-scripts/sum", {
     params: {
       dateFrom,
       dateTo,
       orderIdFilter,
-      companyFilter: companyFilter?.join(', '),
-      technicalFilter: technicalFilter?.join(', '),
+      companyFilter: companyFilter?.join(", "),
+      technicalFilter: technicalFilter?.join(", "),
     },
-  })
+  });
 
   if (!response.data) {
-    throw new Error('Failed to fetch total values')
+    throw new Error("Failed to fetch total values");
   }
 
-  return response.data
+  return response.data;
 }
 
 export default async function Home() {
   const data = await getData(
-    new Date().toISOString().split('T')[0],
-    new Date().toISOString().split('T')[0],
-  )
+    new Date().toISOString().split("T")[0],
+    new Date().toISOString().split("T")[0],
+  );
+
+  console.log(new Date().toISOString().split("T")[0]);
 
   const totalCount = await getTotalData(
-    new Date().toISOString().split('T')[0],
-    new Date().toISOString().split('T')[0],
-  )
+    new Date().toISOString().split("T")[0],
+    new Date().toISOString().split("T")[0],
+  );
 
   const totalValues = await getTotalValues(
-    new Date().toISOString().split('T')[0],
-    new Date().toISOString().split('T')[0],
-  )
+    new Date().toISOString().split("T")[0],
+    new Date().toISOString().split("T")[0],
+  );
+
+  console.log(totalValues);
 
   return (
     <div className="hidden flex-col gap-8 p-10 md:flex">
@@ -107,5 +111,5 @@ export default async function Home() {
         totalCount={totalCount}
       />
     </div>
-  )
+  );
 }

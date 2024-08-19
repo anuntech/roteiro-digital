@@ -1,16 +1,16 @@
 /* eslint-disable camelcase */
-import type { FastifyInstance } from 'fastify'
-import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { z } from 'zod'
-import { prisma } from '../lib/prisma'
+import type { FastifyInstance } from "fastify";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
+import { z } from "zod";
+import { prisma } from "../lib/prisma";
 
 export async function createDigitalScript(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
-    '/digital-scripts',
+    "/digital-scripts",
     {
       schema: {
         body: z.object({
-          entity_id: z.number().optional(),
+          created_at: z.coerce.date().optional(),
           company_id: z.number().optional(),
           order_classification: z.string().optional(),
           service_order_status: z.string().optional(),
@@ -24,12 +24,14 @@ export async function createDigitalScript(app: FastifyInstance) {
           payment_condition: z.string().optional(),
           notes: z.string().optional(),
           payment_receipt: z.string().optional(),
+          company_name: z.string().optional(),
+          technical_name: z.string().optional(),
+          order_id: z.string().optional(),
         }),
       },
     },
     async (request, reply) => {
       const {
-        entity_id,
         company_id,
         order_classification,
         service_order_status,
@@ -43,11 +45,13 @@ export async function createDigitalScript(app: FastifyInstance) {
         payment_condition,
         notes,
         payment_receipt,
-      } = request.body
+        company_name,
+        technical_name,
+        order_id,
+      } = request.body;
 
       const digitalScript = await prisma.checklistAnuntech.create({
         data: {
-          entity_id,
           company_id,
           order_classification,
           service_order_status,
@@ -61,10 +65,12 @@ export async function createDigitalScript(app: FastifyInstance) {
           payment_condition,
           notes,
           payment_receipt,
+          company_name,
+          technical_name,
+          order_id,
         },
-      })
-
-      return reply.status(201).send({ digitalScriptId: digitalScript.id })
-    },
-  )
+      });
+      return reply.status(201).send({ digitalScriptId: digitalScript.id });
+    }
+  );
 }
