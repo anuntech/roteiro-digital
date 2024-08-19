@@ -10,10 +10,10 @@ export async function createDigitalScript(app: FastifyInstance) {
     {
       schema: {
         body: z.object({
-          created_at: z.coerce.date().optional(),
-          company_id: z.number().optional(),
-          order_classification: z.string().optional(),
-          service_order_status: z.string().optional(),
+          created_at: z.coerce.date(),
+          company_id: z.number(),
+          order_classification: z.string(),
+          service_order_status: z.string(),
           parts_value: z.number().optional(),
           labor_value: z.number().optional(),
           visit_fee: z.number().optional(),
