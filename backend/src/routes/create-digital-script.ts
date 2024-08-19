@@ -11,7 +11,7 @@ export async function createDigitalScript(app: FastifyInstance) {
       schema: {
         body: z.object({
           created_at: z.coerce.date(),
-          company_id: z.number(),
+          company_id: z.number().optional(),
           order_classification: z.string(),
           service_order_status: z.string(),
           parts_value: z.number().optional(),
@@ -72,6 +72,16 @@ export async function createDigitalScript(app: FastifyInstance) {
           created_at,
         },
       });
+
+      if (
+        order_classification == "" ||
+        service_order_status == "" ||
+        !created_at ||
+        technical_name == ""
+      ) {
+        return reply.status(400).send({ error: "Fill all required fields" });
+      }
+
       return reply.status(201).send({ digitalScriptId: digitalScript.id });
     }
   );
