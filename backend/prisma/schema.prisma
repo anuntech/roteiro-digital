@@ -26,8 +26,8 @@ model ChecklistAnuntech {
   received_value       Float?
   advance_revenue      Float?
   revenue_deduction    Float?
-  notes                String?
-  payment_receipt      String?
+  notes                String? @db.Text
+  payment_receipt      String? @db.Text
   updated_at           DateTime @updatedAt
 
   @@map("checklist_anuntech")
@@ -59,20 +59,20 @@ model ChecklistWhirlpool {
   failure_photo3          String?
   failure_photo4          String?
   failure_photo5          String?
-  technical_report        String?
+  technical_report        String? @db.Text
   signature               String?
   final_status_id         String?
   final_reason_id         String?
   rescheduling_date       DateTime?
   rescheduling_period     String? // TODO: enum
-  parts_price             String?
-  labor_price             String?
-  visit_price             String?
-  displacement_price      String?
-  total_price             String?
-  received_price          String?
+  parts_price             Float?
+  labor_price             Float?
+  visit_price             Float?
+  displacement_price      Float?
+  total_price             Float?
+  received_price          Float?
   payment_method          String?
-  notes                   String?
+  notes                   String? @db.Text
   service_warranty        String?
   parts_warranty          String?
   approved                String?
