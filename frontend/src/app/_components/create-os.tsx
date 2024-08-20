@@ -75,8 +75,6 @@ export const CreateOs = () => {
     notes: "",
   });
 
-  const [requiredFieldsError, setRequiredFieldsError] = useState(false);
-
   const [isTechnicalSelectOpen, setIsTechnicalSelectOpen] = useState(false);
 
   function handleInputChange(
@@ -102,18 +100,17 @@ export const CreateOs = () => {
         advance_revenue: parseFloat(formData.advance_revenue as any),
         revenue_deduction: parseFloat(formData.revenue_deduction as any),
       });
-      // window.location.reload();
 
       if (response.status === 200) {
         toast.message("Sucesso", {
-          description: "Informações atualizadas com sucesso!",
+          description: "Ordem de serviço criada com sucesso!",
         });
+        window.location.reload();
       }
-
-      setRequiredFieldsError(false);
     } catch (error) {
-      console.log(error);
-      setRequiredFieldsError(true);
+      toast.message("Erro!", {
+        description: "Preencha todos os campos obrigatórios!",
+      });
     }
   }
 
@@ -414,12 +411,6 @@ export const CreateOs = () => {
               onChange={handleInputChange}
             />
           </div>
-          {requiredFieldsError && (
-            <p className={"text-center text-[0.9rem] text-red-500"}>
-              Preencha todos os campos obrigatórios
-            </p>
-          )}
-
           <DialogFooter>
             <Button type="submit">Criar ordem de serviço</Button>
           </DialogFooter>
