@@ -63,8 +63,8 @@ export const CreateOs = () => {
     company_name: "",
     order_classification: "",
     service_order_status: "",
-    payment_method: "",
-    payment_condition: "",
+    payment_method: "Selecionar",
+    payment_condition: "Selecionar",
     parts_value: 0,
     labor_value: 0,
     visit_fee: 0,
@@ -101,7 +101,7 @@ export const CreateOs = () => {
         revenue_deduction: parseFloat(formData.revenue_deduction as any),
       });
 
-      if (response.status === 200) {
+      if (response.status >= 200) {
         toast.message("Sucesso", {
           description: "Ordem de serviço criada com sucesso!",
         });
