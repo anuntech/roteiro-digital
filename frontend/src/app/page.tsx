@@ -9,19 +9,19 @@ export const dynamic = 'force-dynamic'
 
 export default async function Home() {
   const data = await getData(
-    new Date().toISOString().split('T')[0],
-    new Date().toISOString().split('T')[0],
-  )
+    new Date().toISOString().split("T")[0],
+    new Date().toISOString().split("T")[0],
+  );
 
   const totalCount = await getTotalData(
-    new Date().toISOString().split('T')[0],
-    new Date().toISOString().split('T')[0],
-  )
+    new Date().toISOString().split("T")[0],
+    new Date().toISOString().split("T")[0],
+  );
 
   const totalValues = await getTotalValues(
-    new Date().toISOString().split('T')[0],
-    new Date().toISOString().split('T')[0],
-  )
+    new Date().toISOString().split("T")[0],
+    new Date().toISOString().split("T")[0],
+  );
 
   return (
     <div className="hidden flex-col gap-8 p-10 md:flex">
@@ -36,5 +36,5 @@ export default async function Home() {
         totalCount={totalCount}
       />
     </div>
-  )
+  );
 }

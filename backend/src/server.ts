@@ -10,8 +10,10 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
+import { config } from 'dotenv'
 
 const app = fastify()
+config()
 
 app.register(cors, {
   origin: '*', // Inserir a URL do front-end

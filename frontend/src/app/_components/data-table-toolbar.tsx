@@ -17,6 +17,7 @@ import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { DataTableCompanyFilter } from './data-table-company-filter'
 import { DataTableTechnicalFilter } from './data-table-technical-filter'
+import { CreateOs } from './create-os'
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -124,7 +125,10 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <DataTableViewOptions table={table} />
+      <div className="flex gap-5">
+        <CreateOs />
+        <DataTableViewOptions table={table} />
+      </div>
     </div>
   )
 }
