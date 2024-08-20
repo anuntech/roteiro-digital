@@ -50,6 +50,14 @@ export async function createDigitalScript(app: FastifyInstance) {
         order_id,
         created_at,
       } = request.body;
+      if (
+        order_classification == "" ||
+        service_order_status == "" ||
+        !created_at ||
+        technical_name == ""
+      ) {
+        return reply.status(400).send({ error: "Fill all required fields" });
+      }
 
       const digitalScript = await prisma.checklistAnuntech.create({
         data: {
@@ -72,15 +80,6 @@ export async function createDigitalScript(app: FastifyInstance) {
           created_at,
         },
       });
-
-      if (
-        order_classification == "" ||
-        service_order_status == "" ||
-        !created_at ||
-        technical_name == ""
-      ) {
-        return reply.status(400).send({ error: "Fill all required fields" });
-      }
 
       return reply.status(201).send({ digitalScriptId: digitalScript.id });
     }

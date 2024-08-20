@@ -95,14 +95,14 @@ export const CreateOs = () => {
     try {
       const response = await api.post(`/digital-scripts`, {
         ...formData,
-        parts_value: parseInt(formData.parts_value as any),
-        labor_value: parseInt(formData.labor_value as any),
-        visit_fee: parseInt(formData.visit_fee as any),
-        received_value: parseInt(formData.received_value as any),
-        advance_revenue: parseInt(formData.advance_revenue as any),
-        revenue_deduction: parseInt(formData.revenue_deduction as any),
+        parts_value: parseFloat(formData.parts_value as any),
+        labor_value: parseFloat(formData.labor_value as any),
+        visit_fee: parseFloat(formData.visit_fee as any),
+        received_value: parseFloat(formData.received_value as any),
+        advance_revenue: parseFloat(formData.advance_revenue as any),
+        revenue_deduction: parseFloat(formData.revenue_deduction as any),
       });
-      window.location.reload();
+      // window.location.reload();
 
       if (response.status === 200) {
         toast.message("Sucesso", {
