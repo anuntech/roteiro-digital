@@ -20,12 +20,12 @@ model ChecklistAnuntech {
   service_order_status String?
   payment_method       String?
   payment_condition    String?
-  parts_value          Int?
-  labor_value          Int?
-  visit_fee            Int?
-  received_value       Int?
-  advance_revenue      Int?
-  revenue_deduction    Int?
+  parts_value          Float?
+  labor_value          Float?
+  visit_fee            Float?
+  received_value       Float?
+  advance_revenue      Float?
+  revenue_deduction    Float?
   notes                String?
   payment_receipt      String?
   updated_at           DateTime @updatedAt
@@ -64,7 +64,7 @@ model ChecklistWhirlpool {
   final_status_id         String?
   final_reason_id         String?
   rescheduling_date       DateTime?
-  rescheduling_period     String?
+  rescheduling_period     String? // TODO: enum
   parts_price             String?
   labor_price             String?
   visit_price             String?

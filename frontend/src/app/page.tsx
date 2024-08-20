@@ -84,8 +84,6 @@ export default async function Home() {
     new Date().toISOString().split("T")[0],
   );
 
-  console.log(new Date().toISOString().split("T")[0]);
-
   const totalCount = await getTotalData(
     new Date().toISOString().split("T")[0],
     new Date().toISOString().split("T")[0],
@@ -96,7 +94,7 @@ export default async function Home() {
     new Date().toISOString().split("T")[0],
   );
 
-  console.log(totalValues);
+  console.log(data);
 
   return (
     <div className="hidden flex-col gap-8 p-10 md:flex">
