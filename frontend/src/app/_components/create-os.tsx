@@ -95,12 +95,12 @@ export const CreateOs = () => {
     try {
       const response = await api.post(`/digital-scripts`, {
         ...formData,
-        parts_value: parseInt(formData.parts_value),
-        labor_value: parseInt(formData.labor_value),
-        visit_fee: parseInt(formData.visit_fee),
-        received_value: parseInt(formData.received_value),
-        advance_revenue: parseInt(formData.advance_revenue),
-        revenue_deduction: parseInt(formData.revenue_deduction),
+        parts_value: parseInt(formData.parts_value as any),
+        labor_value: parseInt(formData.labor_value as any),
+        visit_fee: parseInt(formData.visit_fee as any),
+        received_value: parseInt(formData.received_value as any),
+        advance_revenue: parseInt(formData.advance_revenue as any),
+        revenue_deduction: parseInt(formData.revenue_deduction as any),
       });
       window.location.reload();
 
