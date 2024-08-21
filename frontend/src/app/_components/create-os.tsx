@@ -65,12 +65,12 @@ export const CreateOs = () => {
     service_order_status: "",
     payment_method: "Selecionar",
     payment_condition: "Selecionar",
-    parts_value: 0,
-    labor_value: 0,
-    visit_fee: 0,
-    received_value: 0,
-    advance_revenue: 0,
-    revenue_deduction: 0,
+    parts_value: "0",
+    labor_value: "0",
+    visit_fee: "0",
+    received_value: "0",
+    advance_revenue: "0",
+    revenue_deduction: "0",
     order_id: "",
     notes: "",
   });
@@ -91,14 +91,25 @@ export const CreateOs = () => {
   async function handleUpdateRow(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     try {
+      const numberFields = {
+        parts_value: parseFloat(formData.parts_value.replace(",", ".")),
+        labor_value: parseFloat(
+          (formData.labor_value as any).replace(",", "."),
+        ),
+        visit_fee: parseFloat((formData.visit_fee as any).replace(",", ".")),
+        received_value: parseFloat(
+          (formData.received_value as any).replace(",", "."),
+        ),
+        advance_revenue: parseFloat(
+          (formData.advance_revenue as any).replace(",", "."),
+        ),
+        revenue_deduction: parseFloat(
+          (formData.revenue_deduction as any).replace(",", "."),
+        ),
+      };
       const response = await api.post(`/digital-scripts`, {
         ...formData,
-        parts_value: parseFloat(formData.parts_value as any),
-        labor_value: parseFloat(formData.labor_value as any),
-        visit_fee: parseFloat(formData.visit_fee as any),
-        received_value: parseFloat(formData.received_value as any),
-        advance_revenue: parseFloat(formData.advance_revenue as any),
-        revenue_deduction: parseFloat(formData.revenue_deduction as any),
+        ...numberFields,
       });
 
       if (response.status >= 200) {
@@ -108,6 +119,7 @@ export const CreateOs = () => {
         window.location.reload();
       }
     } catch (error) {
+      console.log(error);
       toast.message("Erro!", {
         description: "Preencha todos os campos obrigatórios!",
       });
@@ -119,6 +131,16 @@ export const CreateOs = () => {
       ...state,
       [id]: value,
     }));
+  }
+
+  function getCompanyName() {
+    const technicalName = formData.technical_name;
+
+    const companyName = technical.find(
+      (item) => item.label === technicalName,
+    )?.company;
+
+    return companyName;
   }
 
   return (
@@ -137,6 +159,16 @@ export const CreateOs = () => {
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleUpdateRow} className="space-y-4">
+          <div>
+            <Label htmlFor="created_at">Autorizada*</Label>
+            <Input
+              readOnly
+              id="created_at"
+              value={getCompanyName()}
+              onChange={handleInputChange}
+              className="cursor-default"
+            />
+          </div>
           <div className="flex gap-3">
             <div>
               <Label htmlFor="created_at">Visita*</Label>
@@ -215,10 +247,11 @@ export const CreateOs = () => {
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Selecione..." />
+                  <SelectValue placeholder="Selecionar" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
+                    <SelectItem value="Selecionar">Selecionar</SelectItem>
                     <SelectItem value="Em Garantia">Em Garantia</SelectItem>
                     <SelectItem value="Fora de Garantia">
                       Fora de Garantia
@@ -228,6 +261,12 @@ export const CreateOs = () => {
                     </SelectItem>
                     <SelectItem value="Garantia de Serviço">
                       Garantia de Serviço
+                    </SelectItem>
+                    <SelectItem value="Autorização Especial">
+                      Autorização Especial
+                    </SelectItem>
+                    <SelectItem value="Captação Externa">
+                      Captação Externa
                     </SelectItem>
                   </SelectGroup>
                 </SelectContent>
@@ -242,10 +281,11 @@ export const CreateOs = () => {
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Selecione..." />
+                  <SelectValue placeholder="Selecionar" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
+                    <SelectItem value="Selecionar">Selecionar</SelectItem>
                     <SelectItem value="Falta/Voltar com Peça">
                       Falta/Voltar com Peça
                     </SelectItem>
@@ -289,6 +329,9 @@ export const CreateOs = () => {
                     <SelectItem value="Produto/Peça Retirada da Oficina">
                       Produto/Peça Retirada da Oficina
                     </SelectItem>
+                    <SelectItem value="Peça Descontinuada">
+                      Peça Descontinuada
+                    </SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -304,10 +347,11 @@ export const CreateOs = () => {
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Selecione..." />
+                  <SelectValue placeholder="Selecionar" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
+                    <SelectItem value="Selecionar">Selecionar</SelectItem>
                     <SelectItem value="Cheque">Cheque</SelectItem>
                     <SelectItem value="Crédito">Crédito</SelectItem>
                     <SelectItem value="Débito">Débito</SelectItem>
@@ -322,6 +366,9 @@ export const CreateOs = () => {
                       Depósito em Conta
                     </SelectItem>
                     <SelectItem value="Dinheiro">Dinheiro</SelectItem>
+                    <SelectItem value="Sem Recebimento">
+                      Sem Recebimento
+                    </SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -335,10 +382,12 @@ export const CreateOs = () => {
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Selecione..." />
+                  <SelectValue placeholder="Selecionar" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
+                    <SelectItem value="Selecionar">Selecionar</SelectItem>
+
                     <SelectItem value="À vista">À vista</SelectItem>
                     {[...Array(12)].map((_, index) => (
                       <SelectItem key={index} value={`${index + 1}x`}>
@@ -347,6 +396,9 @@ export const CreateOs = () => {
                     ))}
                     <SelectItem value="Duas ou mais (detalhar na observação)">
                       Duas ou mais (detalhar na observação)
+                    </SelectItem>
+                    <SelectItem value="Sem Recebimento">
+                      Sem Recebimento
                     </SelectItem>
                   </SelectGroup>
                 </SelectContent>

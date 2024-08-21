@@ -316,10 +316,11 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                   }
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Selecione..." />
+                    <SelectValue placeholder="Selecionar" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
+                      <SelectItem value="Selecionar">Selecionar</SelectItem>
                       <SelectItem value="Em Garantia">Em Garantia</SelectItem>
                       <SelectItem value="Fora de Garantia">
                         Fora de Garantia
@@ -329,6 +330,12 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                       </SelectItem>
                       <SelectItem value="Garantia de Serviço">
                         Garantia de Serviço
+                      </SelectItem>
+                      <SelectItem value="Autorização Especial">
+                        Autorização Especial
+                      </SelectItem>
+                      <SelectItem value="Captação Externa">
+                        Captação Externa
                       </SelectItem>
                     </SelectGroup>
                   </SelectContent>
@@ -343,10 +350,11 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                   }
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Selecione..." />
+                    <SelectValue placeholder="Selecionar" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
+                      <SelectItem value="Selecionar">Selecionar</SelectItem>
                       <SelectItem value="Falta/Voltar com Peça">
                         Falta/Voltar com Peça
                       </SelectItem>
@@ -390,6 +398,9 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                       <SelectItem value="Produto/Peça Retirada da Oficina">
                         Produto/Peça Retirada da Oficina
                       </SelectItem>
+                      <SelectItem value="Peça Descontinuada">
+                        Peça Descontinuada
+                      </SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -405,10 +416,11 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                   }
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Selecione..." />
+                    <SelectValue placeholder="Selecionar" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
+                      <SelectItem value="Selecionar">Selecionar</SelectItem>
                       <SelectItem value="Cheque">Cheque</SelectItem>
                       <SelectItem value="Crédito">Crédito</SelectItem>
                       <SelectItem value="Débito">Débito</SelectItem>
@@ -423,6 +435,9 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                         Depósito em Conta
                       </SelectItem>
                       <SelectItem value="Dinheiro">Dinheiro</SelectItem>
+                      <SelectItem value="Sem Recebimento">
+                        Sem Recebimento
+                      </SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -436,10 +451,11 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                   }
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Selecione..." />
+                    <SelectValue placeholder="Selecionar" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
+                      <SelectItem value="Selecionar">Selecionar</SelectItem>
                       <SelectItem value="À vista">À vista</SelectItem>
                       {[...Array(12)].map((_, index) => (
                         <SelectItem key={index} value={`${index + 1}x`}>
@@ -448,6 +464,9 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                       ))}
                       <SelectItem value="Duas ou mais (detalhar na observação)">
                         Duas ou mais (detalhar na observação)
+                      </SelectItem>
+                      <SelectItem value="Sem Recebimento">
+                        Sem Recebimento
                       </SelectItem>
                     </SelectGroup>
                   </SelectContent>

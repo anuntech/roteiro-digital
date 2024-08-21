@@ -3,7 +3,7 @@ import type { FastifyInstance } from "fastify";
 import { prisma } from "../lib/prisma";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
-import z from "zod";
+import z, { date } from "zod";
 dayjs.extend(utc);
 
 export async function getDigitalScripts(app: FastifyInstance) {
@@ -47,6 +47,11 @@ export async function getDigitalScripts(app: FastifyInstance) {
       }
       if (dateTo) {
         dateFilter.lte = dayjs(dateTo).utc().endOf("day").toDate();
+      }
+
+      if (orderIdFilter || orderIdFilter == "") {
+        dateFilter.gte = null;
+        dateFilter.lte = null;
       }
 
       const digitalScriptsFromDb = await prisma.checklistAnuntech.findMany({
