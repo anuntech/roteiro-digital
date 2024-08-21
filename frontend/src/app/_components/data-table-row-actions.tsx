@@ -343,10 +343,11 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                   }
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Selecione..." />
+                    <SelectValue placeholder="Selecionar" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
+                      <SelectItem value="Selecionar">Selecionar</SelectItem>
                       <SelectItem value="Falta/Voltar com Peça">
                         Falta/Voltar com Peça
                       </SelectItem>
@@ -389,6 +390,9 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                       </SelectItem>
                       <SelectItem value="Produto/Peça Retirada da Oficina">
                         Produto/Peça Retirada da Oficina
+                      </SelectItem>
+                      <SelectItem value="Peça Descontinuada">
+                        Peça Descontinuada
                       </SelectItem>
                     </SelectGroup>
                   </SelectContent>

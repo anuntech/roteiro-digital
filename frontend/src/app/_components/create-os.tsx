@@ -274,10 +274,11 @@ export const CreateOs = () => {
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Selecione..." />
+                  <SelectValue placeholder="Selecionar" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
+                    <SelectItem value="Selecionar">Selecionar</SelectItem>
                     <SelectItem value="Falta/Voltar com Peça">
                       Falta/Voltar com Peça
                     </SelectItem>
@@ -320,6 +321,9 @@ export const CreateOs = () => {
                     </SelectItem>
                     <SelectItem value="Produto/Peça Retirada da Oficina">
                       Produto/Peça Retirada da Oficina
+                    </SelectItem>
+                    <SelectItem value="Peça Descontinuada">
+                      Peça Descontinuada
                     </SelectItem>
                   </SelectGroup>
                 </SelectContent>
