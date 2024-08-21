@@ -316,10 +316,11 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                   }
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Selecione..." />
+                    <SelectValue placeholder="Selecionar" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
+                      <SelectItem value="Selecionar">Selecionar</SelectItem>
                       <SelectItem value="Em Garantia">Em Garantia</SelectItem>
                       <SelectItem value="Fora de Garantia">
                         Fora de Garantia
@@ -329,6 +330,12 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                       </SelectItem>
                       <SelectItem value="Garantia de Serviço">
                         Garantia de Serviço
+                      </SelectItem>
+                      <SelectItem value="Autorização Especial">
+                        Autorização Especial
+                      </SelectItem>
+                      <SelectItem value="Captação Externa">
+                        Captação Externa
                       </SelectItem>
                     </SelectGroup>
                   </SelectContent>
@@ -428,7 +435,6 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                         Depósito em Conta
                       </SelectItem>
                       <SelectItem value="Dinheiro">Dinheiro</SelectItem>
-                      <SelectItem value="Cheque">Cheque</SelectItem>
                       <SelectItem value="Sem Recebimento">
                         Sem Recebimento
                       </SelectItem>
