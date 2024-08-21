@@ -65,12 +65,12 @@ export const CreateOs = () => {
     service_order_status: "",
     payment_method: "Selecionar",
     payment_condition: "Selecionar",
-    parts_value: 0,
-    labor_value: 0,
-    visit_fee: 0,
-    received_value: 0,
-    advance_revenue: 0,
-    revenue_deduction: 0,
+    parts_value: "0",
+    labor_value: "0",
+    visit_fee: "0",
+    received_value: "0",
+    advance_revenue: "0",
+    revenue_deduction: "0",
     order_id: "",
     notes: "",
   });
@@ -91,14 +91,25 @@ export const CreateOs = () => {
   async function handleUpdateRow(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     try {
+      const numberFields = {
+        parts_value: parseFloat(formData.parts_value.replace(",", ".")),
+        labor_value: parseFloat(
+          (formData.labor_value as any).replace(",", "."),
+        ),
+        visit_fee: parseFloat((formData.visit_fee as any).replace(",", ".")),
+        received_value: parseFloat(
+          (formData.received_value as any).replace(",", "."),
+        ),
+        advance_revenue: parseFloat(
+          (formData.advance_revenue as any).replace(",", "."),
+        ),
+        revenue_deduction: parseFloat(
+          (formData.revenue_deduction as any).replace(",", "."),
+        ),
+      };
       const response = await api.post(`/digital-scripts`, {
         ...formData,
-        parts_value: parseFloat(formData.parts_value as any),
-        labor_value: parseFloat(formData.labor_value as any),
-        visit_fee: parseFloat(formData.visit_fee as any),
-        received_value: parseFloat(formData.received_value as any),
-        advance_revenue: parseFloat(formData.advance_revenue as any),
-        revenue_deduction: parseFloat(formData.revenue_deduction as any),
+        ...numberFields,
       });
 
       if (response.status >= 200) {
@@ -108,6 +119,7 @@ export const CreateOs = () => {
         window.location.reload();
       }
     } catch (error) {
+      console.log(error);
       toast.message("Erro!", {
         description: "Preencha todos os campos obrigatórios!",
       });
