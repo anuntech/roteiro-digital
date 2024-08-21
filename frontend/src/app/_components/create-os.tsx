@@ -340,10 +340,11 @@ export const CreateOs = () => {
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Selecione..." />
+                  <SelectValue placeholder="Selecionar" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
+                    <SelectItem value="Selecionar">Selecionar</SelectItem>
                     <SelectItem value="Cheque">Cheque</SelectItem>
                     <SelectItem value="Crédito">Crédito</SelectItem>
                     <SelectItem value="Débito">Débito</SelectItem>
@@ -375,10 +376,12 @@ export const CreateOs = () => {
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Selecione..." />
+                  <SelectValue placeholder="Selecionar" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
+                    <SelectItem value="Selecionar">Selecionar</SelectItem>
+
                     <SelectItem value="À vista">À vista</SelectItem>
                     {[...Array(12)].map((_, index) => (
                       <SelectItem key={index} value={`${index + 1}x`}>
@@ -387,6 +390,9 @@ export const CreateOs = () => {
                     ))}
                     <SelectItem value="Duas ou mais (detalhar na observação)">
                       Duas ou mais (detalhar na observação)
+                    </SelectItem>
+                    <SelectItem value="Sem Recebimento">
+                      Sem Recebimento
                     </SelectItem>
                   </SelectGroup>
                 </SelectContent>
