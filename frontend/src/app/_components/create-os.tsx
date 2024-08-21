@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { api } from "@/lib/axios";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, Plus } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "sonner";
 import { technical } from "../data/data";
@@ -124,11 +124,13 @@ export const CreateOs = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="h-8 w-24">Criar</Button>
+        <Button size="sm" className="h-8 px-2 lg:px-3">
+          <Plus className="size-4 text-zinc-950" /> Adicionar
+        </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Criar</DialogTitle>
+          <DialogTitle>Adicionar</DialogTitle>
           <DialogDescription>
             Essa ação não pode ser desfeita. Isso alterará permanentemente essas
             informações da tabela.
@@ -221,8 +223,8 @@ export const CreateOs = () => {
                     <SelectItem value="Fora de Garantia">
                       Fora de Garantia
                     </SelectItem>
-                    <SelectItem value="Capitação Externa">
-                      Capitação Externa
+                    <SelectItem value="Captação Externa">
+                      Captação Externa
                     </SelectItem>
                     <SelectItem value="Garantia de Serviço">
                       Garantia de Serviço

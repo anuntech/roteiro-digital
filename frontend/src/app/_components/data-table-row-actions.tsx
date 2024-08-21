@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client'
+"use client";
 
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 // import { useRouter } from 'next/navigation'
-import { api } from '@/lib/axios'
-import { Button } from '@/components/ui/button'
-import { toast } from 'sonner'
-import { Check, ChevronsUpDown, Ellipsis, Pencil, Trash2 } from 'lucide-react'
+import { api } from "@/lib/axios";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { Check, ChevronsUpDown, Ellipsis, Pencil, Trash2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
@@ -21,7 +21,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
+} from "@/components/ui/dialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -31,11 +31,11 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
-import { DigitalScript } from './columns'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
+} from "@/components/ui/alert-dialog";
+import { DigitalScript } from "./columns";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -43,15 +43,15 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
+} from "@/components/ui/select";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover'
-import { technical } from '../data/data'
+} from "@/components/ui/popover";
+import { technical } from "../data/data";
 import {
   Command,
   CommandEmpty,
@@ -59,41 +59,41 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command'
-import { cn } from '@/lib/utils'
+} from "@/components/ui/command";
+import { cn } from "@/lib/utils";
 
-dayjs.extend(customParseFormat)
+dayjs.extend(customParseFormat);
 
 interface DataTableRowActionsProps {
-  row: DigitalScript
+  row: DigitalScript;
 }
 
 type FormDataFields = Partial<{
-  created_at: string
-  order_id: string
-  technical_name: string
-  order_classification: string
-  service_order_status: string
-  payment_method: string
-  payment_condition: string
-  parts_value: number
-  labor_value: number
-  visit_fee: number
-  received_value: number
-  advance_revenue: number
-  revenue_deduction: number
-  notes: string
-}>
+  created_at: string;
+  order_id: string;
+  technical_name: string;
+  order_classification: string;
+  service_order_status: string;
+  payment_method: string;
+  payment_condition: string;
+  parts_value: number;
+  labor_value: number;
+  visit_fee: number;
+  received_value: number;
+  advance_revenue: number;
+  revenue_deduction: number;
+  notes: string;
+}>;
 
 export function DataTableRowActions({ row }: DataTableRowActionsProps) {
   // const router = useRouter()
-  const [isDialogOpen, setDialogOpen] = useState(false)
-  const [isAlertDialogOpen, setAlertDialogOpen] = useState(false)
+  const [isDialogOpen, setDialogOpen] = useState(false);
+  const [isAlertDialogOpen, setAlertDialogOpen] = useState(false);
 
-  const [isTechnicalSelectOpen, setIsTechnicalSelectOpen] = useState(false)
+  const [isTechnicalSelectOpen, setIsTechnicalSelectOpen] = useState(false);
 
   const [formData, setFormData] = useState({
-    created_at: dayjs(row.created_at, 'DD-MM-YYYY').format('YYYY-MM-DD'),
+    created_at: dayjs(row.created_at, "DD-MM-YYYY").format("YYYY-MM-DD"),
     order_id: row.order_id,
     technical_name: row.technical_name,
     company_name: row.company_name,
@@ -109,11 +109,11 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
     revenue_deduction: row.revenue_deduction,
     payment_receipt: row.payment_receipt,
     notes: row.notes,
-  })
+  });
 
   useEffect(() => {
     setFormData({
-      created_at: dayjs(row.created_at, 'DD-MM-YYYY').format('YYYY-MM-DD'),
+      created_at: dayjs(row.created_at, "DD-MM-YYYY").format("YYYY-MM-DD"),
       order_id: row.order_id,
       technical_name: row.technical_name,
       company_name: row.company_name,
@@ -129,74 +129,74 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
       revenue_deduction: row.revenue_deduction,
       payment_receipt: row.payment_receipt,
       notes: row.notes,
-    })
-  }, [row])
+    });
+  }, [row]);
 
   function handleInputChange(
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
-    const { id, value } = event.target
-    const newValue = id === 'created_at' ? value : value
+    const { id, value } = event.target;
+    const newValue = id === "created_at" ? value : value;
     setFormData((state) => ({
       ...state,
       [id]: newValue,
-    }))
+    }));
   }
 
   function handleSelectChange(id: string, value: string) {
     setFormData((state) => ({
       ...state,
       [id]: value,
-    }))
+    }));
   }
 
   async function handleDeleteRow(id: string) {
-    const response = await api.delete(`/digital-scripts/${id}`)
-    setAlertDialogOpen(false)
+    const response = await api.delete(`/digital-scripts/${id}`);
+    setAlertDialogOpen(false);
     // router.refresh()
-    window.location.reload()
+    window.location.reload();
 
     if (response.status === 200) {
-      toast.message('Sucesso', {
-        description: 'Roteiro deletado com sucesso!',
-      })
+      toast.message("Sucesso", {
+        description: "Roteiro deletado com sucesso!",
+      });
     }
   }
 
   async function handleUpdateRow(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
+    event.preventDefault();
 
-    const updatedFields: FormDataFields = {}
+    const updatedFields: FormDataFields = {};
 
     for (const key in formData) {
       const formDataValue = formData[key as keyof typeof formData]
         ?.toString()
         .trim()
-        .toLowerCase()
+        .toLowerCase();
       const rowValue = row[key as keyof typeof row]
         ?.toString()
         .trim()
-        .toLowerCase()
+        .toLowerCase();
 
       if (formDataValue !== rowValue) {
         updatedFields[key as keyof FormDataFields] = formData[
           key as keyof typeof formData
-        ] as any
+        ] as any;
       }
     }
 
     const response = await api.patch(
       `/digital-scripts/${row.id}`,
       updatedFields,
-    )
-    setDialogOpen(false)
+    );
+    setDialogOpen(false);
     // router.refresh()
-    window.location.reload()
+    window.location.reload();
 
     if (response.status === 200) {
-      toast.message('Sucesso', {
-        description: 'Informações atualizadas com sucesso!',
-      })
+      toast.message("Sucesso", {
+        description: "Informações atualizadas com sucesso!",
+      });
     }
   }
 
@@ -267,7 +267,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                     role="combobox"
                     className="justify-between"
                   >
-                    {formData.technical_name || 'Selecionar técnico...'}
+                    {formData.technical_name || "Selecionar técnico..."}
                     <ChevronsUpDown className="ml-2 size-3 shrink-0 opacity-50" />
                   </Button>
                 </PopoverTrigger>
@@ -282,16 +282,19 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                             key={item.label}
                             value={item.label}
                             onSelect={(currentValue) => {
-                              handleSelectChange('technical_name', currentValue)
-                              setIsTechnicalSelectOpen(false)
+                              handleSelectChange(
+                                "technical_name",
+                                currentValue,
+                              );
+                              setIsTechnicalSelectOpen(false);
                             }}
                           >
                             <Check
                               className={cn(
-                                'mr-2 size-4',
+                                "mr-2 size-4",
                                 formData.technical_name === item.label
-                                  ? 'opacity-100'
-                                  : 'opacity-0',
+                                  ? "opacity-100"
+                                  : "opacity-0",
                               )}
                             />
                             {item.label}
@@ -309,7 +312,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                 <Select
                   value={formData.order_classification}
                   onValueChange={(value) =>
-                    handleSelectChange('order_classification', value)
+                    handleSelectChange("order_classification", value)
                   }
                 >
                   <SelectTrigger>
@@ -321,8 +324,8 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                       <SelectItem value="Fora de Garantia">
                         Fora de Garantia
                       </SelectItem>
-                      <SelectItem value="Capitação Externa">
-                        Capitação Externa
+                      <SelectItem value="Captação Externa">
+                        Captação Externa
                       </SelectItem>
                       <SelectItem value="Garantia de Serviço">
                         Garantia de Serviço
@@ -336,7 +339,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                 <Select
                   value={formData.service_order_status}
                   onValueChange={(value) =>
-                    handleSelectChange('service_order_status', value)
+                    handleSelectChange("service_order_status", value)
                   }
                 >
                   <SelectTrigger>
@@ -398,7 +401,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                 <Select
                   value={formData.payment_method}
                   onValueChange={(value) =>
-                    handleSelectChange('payment_method', value)
+                    handleSelectChange("payment_method", value)
                   }
                 >
                   <SelectTrigger>
@@ -429,7 +432,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                 <Select
                   value={formData.payment_condition}
                   onValueChange={(value) =>
-                    handleSelectChange('payment_condition', value)
+                    handleSelectChange("payment_condition", value)
                   }
                 >
                   <SelectTrigger>
@@ -538,5 +541,5 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
         </AlertDialogContent>
       </AlertDialog>
     </>
-  )
+  );
 }
