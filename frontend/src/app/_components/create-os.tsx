@@ -358,6 +358,10 @@ export const CreateOs = () => {
                       Depósito em Conta
                     </SelectItem>
                     <SelectItem value="Dinheiro">Dinheiro</SelectItem>
+                    <SelectItem value="Cheque">Cheque</SelectItem>
+                    <SelectItem value="Sem Recebimento">
+                      Sem Recebimento
+                    </SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
