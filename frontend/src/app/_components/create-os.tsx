@@ -133,6 +133,16 @@ export const CreateOs = () => {
     }));
   }
 
+  function getCompanyName() {
+    const technicalName = formData.technical_name;
+
+    const companyName = technical.find(
+      (item) => item.label === technicalName,
+    )?.company;
+
+    return companyName;
+  }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -149,6 +159,16 @@ export const CreateOs = () => {
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleUpdateRow} className="space-y-4">
+          <div>
+            <Label htmlFor="created_at">Autorizada*</Label>
+            <Input
+              readOnly
+              id="created_at"
+              value={getCompanyName()}
+              onChange={handleInputChange}
+              className="cursor-default"
+            />
+          </div>
           <div className="flex gap-3">
             <div>
               <Label htmlFor="created_at">Visita*</Label>
