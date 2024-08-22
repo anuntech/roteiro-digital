@@ -36,7 +36,6 @@ import { api } from "@/lib/axios";
 import { Check, ChevronsUpDown, Plus } from "lucide-react";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { technical } from "../data/data";
 import { cn } from "@/lib/utils";
 import { getTechnical } from "@/utils/get-technicals";
 
@@ -59,6 +58,14 @@ export const CreateOs = () => {
     notes: "",
   });
 
+  useEffect(() => {
+    const companyName = getCompanyName();
+    setFormData((state) => ({
+      ...state,
+      company_name: companyName || "",
+    }));
+  }, [formData.technical_name]);
+
   const [isTechnicalSelectOpen, setIsTechnicalSelectOpen] = useState(false);
 
   const [technicalInfo, setTechnicalInfo] = useState<any>();
@@ -66,11 +73,13 @@ export const CreateOs = () => {
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
     const { id, value } = event.target;
+    console.log(id, value);
     const newValue = id === "created_at" ? value : value;
     setFormData((state) => ({
       ...state,
       [id]: newValue,
     }));
+    console.log(formData);
   }
 
   useEffect(() => {
@@ -156,7 +165,6 @@ export const CreateOs = () => {
               readOnly
               id="created_at"
               value={getCompanyName()}
-              onChange={handleInputChange}
               className="cursor-default"
             />
           </div>
