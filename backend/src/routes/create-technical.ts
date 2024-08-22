@@ -11,12 +11,13 @@ export async function createTechnical(app: FastifyInstance) {
         body: z.object({
           technical_number: z.string(),
           name: z.string(),
+          company_name: z.string(),
         }),
       },
     },
     async (request, reply) => {
-      const { technical_number, name } = request.body;
-      if (!technical_number || !name) {
+      const { technical_number, name, company_name } = request.body;
+      if (!technical_number || !name || !company_name) {
         return reply.status(400).send({ error: "Fill all required fields" });
       }
 
@@ -24,6 +25,7 @@ export async function createTechnical(app: FastifyInstance) {
         data: {
           technical_number,
           name,
+          company_name,
         },
       });
 
