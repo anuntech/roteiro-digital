@@ -260,9 +260,6 @@ export const CreateOs = () => {
                     <SelectItem value="Autorização Especial">
                       Autorização Especial
                     </SelectItem>
-                    <SelectItem value="Captação Externa">
-                      Captação Externa
-                    </SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
