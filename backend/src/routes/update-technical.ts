@@ -4,7 +4,7 @@ import z from "zod";
 import { prisma } from "../lib/prisma";
 
 export async function updateTechnical(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().post(
+  app.withTypeProvider<ZodTypeProvider>().patch(
     "/technical/:id",
     {
       schema: {
