@@ -12,6 +12,7 @@ import {
 } from "fastify-type-provider-zod";
 import { config } from "dotenv";
 import { createTechnical } from "./routes/create-technical";
+import { deleteTechnical } from "./routes/delete-technical";
 
 const app = fastify();
 config();
@@ -30,6 +31,7 @@ app.register(getSumValues);
 app.register(deleteDigitalScript);
 app.register(updateDigitalScript);
 app.register(createTechnical);
+app.register(deleteTechnical);
 
 // Inserir o host do servidor
 app.listen({ port: 3333, host: "0.0.0.0" }).then(() => {

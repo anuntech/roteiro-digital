@@ -83,9 +83,9 @@ model ChecklistWhirlpool {
 }
 
 model Technicals {
-  id          String   @id @default(uuid())
-  technical_number String @unique
-  name          String
+  id               String   @id @default(uuid())
+  technical_number String   @unique
+  name             String
 
   @@map("technicals")
 }
