@@ -81,3 +81,11 @@ model ChecklistWhirlpool {
 
   @@map("checklist_whirlpool")
 }
+
+model Technicals {
+  id          String   @id @default(uuid())
+  technical_number String @unique
+  name          String
+
+  @@map("technicals")
+}
