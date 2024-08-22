@@ -12,6 +12,7 @@ export async function updateTechnical(app: FastifyInstance) {
           .object({
             technical_number: z.string().optional(),
             name: z.string().optional(),
+            company_name: z.string().optional(),
           })
           .partial(),
         params: z.object({
@@ -20,21 +21,14 @@ export async function updateTechnical(app: FastifyInstance) {
       },
     },
     async (request, reply) => {
-      const { technical_number, name } = request.body;
+      const data = request.body;
       const { id } = request.params;
-
-      if (!technical_number || !name) {
-        return reply.status(400).send({ error: "Fill all required fields" });
-      }
 
       const technical = await prisma.technicals.update({
         where: {
           id,
         },
-        data: {
-          technical_number,
-          name,
-        },
+        data: data,
       });
 
       return reply.status(201).send({ technicalId: technical.id });
