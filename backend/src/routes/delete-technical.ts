@@ -4,7 +4,7 @@ import z from "zod";
 import { prisma } from "../lib/prisma";
 
 export async function deleteTechnical(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().post(
+  app.withTypeProvider<ZodTypeProvider>().delete(
     "/technical/:id",
     {
       schema: {
