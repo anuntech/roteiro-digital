@@ -14,6 +14,7 @@ import { config } from "dotenv";
 import { createTechnical } from "./routes/create-technical";
 import { deleteTechnical } from "./routes/delete-technical";
 import { updateTechnical } from "./routes/update-technical";
+import { getTechnical } from "./routes/get-technical";
 
 const app = fastify();
 config();
@@ -34,6 +35,7 @@ app.register(updateDigitalScript);
 app.register(createTechnical);
 app.register(deleteTechnical);
 app.register(updateTechnical);
+app.register(getTechnical);
 
 // Inserir o host do servidor
 app.listen({ port: 3333, host: "0.0.0.0" }).then(() => {
