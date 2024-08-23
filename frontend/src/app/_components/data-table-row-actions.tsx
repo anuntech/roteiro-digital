@@ -61,6 +61,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
+import { getTechnical } from "@/utils/get-technicals";
 
 dayjs.extend(customParseFormat);
 
@@ -89,6 +90,14 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
   // const router = useRouter()
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isAlertDialogOpen, setAlertDialogOpen] = useState(false);
+
+  const [technicalInfo, setTechnicalInfo] = useState<any>();
+
+  useEffect(() => {
+    getTechnical().then((res) => {
+      setTechnicalInfo(res);
+    });
+  }, []);
 
   const [isTechnicalSelectOpen, setIsTechnicalSelectOpen] = useState(false);
 
@@ -277,16 +286,20 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                     <CommandEmpty>Técnico não encontrado.</CommandEmpty>
                     <CommandList>
                       <CommandGroup>
-                        {technical.map((item) => (
+                        {technicalInfo?.map((item: any) => (
                           <CommandItem
-                            key={item.label}
-                            value={item.label}
+                            key={item.id}
+                            value={item.name}
                             onSelect={(currentValue) => {
                               handleSelectChange(
                                 "technical_name",
                                 currentValue,
                               );
                               setIsTechnicalSelectOpen(false);
+                              handleSelectChange(
+                                "company_name",
+                                item.company_name,
+                              );
                             }}
                           >
                             <Check
@@ -297,7 +310,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                                   : "opacity-0",
                               )}
                             />
-                            {item.label}
+                            {item.name}
                           </CommandItem>
                         ))}
                       </CommandGroup>
@@ -324,9 +337,6 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                       <SelectItem value="Em Garantia">Em Garantia</SelectItem>
                       <SelectItem value="Fora de Garantia">
                         Fora de Garantia
-                      </SelectItem>
-                      <SelectItem value="Captação Externa">
-                        Captação Externa
                       </SelectItem>
                       <SelectItem value="Garantia de Serviço">
                         Garantia de Serviço

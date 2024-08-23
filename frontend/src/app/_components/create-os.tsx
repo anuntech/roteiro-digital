@@ -34,27 +34,10 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { api } from "@/lib/axios";
 import { Check, ChevronsUpDown, Plus } from "lucide-react";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { technical } from "../data/data";
 import { cn } from "@/lib/utils";
-
-type FormDataFields = Partial<{
-  created_at: string;
-  order_id: string;
-  technical_name: string;
-  order_classification: string;
-  service_order_status: string;
-  payment_method: string;
-  payment_condition: string;
-  parts_value: number;
-  labor_value: number;
-  visit_fee: number;
-  received_value: number;
-  advance_revenue: number;
-  revenue_deduction: number;
-  notes: string;
-}>;
+import { getTechnical } from "@/utils/get-technicals";
 
 export const CreateOs = () => {
   const [formData, setFormData] = useState({
@@ -75,18 +58,35 @@ export const CreateOs = () => {
     notes: "",
   });
 
+  useEffect(() => {
+    const companyName = getCompanyName();
+    setFormData((state) => ({
+      ...state,
+      company_name: companyName || "",
+    }));
+  }, [formData.technical_name]);
+
   const [isTechnicalSelectOpen, setIsTechnicalSelectOpen] = useState(false);
 
+  const [technicalInfo, setTechnicalInfo] = useState<any>();
   function handleInputChange(
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
     const { id, value } = event.target;
+    console.log(id, value);
     const newValue = id === "created_at" ? value : value;
     setFormData((state) => ({
       ...state,
       [id]: newValue,
     }));
+    console.log(formData);
   }
+
+  useEffect(() => {
+    getTechnical().then((res) => {
+      setTechnicalInfo(res);
+    });
+  }, []);
 
   async function handleUpdateRow(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -136,9 +136,9 @@ export const CreateOs = () => {
   function getCompanyName() {
     const technicalName = formData.technical_name;
 
-    const companyName = technical.find(
-      (item) => item.label === technicalName,
-    )?.company;
+    const companyName = technicalInfo?.find(
+      (item: any) => item.name === technicalName,
+    )?.company_name;
 
     return companyName;
   }
@@ -165,7 +165,6 @@ export const CreateOs = () => {
               readOnly
               id="created_at"
               value={getCompanyName()}
-              onChange={handleInputChange}
               className="cursor-default"
             />
           </div>
@@ -211,13 +210,17 @@ export const CreateOs = () => {
                   <CommandEmpty>Técnico não encontrado.</CommandEmpty>
                   <CommandList>
                     <CommandGroup>
-                      {technical.map((item) => (
+                      {technicalInfo?.map((item: any) => (
                         <CommandItem
-                          key={item.label}
-                          value={item.label}
+                          key={item.id}
+                          value={item.name}
                           onSelect={(currentValue) => {
                             handleSelectChange("technical_name", currentValue);
                             setIsTechnicalSelectOpen(false);
+                            handleSelectChange(
+                              "company_name",
+                              item.company_name,
+                            );
                           }}
                         >
                           <Check
@@ -228,7 +231,7 @@ export const CreateOs = () => {
                                 : "opacity-0",
                             )}
                           />
-                          {item.label}
+                          {item.name}
                         </CommandItem>
                       ))}
                     </CommandGroup>
@@ -264,9 +267,6 @@ export const CreateOs = () => {
                     </SelectItem>
                     <SelectItem value="Autorização Especial">
                       Autorização Especial
-                    </SelectItem>
-                    <SelectItem value="Captação Externa">
-                      Captação Externa
                     </SelectItem>
                   </SelectGroup>
                 </SelectContent>

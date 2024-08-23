@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import { Dispatch, SetStateAction } from 'react'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+import { Dispatch, SetStateAction } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -11,23 +11,23 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from '@/components/ui/command'
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover'
-import { Separator } from '@/components/ui/separator'
-import { cn } from '@/lib/utils'
-import { Check, PlusCircle } from 'lucide-react'
+} from "@/components/ui/popover";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
+import { Check, PlusCircle } from "lucide-react";
 
 interface DataTableCompanyFilterProps {
   options: {
-    label: string
-  }[]
-  selectedValues: string[]
-  setSelectedValues: Dispatch<SetStateAction<string[]>>
-  onChange: (companies: string[]) => void
+    label: string;
+  }[];
+  selectedValues: string[];
+  setSelectedValues: Dispatch<SetStateAction<string[]>>;
+  onChange: (companies: string[]) => void;
 }
 
 export function DataTableCompanyFilter({
@@ -37,19 +37,19 @@ export function DataTableCompanyFilter({
   onChange,
 }: DataTableCompanyFilterProps) {
   function handleSelect(label: string) {
-    const newSelectedValues = new Set(selectedValues)
+    const newSelectedValues = new Set(selectedValues);
     if (newSelectedValues.has(label)) {
-      newSelectedValues.delete(label)
+      newSelectedValues.delete(label);
     } else {
-      newSelectedValues.add(label)
+      newSelectedValues.add(label);
     }
-    setSelectedValues(Array.from(newSelectedValues))
-    onChange(Array.from(newSelectedValues))
+    setSelectedValues(Array.from(newSelectedValues));
+    onChange(Array.from(newSelectedValues));
   }
 
   function handleClear() {
-    setSelectedValues([])
-    onChange([])
+    setSelectedValues([]);
+    onChange([]);
   }
 
   return (
@@ -100,7 +100,7 @@ export function DataTableCompanyFilter({
             <CommandEmpty>Nenhum resultado encontrado.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => {
-                const isSelected = selectedValues.includes(option.label)
+                const isSelected = selectedValues.includes(option.label);
                 return (
                   <CommandItem
                     key={option.label}
@@ -108,17 +108,17 @@ export function DataTableCompanyFilter({
                   >
                     <div
                       className={cn(
-                        'mr-2 flex size-4 items-center justify-center rounded-sm border border-primary',
+                        "mr-2 flex size-4 items-center justify-center rounded-sm border border-primary",
                         isSelected
-                          ? 'bg-primary text-primary-foreground'
-                          : 'opacity-50 [&_svg]:invisible',
+                          ? "bg-primary text-primary-foreground"
+                          : "opacity-50 [&_svg]:invisible",
                       )}
                     >
-                      <Check className={cn('size-4')} />
+                      <Check className={cn("size-4")} />
                     </div>
                     <span>{option.label}</span>
                   </CommandItem>
-                )
+                );
               })}
             </CommandGroup>
             {selectedValues.length > 0 && (
@@ -138,5 +138,5 @@ export function DataTableCompanyFilter({
         </Command>
       </PopoverContent>
     </Popover>
-  )
+  );
 }
