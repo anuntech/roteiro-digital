@@ -26,6 +26,12 @@ export default async function Home() {
   );
 
   const technicalInfo = await getTechnical();
+  const dataWithCompanyName = data.map((val) => ({
+    ...val,
+    company_name: technicalInfo?.find(
+      (item: any) => item.name === val.technical_name,
+    )?.company_name,
+  }));
 
   return (
     <div className="hidden flex-col gap-8 p-10 md:flex">
@@ -35,14 +41,7 @@ export default async function Home() {
       </header>
       <DataTable
         columns={columns}
-        data={data.map((val) => {
-          return {
-            ...val,
-            company_name: technicalInfo?.find(
-              (item: any) => item.name === val.technical_name,
-            )?.company_name,
-          };
-        })}
+        data={dataWithCompanyName}
         totalValues={totalValues}
         totalCount={totalCount}
       />
