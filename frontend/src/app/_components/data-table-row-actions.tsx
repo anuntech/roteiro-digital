@@ -174,37 +174,38 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
 
   async function handleUpdateRow(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    try {
+      const numberFields = {
+        parts_value: parseFloat(
+          (formData.parts_value || "0").replace(",", "."),
+        ),
+        labor_value: parseFloat(formData.labor_value || "0".replace(",", ".")),
+        visit_fee: parseFloat((formData.visit_fee || "0").replace(",", ".")),
+        received_value: parseFloat(
+          (formData.received_value || "0").replace(",", "."),
+        ),
+        advance_revenue: parseFloat(
+          (formData.advance_revenue || "0").replace(",", "."),
+        ),
+        revenue_deduction: parseFloat(
+          (formData.revenue_deduction || "0").replace(",", "."),
+        ),
+      };
+      const response = await api.patch(`/digital-scripts/${row.id}`, {
+        ...formData,
+        ...numberFields,
+      });
 
-    const updatedFields: FormDataFields = {};
-
-    for (const key in formData) {
-      const formDataValue = formData[key as keyof typeof formData]
-        ?.toString()
-        .trim()
-        .toLowerCase();
-      const rowValue = row[key as keyof typeof row]
-        ?.toString()
-        .trim()
-        .toLowerCase();
-
-      if (formDataValue !== rowValue) {
-        updatedFields[key as keyof FormDataFields] = formData[
-          key as keyof typeof formData
-        ] as any;
+      if (response.status >= 200) {
+        toast.message("Sucesso", {
+          description: "Ordem de serviço criada com sucesso!",
+        });
+        window.location.reload();
       }
-    }
-
-    const response = await api.patch(
-      `/digital-scripts/${row.id}`,
-      updatedFields,
-    );
-    setDialogOpen(false);
-    // router.refresh()
-    window.location.reload();
-
-    if (response.status === 200) {
-      toast.message("Sucesso", {
-        description: "Informações atualizadas com sucesso!",
+    } catch (error) {
+      console.log(error);
+      toast.message("Erro!", {
+        description: "Preencha todos os campos obrigatórios!",
       });
     }
   }

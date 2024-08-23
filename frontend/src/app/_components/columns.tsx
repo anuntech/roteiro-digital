@@ -18,12 +18,12 @@ export type DigitalScript = {
   service_order_status: string;
   payment_method: string;
   payment_condition: string;
-  parts_value: number;
-  labor_value: number;
-  visit_fee: number;
-  received_value: number;
-  advance_revenue: number;
-  revenue_deduction: number;
+  parts_value: string;
+  labor_value: string;
+  visit_fee: string;
+  received_value: string;
+  advance_revenue: string;
+  revenue_deduction: string;
   notes: string;
   payment_receipt: string;
 };
