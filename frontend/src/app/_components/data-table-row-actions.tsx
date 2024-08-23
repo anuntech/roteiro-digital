@@ -180,7 +180,9 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
         parts_value: parseFloat(
           (formData.parts_value || "0").replace(",", "."),
         ),
-        labor_value: parseFloat(formData.labor_value || "0".replace(",", ".")),
+        labor_value: parseFloat(
+          (formData.labor_value || "0").replace(",", "."),
+        ),
         visit_fee: parseFloat((formData.visit_fee || "0").replace(",", ".")),
         received_value: parseFloat(
           (formData.received_value || "0").replace(",", "."),
