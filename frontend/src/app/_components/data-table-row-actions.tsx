@@ -110,13 +110,13 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
     service_order_status: row.service_order_status,
     payment_method: row.payment_method,
     payment_condition: row.payment_condition,
-    parts_value: row.parts_value,
-    labor_value: row.labor_value,
-    visit_fee: row.visit_fee,
-    received_value: row.received_value,
-    advance_revenue: row.advance_revenue,
-    revenue_deduction: row.revenue_deduction,
-    payment_receipt: row.payment_receipt,
+    parts_value: row.parts_value.toString(),
+    labor_value: row.labor_value.toString(),
+    visit_fee: row.visit_fee.toString(),
+    received_value: row.received_value.toString(),
+    advance_revenue: row.advance_revenue.toString(),
+    revenue_deduction: row.revenue_deduction.toString(),
+    payment_receipt: row.payment_receipt.toString(),
     notes: row.notes,
   });
 
@@ -130,13 +130,13 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
       service_order_status: row.service_order_status,
       payment_method: row.payment_method,
       payment_condition: row.payment_condition,
-      parts_value: row.parts_value,
-      labor_value: row.labor_value,
-      visit_fee: row.visit_fee,
-      received_value: row.received_value,
-      advance_revenue: row.advance_revenue,
-      revenue_deduction: row.revenue_deduction,
-      payment_receipt: row.payment_receipt,
+      parts_value: row.parts_value.toString(),
+      labor_value: row.labor_value.toString(),
+      visit_fee: row.visit_fee.toString(),
+      received_value: row.received_value.toString(),
+      advance_revenue: row.advance_revenue.toString(),
+      revenue_deduction: row.revenue_deduction.toString(),
+      payment_receipt: row.payment_receipt.toString(),
       notes: row.notes,
     });
   }, [row]);
@@ -175,6 +175,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
   async function handleUpdateRow(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     try {
+      console.log(formData);
       const numberFields = {
         parts_value: parseFloat(
           (formData.parts_value || "0").replace(",", "."),
