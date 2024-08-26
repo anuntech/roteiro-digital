@@ -1,11 +1,11 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { DataTableRowActions } from "./data-table-row-actions";
-import { DataTableColumnNotes } from "./data-table-column-notes";
-import { DataTableColumnReceipt } from "./data-table-column-receipt";
+import { DataTableRowActions } from "../data-table-row-actions";
+import { DataTableColumnNotes } from "../data-table-column-notes";
+import { DataTableColumnReceipt } from "../data-table-column-receipt";
 import { formatCurrency } from "@/utils/format-currency";
-import { DataTableColumnHeader } from "./data-table-column-header";
+import { DataTableColumnHeader } from "../data-table-column-header";
 
 export type TechnicalDigitalScript = {
   id: string;

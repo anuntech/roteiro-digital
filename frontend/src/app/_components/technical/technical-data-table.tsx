@@ -23,14 +23,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { DataTableToolbar } from "./data-table-toolbar";
-import { DataTablePagination } from "./data-table-pagination";
+import { DataTableToolbar } from "../data-table-toolbar";
+import { DataTablePagination } from "../data-table-pagination";
 import { getData } from "@/utils/get-data";
 import { getTotalData } from "@/utils/get-total-data";
 import { getTotalValues } from "@/utils/get-total-values";
 import { LoaderCircle } from "lucide-react";
 import { DateRange } from "react-day-picker";
-import { RevenueCards, TotalValuesProps } from "./revenue-cards";
+import { RevenueCards, TotalValuesProps } from "../revenue-cards";
 import { getTechnical } from "@/utils/get-technicals";
 
 interface DataTableProps<TData, TValue> {

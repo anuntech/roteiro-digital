@@ -1,7 +1,7 @@
 import { getTechnical } from "@/utils/get-technicals";
 import { ModeToggle } from "../_components/mode-toggle";
-import { technicalColumns } from "../_components/technical-data-table-columns";
-import { TechnicalDataTable } from "../_components/technical-data-table";
+import { technicalColumns } from "../_components/technical/technical-data-table-columns";
+import { TechnicalDataTable } from "../_components/technical/technical-data-table";
 
 export const dynamic = "force-dynamic";
 
