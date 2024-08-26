@@ -31,6 +31,7 @@ import { getTotalValues } from "@/utils/get-total-values";
 import { LoaderCircle } from "lucide-react";
 import { DateRange } from "react-day-picker";
 import { RevenueCards, TotalValuesProps } from "./revenue-cards";
+import { getTechnical } from "@/utils/get-technicals";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -60,7 +61,6 @@ export function TechnicalDataTable<TData, TValue>({
   const [data, setData] = useState<TData[]>(initialData);
 
   const [loading, setLoading] = useState(false);
-  const [loadingTotalValues, setLoadingTotalValues] = useState(false);
 
   const table = useReactTable({
     data,
@@ -83,24 +83,18 @@ export function TechnicalDataTable<TData, TValue>({
     pageCount: Math.ceil(totalCount / pagination.pageSize),
   });
 
+  console.log(totalCount);
+
   async function fetchData(params: {
-    dateFrom: string;
-    dateTo?: string;
     pageIndex?: number;
-    orderIdFilter?: string;
-    companyFilter?: string[];
     technicalFilter?: string[];
   }) {
     setLoading(true);
     try {
-      const data = await getData(
-        params.dateFrom,
-        params.dateTo,
-        params.pageIndex,
-        params.orderIdFilter,
-        params.companyFilter,
-        params.technicalFilter,
-      );
+      const data = await getTechnical({
+        technicalFilter: params.technicalFilter,
+        pageIndex: params.pageIndex,
+      });
       setData(data as TData[]);
     } catch (error) {
       console.error("Failed to fetch data:", error);
@@ -109,44 +103,11 @@ export function TechnicalDataTable<TData, TValue>({
     }
   }
 
-  async function fetchTotalValues(params: {
-    dateFrom: string;
-    dateTo?: string;
-    orderIdFilter?: string;
-    companyFilter?: string[];
-    technicalFilter?: string[];
-  }) {
-    setLoadingTotalValues(true);
+  async function fetchTotalCount(params: { technicalFilter?: string[] }) {
     try {
-      const data = await getTotalValues(
-        params.dateFrom,
-        params.dateTo,
-        params.orderIdFilter,
-        params.companyFilter,
-        params.technicalFilter,
-      );
-    } catch (error) {
-      console.error("Failed to fetch total values:", error);
-    } finally {
-      setLoadingTotalValues(false);
-    }
-  }
-
-  async function fetchTotalCount(params: {
-    dateFrom: string;
-    dateTo?: string;
-    orderIdFilter?: string;
-    companyFilter?: string[];
-    technicalFilter?: string[];
-  }) {
-    try {
-      const data = await getTotalData(
-        params.dateFrom,
-        params.dateTo,
-        params.orderIdFilter,
-        params.companyFilter,
-        params.technicalFilter,
-      );
+      const data = (
+        await getTechnical({ technicalFilter: params.technicalFilter })
+      ).length;
       setTotalCount(data);
     } catch (error) {
       console.error("Failed to fetch total count:", error);
@@ -156,11 +117,7 @@ export function TechnicalDataTable<TData, TValue>({
   function handlePageChange(pageIndex: number) {
     setPagination((prev) => ({ ...prev, pageIndex }));
     fetchData({
-      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: dateFilter?.to?.toISOString().split("T")[0],
       pageIndex: pageIndex + 1,
-      orderIdFilter,
-      companyFilter,
       technicalFilter,
     });
   }
@@ -170,36 +127,16 @@ export function TechnicalDataTable<TData, TValue>({
     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
 
     const fetchDataPromise = fetchData({
-      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: dateFilter?.to?.toISOString().split("T")[0],
-      orderIdFilter: orderId,
       pageIndex: 1,
-      companyFilter,
-      technicalFilter,
-    });
-
-    const fetchTotalValuesPromise = fetchTotalValues({
-      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: dateFilter?.to?.toISOString().split("T")[0],
-      orderIdFilter: orderId,
-      companyFilter,
       technicalFilter,
     });
 
     const fetchTotalCountPromise = fetchTotalCount({
-      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: dateFilter?.to?.toISOString().split("T")[0],
-      orderIdFilter: orderId,
-      companyFilter,
       technicalFilter,
     });
 
     try {
-      await Promise.all([
-        fetchDataPromise,
-        fetchTotalValuesPromise,
-        fetchTotalCountPromise,
-      ]);
+      await Promise.all([fetchDataPromise, fetchTotalCountPromise]);
     } catch (error) {
       console.error("Failed to fetch data:", error);
     }
@@ -210,36 +147,16 @@ export function TechnicalDataTable<TData, TValue>({
     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
 
     const fetchDataPromise = fetchData({
-      dateFrom: range?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: range?.to?.toISOString().split("T")[0],
       pageIndex: 1,
-      orderIdFilter,
-      companyFilter,
-      technicalFilter,
-    });
-
-    const fetchTotalValuesPromise = fetchTotalValues({
-      dateFrom: range?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: range?.to?.toISOString().split("T")[0],
-      orderIdFilter,
-      companyFilter,
       technicalFilter,
     });
 
     const fetchTotalCountPromise = fetchTotalCount({
-      dateFrom: range?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: range?.to?.toISOString().split("T")[0],
-      orderIdFilter,
-      companyFilter,
       technicalFilter,
     });
 
     try {
-      await Promise.all([
-        fetchDataPromise,
-        fetchTotalValuesPromise,
-        fetchTotalCountPromise,
-      ]);
+      await Promise.all([fetchDataPromise, fetchTotalCountPromise]);
     } catch (error) {
       console.error("Failed to fetch data:", error);
     }
@@ -250,36 +167,16 @@ export function TechnicalDataTable<TData, TValue>({
     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
 
     const fetchDataPromise = fetchData({
-      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: dateFilter?.to?.toISOString().split("T")[0],
       pageIndex: 1,
-      orderIdFilter,
-      companyFilter: companies,
-      technicalFilter,
-    });
-
-    const fetchTotalValuesPromise = fetchTotalValues({
-      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: dateFilter?.to?.toISOString().split("T")[0],
-      orderIdFilter,
-      companyFilter: companies,
       technicalFilter,
     });
 
     const fetchTotalCountPromise = fetchTotalCount({
-      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: dateFilter?.to?.toISOString().split("T")[0],
-      orderIdFilter,
-      companyFilter: companies,
       technicalFilter,
     });
 
     try {
-      await Promise.all([
-        fetchDataPromise,
-        fetchTotalValuesPromise,
-        fetchTotalCountPromise,
-      ]);
+      await Promise.all([fetchDataPromise, fetchTotalCountPromise]);
     } catch (error) {
       console.error("Failed to fetch data:", error);
     }
@@ -292,36 +189,16 @@ export function TechnicalDataTable<TData, TValue>({
     console.log(technicalFilter);
 
     const fetchDataPromise = fetchData({
-      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: dateFilter?.to?.toISOString().split("T")[0],
       pageIndex: 1,
-      orderIdFilter,
-      companyFilter,
-      technicalFilter: technicians,
-    });
-
-    const fetchTotalValuesPromise = fetchTotalValues({
-      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: dateFilter?.to?.toISOString().split("T")[0],
-      orderIdFilter,
-      companyFilter,
       technicalFilter: technicians,
     });
 
     const fetchTotalCountPromise = fetchTotalCount({
-      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: dateFilter?.to?.toISOString().split("T")[0],
-      orderIdFilter,
-      companyFilter,
       technicalFilter: technicians,
     });
 
     try {
-      await Promise.all([
-        fetchDataPromise,
-        fetchTotalValuesPromise,
-        fetchTotalCountPromise,
-      ]);
+      await Promise.all([fetchDataPromise, fetchTotalCountPromise]);
     } catch (error) {
       console.error("Failed to fetch data:", error);
     }

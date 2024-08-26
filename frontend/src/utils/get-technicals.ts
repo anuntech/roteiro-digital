@@ -1,13 +1,15 @@
 import { api } from "@/lib/axios";
 
-export async function getTechnical(
-  technicalFilter?: string[],
-  pageIndex?: number,
-): Promise<any> {
+interface GetTechnicalInput {
+  technicalFilter?: string[];
+  pageIndex?: number;
+}
+
+export async function getTechnical(data?: GetTechnicalInput): Promise<any> {
   const response = await api.get("/technical", {
     params: {
-      page: pageIndex,
-      technicalFilter: technicalFilter?.join(", "),
+      page: data?.pageIndex,
+      technicalFilter: data?.technicalFilter?.join(", "),
     },
   });
 

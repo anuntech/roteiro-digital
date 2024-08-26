@@ -6,7 +6,11 @@ import { TechnicalDataTable } from "../_components/technical-data-table";
 export const dynamic = "force-dynamic";
 
 export default async function Technical() {
-  const technicalData = await getTechnical();
+  const technicalData = await getTechnical({
+    pageIndex: 1,
+  });
+
+  const totalCount = await getTechnical();
 
   return (
     <div className="hidden flex-col gap-8 p-10 md:flex">
@@ -17,7 +21,7 @@ export default async function Technical() {
       <TechnicalDataTable
         columns={technicalColumns}
         data={technicalData}
-        totalCount={technicalData.length}
+        totalCount={totalCount.length}
       />
     </div>
   );
