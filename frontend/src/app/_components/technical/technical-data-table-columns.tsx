@@ -25,11 +25,15 @@ export const technicalColumns: ColumnDef<TechnicalDigitalScript>[] = [
     header: "Identificador",
     cell: ({ row }) => row.getValue("technical_number"),
   },
-
   {
     accessorKey: "name",
     header: "Nome",
     cell: ({ row }) => row.getValue("name"),
+  },
+  {
+    accessorKey: "company_name",
+    header: "Autorizada",
+    cell: ({ row }) => row.getValue("company_name"),
   },
 
   {
