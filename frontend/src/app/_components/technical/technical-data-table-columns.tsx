@@ -6,6 +6,7 @@ import { DataTableColumnNotes } from "../data-table-column-notes";
 import { DataTableColumnReceipt } from "../data-table-column-receipt";
 import { formatCurrency } from "@/utils/format-currency";
 import { DataTableColumnHeader } from "../data-table-column-header";
+import { TechnicalDataTableRowActions } from "./technical-data-table-row-actions";
 
 export type TechnicalDigitalScript = {
   id: string;
@@ -31,10 +32,10 @@ export const technicalColumns: ColumnDef<TechnicalDigitalScript>[] = [
     cell: ({ row }) => row.getValue("name"),
   },
 
-  // {
-  //   id: "actions",
-  //   cell: ({ row }) => {
-  //     return <DataTableRowActions row={row.original} />;
-  //   },
-  // },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      return <TechnicalDataTableRowActions row={row.original} />;
+    },
+  },
 ];
