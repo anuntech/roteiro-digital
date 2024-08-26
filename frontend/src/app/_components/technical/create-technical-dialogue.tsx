@@ -135,7 +135,7 @@ export function CreateTechnicalDialogue() {
     } catch (error) {
       console.log(error);
       toast.message("Erro!", {
-        description: "Preencha todos os campos obrigatórios!",
+        description: "Identificador já existe!",
       });
     }
   }
