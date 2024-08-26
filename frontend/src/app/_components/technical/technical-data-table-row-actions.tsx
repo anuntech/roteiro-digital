@@ -86,12 +86,14 @@ export function TechnicalDataTableRowActions({
   const [formData, setFormData] = useState({
     name: row.name,
     technical_number: row.technical_number,
+    company_name: row.company_name,
   });
 
   useEffect(() => {
     setFormData({
       name: row.name,
       technical_number: row.technical_number,
+      company_name: row.company_name,
     });
   }, [row]);
 
@@ -193,6 +195,14 @@ export function TechnicalDataTableRowActions({
               <Input
                 id="number"
                 value={formData.technical_number}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <Label htmlFor="number">Autorizada</Label>
+              <Input
+                id="number"
+                value={formData.company_name}
                 onChange={handleInputChange}
               />
             </div>

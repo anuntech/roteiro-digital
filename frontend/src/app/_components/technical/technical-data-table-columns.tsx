@@ -12,6 +12,7 @@ export type TechnicalDigitalScript = {
   id: string;
   technical_number: string;
   name: string;
+  company_name: string;
 };
 
 export const technicalColumns: ColumnDef<TechnicalDigitalScript>[] = [
