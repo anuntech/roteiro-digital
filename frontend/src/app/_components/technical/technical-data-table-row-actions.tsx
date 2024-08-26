@@ -191,17 +191,17 @@ export function TechnicalDataTableRowActions({
               />
             </div>
             <div>
-              <Label htmlFor="number">Identificador</Label>
+              <Label htmlFor="technical_number">Identificador</Label>
               <Input
-                id="number"
+                id="technical_number"
                 value={formData.technical_number}
                 onChange={handleInputChange}
               />
             </div>
             <div>
-              <Label htmlFor="number">Autorizada</Label>
+              <Label htmlFor="company_name">Autorizada</Label>
               <Input
-                id="number"
+                id="company_name"
                 value={formData.company_name}
                 onChange={handleInputChange}
               />

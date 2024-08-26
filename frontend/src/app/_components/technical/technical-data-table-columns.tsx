@@ -17,11 +17,6 @@ export type TechnicalDigitalScript = {
 
 export const technicalColumns: ColumnDef<TechnicalDigitalScript>[] = [
   {
-    accessorKey: "id",
-    header: "Id",
-    cell: ({ row }) => row.getValue("id"),
-  },
-  {
     accessorKey: "technical_number",
     header: "Identificador",
     cell: ({ row }) => row.getValue("technical_number"),
@@ -36,7 +31,6 @@ export const technicalColumns: ColumnDef<TechnicalDigitalScript>[] = [
     header: "Autorizada",
     cell: ({ row }) => row.getValue("company_name"),
   },
-
   {
     id: "actions",
     cell: ({ row }) => {
