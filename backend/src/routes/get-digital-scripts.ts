@@ -49,7 +49,7 @@ export async function getDigitalScripts(app: FastifyInstance) {
         dateFilter.lte = dayjs(dateTo).utc().endOf("day").toDate();
       }
 
-      if (orderIdFilter || orderIdFilter == "") {
+      if (orderIdFilter || orderIdFilter != "") {
         dateFilter.gte = null;
         dateFilter.lte = null;
       }

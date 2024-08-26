@@ -32,6 +32,7 @@ import { LoaderCircle } from "lucide-react";
 import { DateRange } from "react-day-picker";
 import { RevenueCards, TotalValuesProps } from "../revenue-cards";
 import { getTechnical } from "@/utils/get-technicals";
+import { TechnicalDataTableToolbar } from "./technical-data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -215,7 +216,7 @@ export function TechnicalDataTable<TData, TValue>({
   return (
     <div className="space-y-8">
       <div className="space-y-4">
-        <DataTableToolbar
+        <TechnicalDataTableToolbar
           table={table}
           orderIdFilter={orderIdFilter}
           dateFilter={dateFilter}

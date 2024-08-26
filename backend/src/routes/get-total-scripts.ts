@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { FastifyInstance } from 'fastify'
-import { prisma } from '../lib/prisma'
-import z from 'zod'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-dayjs.extend(utc)
+import type { FastifyInstance } from "fastify";
+import { prisma } from "../lib/prisma";
+import z from "zod";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
 
 export async function getTotalScripts(app: FastifyInstance) {
   app.get(
-    '/digital-scripts/total',
+    "/digital-scripts/total",
     {
       schema: {
         querystring: z.object({
@@ -24,25 +24,25 @@ export async function getTotalScripts(app: FastifyInstance) {
       const {
         dateFrom,
         dateTo,
-        orderIdFilter = '',
-        companyFilter = '',
-        technicalFilter = '',
-      } = request.query as any
+        orderIdFilter = "",
+        companyFilter = "",
+        technicalFilter = "",
+      } = request.query as any;
 
       const companyFilterArray = companyFilter
-        ? companyFilter.split(',').map((name: string) => name.trim())
-        : []
+        ? companyFilter.split(",").map((name: string) => name.trim())
+        : [];
 
       const technicalFilterArray = technicalFilter
-        ? technicalFilter.split(',').map((name: string) => name.trim())
-        : []
+        ? technicalFilter.split(",").map((name: string) => name.trim())
+        : [];
 
-      const dateFilter: any = {}
+      const dateFilter: any = {};
       if (dateFrom) {
-        dateFilter.gte = dayjs(dateFrom).utc().startOf('day').toDate()
+        dateFilter.gte = dayjs(dateFrom).utc().startOf("day").toDate();
       }
       if (dateTo) {
-        dateFilter.lte = dayjs(dateTo).utc().endOf('day').toDate()
+        dateFilter.lte = dayjs(dateTo).utc().endOf("day").toDate();
       }
 
       const total = await prisma.checklistAnuntech.count({
@@ -64,9 +64,9 @@ export async function getTotalScripts(app: FastifyInstance) {
                 : undefined,
           },
         },
-      })
+      });
 
-      return reply.status(200).send(total)
-    },
-  )
+      return reply.status(200).send(total);
+    }
+  );
 }
