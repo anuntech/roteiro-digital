@@ -114,7 +114,7 @@ export function TechnicalDataTableRowActions({
   }
 
   async function handleDeleteRow(id: string) {
-    const response = await api.delete(`/digital-scripts/${id}`);
+    const response = await api.delete(`/technical/${id}`);
     setAlertDialogOpen(false);
     // router.refresh()
     window.location.reload();
@@ -129,7 +129,7 @@ export function TechnicalDataTableRowActions({
   async function handleUpdateRow(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     try {
-      const response = await api.patch(`/digital-scripts/${row.id}`, formData);
+      const response = await api.patch(`/technical/${row.id}`, formData);
 
       if (response.status >= 200) {
         toast.message("Sucesso", {
@@ -192,7 +192,7 @@ export function TechnicalDataTableRowActions({
               <Label htmlFor="number">Identificador</Label>
               <Input
                 id="number"
-                value={formData.name}
+                value={formData.technical_number}
                 onChange={handleInputChange}
               />
             </div>
