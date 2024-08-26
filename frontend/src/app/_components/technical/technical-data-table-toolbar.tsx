@@ -125,7 +125,7 @@ export function TechnicalDataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <div className="flex gap-5">
+      <div className="flex gap-2">
         <CreateTechnicalDialogue />
         <DataTableViewOptions table={table} />
       </div>

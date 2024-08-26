@@ -144,7 +144,7 @@ export function CreateTechnicalDialogue() {
     <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
         <Button size="sm" className="h-8 px-2 lg:px-3">
-          <Plus className="size-4 text-zinc-950" /> Adicionar
+          <Plus className="black size-4" /> Adicionar
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[90vh] overflow-y-auto">
