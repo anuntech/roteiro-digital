@@ -67,52 +67,17 @@ export function TechnicalDataTableToolbar<TData>({
         <div className="relative flex items-center">
           <Search className="absolute left-3 size-4" />
           <Input
-            placeholder="Buscar ordem de serviço..."
+            placeholder="Buscar nome do técnico..."
             value={orderIdFilter}
             onChange={(event) => setOrderIdFilter(event.target.value.trim())}
             className="h-8 w-40 px-9 lg:w-64"
           />
         </div>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              id="date"
-              variant={"outline"}
-              className={cn(
-                "h-8 w-[250px] justify-start text-left font-normal",
-                !dateFilter && "text-muted-foreground",
-              )}
-            >
-              <CalendarDays className="mr-2 size-4" />
-              {displayedDate || <span>Escolha uma data</span>}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <Calendar
-              initialFocus
-              mode="range"
-              defaultMonth={dateFilter?.from}
-              locale={ptBR}
-              selected={dateFilter}
-              onSelect={(range) => {
-                handleDateFilterChange(range);
-                setDateFilter(range);
-              }}
-            />
-          </PopoverContent>
-        </Popover>
         <DataTableCompanyFilter
           options={companies}
           selectedValues={companyFilter}
           setSelectedValues={setCompanyFilter}
           onChange={handleCompanyFilterChange}
-        />
-        <DataTableTechnicalFilter
-          options={technical}
-          selectedValues={technicalFilter}
-          companyFilter={companyFilter}
-          setSelectedValues={setTechnicalFilter}
-          onChange={handleTechnicalFilterChange}
         />
         {isFiltered && (
           <Button
