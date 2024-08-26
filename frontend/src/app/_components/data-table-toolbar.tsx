@@ -1,38 +1,38 @@
-import { Dispatch, SetStateAction } from 'react'
-import { DateRange } from 'react-day-picker'
-import { Table } from '@tanstack/react-table'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Dispatch, SetStateAction } from "react";
+import { DateRange } from "react-day-picker";
+import { Table } from "@tanstack/react-table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover'
-import { Calendar } from '@/components/ui/calendar'
-import { DataTableViewOptions } from './data-table-view-options'
-import { companies, technical } from '../data/data'
-import { cn } from '@/lib/utils'
-import { CalendarDays, Search, X } from 'lucide-react'
-import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
-import { DataTableCompanyFilter } from './data-table-company-filter'
-import { DataTableTechnicalFilter } from './data-table-technical-filter'
-import { CreateOs } from './create-os'
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { DataTableViewOptions } from "./data-table-view-options";
+import { companies, technical } from "../data/data";
+import { cn } from "@/lib/utils";
+import { CalendarDays, Search, X } from "lucide-react";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import { DataTableCompanyFilter } from "./data-table-company-filter";
+import { DataTableTechnicalFilter } from "./data-table-technical-filter";
+import { CreateOs } from "./create-os";
 
 interface DataTableToolbarProps<TData> {
-  table: Table<TData>
-  orderIdFilter: string
-  dateFilter: DateRange | undefined
-  companyFilter: string[]
-  technicalFilter: string[]
-  setDateFilter: Dispatch<SetStateAction<DateRange | undefined>>
-  setOrderIdFilter: (orderId: string) => void
-  setCompanyFilter: Dispatch<SetStateAction<string[]>>
-  setTechnicalFilter: Dispatch<SetStateAction<string[]>>
-  handleDateFilterChange: (range: DateRange | undefined) => void
-  handleCompanyFilterChange: (companies: string[]) => void
-  handleTechnicalFilterChange: (technicians: string[]) => void
-  resetFilter: () => void
+  table: Table<TData>;
+  orderIdFilter: string;
+  dateFilter: DateRange | undefined;
+  companyFilter: string[];
+  technicalFilter: string[];
+  setDateFilter: Dispatch<SetStateAction<DateRange | undefined>>;
+  setOrderIdFilter: (orderId: string) => void;
+  setCompanyFilter: Dispatch<SetStateAction<string[]>>;
+  setTechnicalFilter: Dispatch<SetStateAction<string[]>>;
+  handleDateFilterChange: (range: DateRange | undefined) => void;
+  handleCompanyFilterChange: (companies: string[]) => void;
+  handleTechnicalFilterChange: (technicians: string[]) => void;
+  resetFilter: () => void;
 }
 
 export function DataTableToolbar<TData>({
@@ -53,13 +53,13 @@ export function DataTableToolbar<TData>({
   const isFiltered =
     table.getState().columnFilters.length > 0 ||
     dateFilter !== undefined ||
-    orderIdFilter.length > 0
+    orderIdFilter.length > 0;
 
   const displayedDate = dateFilter?.from
     ? dateFilter.to
-      ? `${format(dateFilter.from, 'dd LLL, yyyy', { locale: ptBR })} - ${format(dateFilter.to, 'dd LLL, yyyy', { locale: ptBR })}`
-      : format(dateFilter.from, 'dd LLL, yyyy', { locale: ptBR })
-    : null
+      ? `${format(dateFilter.from, "dd LLL, yyyy", { locale: ptBR })} - ${format(dateFilter.to, "dd LLL, yyyy", { locale: ptBR })}`
+      : format(dateFilter.from, "dd LLL, yyyy", { locale: ptBR })
+    : null;
 
   return (
     <div className="flex items-center justify-between">
@@ -77,10 +77,10 @@ export function DataTableToolbar<TData>({
           <PopoverTrigger asChild>
             <Button
               id="date"
-              variant={'outline'}
+              variant={"outline"}
               className={cn(
-                'h-8 w-[250px] justify-start text-left font-normal',
-                !dateFilter && 'text-muted-foreground',
+                "h-8 w-[250px] justify-start text-left font-normal",
+                !dateFilter && "text-muted-foreground",
               )}
             >
               <CalendarDays className="mr-2 size-4" />
@@ -95,8 +95,8 @@ export function DataTableToolbar<TData>({
               locale={ptBR}
               selected={dateFilter}
               onSelect={(range) => {
-                handleDateFilterChange(range)
-                setDateFilter(range)
+                handleDateFilterChange(range);
+                setDateFilter(range);
               }}
             />
           </PopoverContent>
@@ -125,10 +125,10 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <div className="flex gap-5">
+      <div className="flex gap-2">
         <CreateOs />
         <DataTableViewOptions table={table} />
       </div>
     </div>
-  )
+  );
 }
