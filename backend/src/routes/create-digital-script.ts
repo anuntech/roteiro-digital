@@ -27,6 +27,7 @@ export async function createDigitalScript(app: FastifyInstance) {
           company_name: z.string().optional(),
           technical_name: z.string(),
           order_id: z.string().optional(),
+          technical: z.number(),
         }),
       },
     },
@@ -49,6 +50,7 @@ export async function createDigitalScript(app: FastifyInstance) {
         technical_name,
         order_id,
         created_at,
+        technical,
       } = request.body;
       if (
         order_classification == "" ||
@@ -78,6 +80,7 @@ export async function createDigitalScript(app: FastifyInstance) {
           technical_name,
           order_id,
           created_at,
+          technical,
         },
       });
 

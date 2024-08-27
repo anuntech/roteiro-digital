@@ -38,6 +38,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { getTechnical } from "@/utils/get-technicals";
+import { technical } from "../data/data";
 
 export const CreateOs = () => {
   const [formData, setFormData] = useState({
@@ -56,6 +57,7 @@ export const CreateOs = () => {
     revenue_deduction: "0",
     order_id: "",
     notes: "",
+    technical: null,
   });
 
   useEffect(() => {
@@ -106,6 +108,7 @@ export const CreateOs = () => {
         revenue_deduction: parseFloat(
           (formData.revenue_deduction as any).replace(",", "."),
         ),
+        technical: parseInt(formData.technical as any),
       };
       const response = await api.post(`/digital-scripts`, {
         ...formData,
@@ -136,11 +139,20 @@ export const CreateOs = () => {
   function getCompanyName() {
     const technicalName = formData.technical_name;
 
-    const companyName = technicalInfo?.find(
+    const foundTechnical = technicalInfo?.find(
       (item: any) => item.name === technicalName,
-    )?.company_name;
+    );
 
-    return companyName;
+    return foundTechnical?.company_name;
+  }
+
+  function setTechnicalNumber(technicalName: string) {
+    const foundTechnical = technicalInfo?.find(
+      (item: any) => item.name === technicalName,
+    );
+
+    console.log(foundTechnical?.technical_number);
+    handleSelectChange("technical", foundTechnical.technical_number);
   }
 
   return (
@@ -192,7 +204,9 @@ export const CreateOs = () => {
             <Label htmlFor="technician">Técnico*</Label>
             <Popover
               open={isTechnicalSelectOpen}
-              onOpenChange={setIsTechnicalSelectOpen}
+              onOpenChange={() =>
+                setIsTechnicalSelectOpen(!isTechnicalSelectOpen)
+              }
             >
               <PopoverTrigger asChild>
                 <Button
@@ -221,6 +235,7 @@ export const CreateOs = () => {
                               "company_name",
                               item.company_name,
                             );
+                            setTechnicalNumber(currentValue);
                           }}
                         >
                           <Check
