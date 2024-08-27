@@ -15,12 +15,13 @@ import { createTechnical } from "./routes/create-technical";
 import { deleteTechnical } from "./routes/delete-technical";
 import { updateTechnical } from "./routes/update-technical";
 import { getTechnical } from "./routes/get-technical";
+import { getDigitalScriptsTechnical } from "./routes/get-digital-script-technical";
 
 const app = fastify();
 config();
 
 app.register(cors, {
-  origin: "*", // Inserir a URL do front-end
+  origin: "*",
 });
 
 app.setValidatorCompiler(validatorCompiler);
@@ -38,6 +39,7 @@ app.register(
     instance.register(deleteTechnical);
     instance.register(updateTechnical);
     instance.register(getTechnical);
+    instance.register(getDigitalScriptsTechnical);
 
     done();
   },
