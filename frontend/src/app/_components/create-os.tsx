@@ -151,7 +151,6 @@ export const CreateOs = () => {
       (item: any) => item.name === technicalName,
     );
 
-    console.log(foundTechnical?.technical_number);
     handleSelectChange("technical", foundTechnical.technical_number);
   }
 

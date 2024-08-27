@@ -1,11 +1,11 @@
-import type { FastifyInstance } from 'fastify'
-import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { z } from 'zod'
-import { prisma } from '../lib/prisma'
+import type { FastifyInstance } from "fastify";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
+import { z } from "zod";
+import { prisma } from "../lib/prisma";
 
 export async function updateDigitalScript(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().patch(
-    '/digital-scripts/:digitalScriptsId',
+    "/digital-scripts/:digitalScriptsId",
     {
       schema: {
         params: z.object({
@@ -26,20 +26,21 @@ export async function updateDigitalScript(app: FastifyInstance) {
             advance_revenue: z.coerce.number().optional(),
             revenue_deduction: z.coerce.number().optional(),
             notes: z.string().optional(),
+            technical: z.number().optional(),
           })
           .partial(),
       },
     },
     async (request, reply) => {
-      const { digitalScriptsId } = request.params
-      const data = request.body
+      const { digitalScriptsId } = request.params;
+      const data = request.body;
 
       const existingScript = await prisma.checklistAnuntech.findUnique({
         where: { id: digitalScriptsId },
-      })
+      });
 
       if (!existingScript) {
-        return reply.status(404).send({ error: 'Digital script not found' })
+        return reply.status(404).send({ error: "Digital script not found" });
       }
 
       const updatedScript = await prisma.checklistAnuntech.update({
@@ -47,10 +48,10 @@ export async function updateDigitalScript(app: FastifyInstance) {
         data: {
           ...data,
         },
-      })
+      });
 
       return reply.status(200).send({
-        message: 'Digital script updated successfully',
+        message: "Digital script updated successfully",
         updatedScript: {
           id: updatedScript.id,
           entity_id: updatedScript.entity_id,
@@ -70,8 +71,9 @@ export async function updateDigitalScript(app: FastifyInstance) {
           created_at: updatedScript.created_at.toISOString(),
           updated_at: updatedScript.updated_at.toISOString(),
           order_id: updatedScript.order_id,
+          technical: updatedScript.technical,
         },
-      })
-    },
-  )
+      });
+    }
+  );
 }

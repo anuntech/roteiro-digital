@@ -26,6 +26,7 @@ export type DigitalScript = {
   revenue_deduction: string;
   notes: string;
   payment_receipt: string;
+  technical: number;
 };
 
 export const columns: ColumnDef<DigitalScript>[] = [

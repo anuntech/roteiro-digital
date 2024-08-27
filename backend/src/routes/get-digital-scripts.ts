@@ -99,6 +99,7 @@ export async function getDigitalScripts(app: FastifyInstance) {
           revenue_deduction: script.revenue_deduction ?? 0,
           notes: script.notes ?? "",
           payment_receipt: script.payment_receipt ?? "",
+          technical: script.technical,
         };
       });
 

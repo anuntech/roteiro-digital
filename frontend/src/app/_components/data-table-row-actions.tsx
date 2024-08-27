@@ -84,6 +84,7 @@ type FormDataFields = Partial<{
   advance_revenue: number;
   revenue_deduction: number;
   notes: string;
+  technical: number;
 }>;
 
 export function DataTableRowActions({ row }: DataTableRowActionsProps) {
@@ -118,6 +119,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
     revenue_deduction: row.revenue_deduction.toString(),
     payment_receipt: row.payment_receipt.toString(),
     notes: row.notes,
+    technical: row.technical,
   });
 
   useEffect(() => {
@@ -138,6 +140,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
       revenue_deduction: row.revenue_deduction.toString(),
       payment_receipt: row.payment_receipt.toString(),
       notes: row.notes,
+      technical: row.technical,
     });
   }, [row]);
 
@@ -172,6 +175,16 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
     }
   }
 
+  function setTechnicalNumber(technicalName: string) {
+    const foundTechnical = technicalInfo?.find(
+      (item: any) => item.name === technicalName,
+    );
+
+    console.log(foundTechnical?.technical_number);
+
+    handleSelectChange("technical", foundTechnical.technical_number);
+  }
+
   async function handleUpdateRow(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     try {
@@ -193,6 +206,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
         revenue_deduction: parseFloat(
           (formData.revenue_deduction || "0").replace(",", "."),
         ),
+        technical: parseInt(formData.technical as any),
       };
       const response = await api.patch(`/digital-scripts/${row.id}`, {
         ...formData,
@@ -304,6 +318,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                                 "company_name",
                                 item.company_name,
                               );
+                              setTechnicalNumber(currentValue);
                             }}
                           >
                             <Check
