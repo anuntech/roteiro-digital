@@ -26,7 +26,7 @@ interface DataTableToolbarProps<TData> {
   companyFilter: string[];
   technicalFilter: string[];
   setDateFilter: Dispatch<SetStateAction<DateRange | undefined>>;
-  setOrderIdFilter: (orderId: string) => void;
+  handleTechnicalNameFilter: (orderId: string) => void;
   setCompanyFilter: Dispatch<SetStateAction<string[]>>;
   setTechnicalFilter: Dispatch<SetStateAction<string[]>>;
   handleDateFilterChange: (range: DateRange | undefined) => void;
@@ -42,7 +42,7 @@ export function TechnicalDataTableToolbar<TData>({
   companyFilter,
   technicalFilter,
   setDateFilter,
-  setOrderIdFilter,
+  handleTechnicalNameFilter,
   setCompanyFilter,
   setTechnicalFilter,
   handleDateFilterChange,
@@ -55,12 +55,6 @@ export function TechnicalDataTableToolbar<TData>({
     dateFilter !== undefined ||
     orderIdFilter.length > 0;
 
-  const displayedDate = dateFilter?.from
-    ? dateFilter.to
-      ? `${format(dateFilter.from, "dd LLL, yyyy", { locale: ptBR })} - ${format(dateFilter.to, "dd LLL, yyyy", { locale: ptBR })}`
-      : format(dateFilter.from, "dd LLL, yyyy", { locale: ptBR })
-    : null;
-
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center gap-2">
@@ -69,7 +63,9 @@ export function TechnicalDataTableToolbar<TData>({
           <Input
             placeholder="Buscar nome do técnico..."
             value={orderIdFilter}
-            onChange={(event) => setOrderIdFilter(event.target.value.trim())}
+            onChange={(event) =>
+              handleTechnicalNameFilter(event.target.value.trim())
+            }
             className="h-8 w-40 px-9 lg:w-64"
           />
         </div>

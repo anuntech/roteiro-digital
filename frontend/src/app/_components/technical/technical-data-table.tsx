@@ -123,7 +123,7 @@ export function TechnicalDataTable<TData, TValue>({
     });
   }
 
-  async function handleOrderIdFilterChange(orderId: string) {
+  async function handleTechnicalNameFilterChange(orderId: string) {
     setOrderIdFilter(orderId);
     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
 
@@ -223,7 +223,7 @@ export function TechnicalDataTable<TData, TValue>({
           companyFilter={companyFilter}
           technicalFilter={technicalFilter}
           setDateFilter={setDateFilter}
-          setOrderIdFilter={handleOrderIdFilterChange}
+          handleTechnicalNameFilter={handleTechnicalNameFilterChange}
           setCompanyFilter={setCompanyFilter}
           setTechnicalFilter={setTechnicalFilter}
           handleDateFilterChange={handleDateFilterChange}
