@@ -73,7 +73,7 @@ export function TechnicalDataTableToolbar<TData>({
           options={companies}
           selectedValues={companyFilter}
           setSelectedValues={setCompanyFilter}
-          onChange={handleCompanyFilterChange}
+          onChange={handleTechnicalFilterChange}
         />
         {isFiltered && (
           <Button

@@ -183,6 +183,15 @@ export function TechnicalDataTableRowActions({
           </DialogHeader>
           <form onSubmit={handleUpdateRow} className="space-y-4">
             <div>
+              <Label htmlFor="technical_number">Identificador</Label>
+              <Input
+                id="technical_number"
+                value={formData.technical_number}
+                onChange={handleInputChange}
+                readOnly
+              />
+            </div>
+            <div>
               <Label htmlFor="name">Nome</Label>
               <Input
                 id="name"
@@ -190,14 +199,7 @@ export function TechnicalDataTableRowActions({
                 onChange={handleInputChange}
               />
             </div>
-            <div>
-              <Label htmlFor="technical_number">Identificador</Label>
-              <Input
-                id="technical_number"
-                value={formData.technical_number}
-                onChange={handleInputChange}
-              />
-            </div>
+
             <div>
               <Label htmlFor="company_name">Autorizada</Label>
               <Input

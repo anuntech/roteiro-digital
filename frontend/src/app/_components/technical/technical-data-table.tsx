@@ -84,8 +84,6 @@ export function TechnicalDataTable<TData, TValue>({
     pageCount: Math.ceil(totalCount / pagination.pageSize),
   });
 
-  console.log(totalCount);
-
   async function fetchData(params: {
     pageIndex?: number;
     technicalFilter?: string[];
@@ -184,10 +182,9 @@ export function TechnicalDataTable<TData, TValue>({
   }
 
   async function handleTechnicalFilterChange(technicians: string[]) {
+    console.log("aaaa");
     setTechnicalFilter(technicians);
     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-
-    console.log(technicalFilter);
 
     const fetchDataPromise = fetchData({
       pageIndex: 1,
