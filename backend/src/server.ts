@@ -26,18 +26,24 @@ app.register(cors, {
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
-app.register(createDigitalScript);
-app.register(getDigitalScripts);
-app.register(getTotalScripts);
-app.register(getSumValues);
-app.register(deleteDigitalScript);
-app.register(updateDigitalScript);
-app.register(createTechnical);
-app.register(deleteTechnical);
-app.register(updateTechnical);
-app.register(getTechnical);
+app.register(
+  (instance, _, done) => {
+    instance.register(createDigitalScript);
+    instance.register(getDigitalScripts);
+    instance.register(getTotalScripts);
+    instance.register(getSumValues);
+    instance.register(deleteDigitalScript);
+    instance.register(updateDigitalScript);
+    instance.register(createTechnical);
+    instance.register(deleteTechnical);
+    instance.register(updateTechnical);
+    instance.register(getTechnical);
 
-// Inserir o host do servidor
+    done();
+  },
+  { prefix: "/api" }
+);
+
 app.listen({ port: 3333, host: "0.0.0.0" }).then(() => {
   console.log("Server running on port 3333!");
 });
