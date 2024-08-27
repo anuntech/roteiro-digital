@@ -31,10 +31,7 @@ export async function getTechnical(app: FastifyInstance) {
         take: page ? 10 : undefined,
         where: {
           name: {
-            in:
-              technicalFilterArray.length > 0
-                ? technicalFilterArray
-                : undefined,
+            contains: technicalFilter,
           },
         },
       });

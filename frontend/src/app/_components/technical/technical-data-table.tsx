@@ -57,7 +57,7 @@ export function TechnicalDataTable<TData, TValue>({
   });
   const [orderIdFilter, setOrderIdFilter] = useState("");
   const [companyFilter, setCompanyFilter] = useState<string[]>([]);
-  const [technicalFilter, setTechnicalFilter] = useState<string[]>([]);
+  const [technicalFilter, setTechnicalFilter] = useState<string>();
   const [totalCount, setTotalCount] = useState(initialCount);
   const [data, setData] = useState<TData[]>(initialData);
 
@@ -86,7 +86,7 @@ export function TechnicalDataTable<TData, TValue>({
 
   async function fetchData(params: {
     pageIndex?: number;
-    technicalFilter?: string[];
+    technicalFilter?: string;
   }) {
     setLoading(true);
     try {
@@ -102,7 +102,7 @@ export function TechnicalDataTable<TData, TValue>({
     }
   }
 
-  async function fetchTotalCount(params: { technicalFilter?: string[] }) {
+  async function fetchTotalCount(params: { technicalFilter?: string }) {
     try {
       const data = (
         await getTechnical({ technicalFilter: params.technicalFilter })
@@ -127,31 +127,11 @@ export function TechnicalDataTable<TData, TValue>({
 
     const fetchDataPromise = fetchData({
       pageIndex: 1,
-      technicalFilter,
+      technicalFilter: orderId,
     });
 
     const fetchTotalCountPromise = fetchTotalCount({
-      technicalFilter,
-    });
-
-    try {
-      await Promise.all([fetchDataPromise, fetchTotalCountPromise]);
-    } catch (error) {
-      console.error("Failed to fetch data:", error);
-    }
-  }
-
-  async function handleDateFilterChange(range: DateRange | undefined) {
-    setDateFilter(range);
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-
-    const fetchDataPromise = fetchData({
-      pageIndex: 1,
-      technicalFilter,
-    });
-
-    const fetchTotalCountPromise = fetchTotalCount({
-      technicalFilter,
+      technicalFilter: orderId,
     });
 
     try {
@@ -181,32 +161,11 @@ export function TechnicalDataTable<TData, TValue>({
     }
   }
 
-  async function handleTechnicalFilterChange(technicians: string[]) {
-    console.log("aaaa");
-    setTechnicalFilter(technicians);
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-
-    const fetchDataPromise = fetchData({
-      pageIndex: 1,
-      technicalFilter: technicians,
-    });
-
-    const fetchTotalCountPromise = fetchTotalCount({
-      technicalFilter: technicians,
-    });
-
-    try {
-      await Promise.all([fetchDataPromise, fetchTotalCountPromise]);
-    } catch (error) {
-      console.error("Failed to fetch data:", error);
-    }
-  }
-
   function resetFilter() {
     table.resetColumnFilters();
     setDateFilter(undefined);
     setCompanyFilter([]);
-    setTechnicalFilter([]);
+    setTechnicalFilter("");
     setOrderIdFilter("");
   }
 
@@ -216,16 +175,9 @@ export function TechnicalDataTable<TData, TValue>({
         <TechnicalDataTableToolbar
           table={table}
           orderIdFilter={orderIdFilter}
-          dateFilter={dateFilter}
           companyFilter={companyFilter}
-          technicalFilter={technicalFilter}
-          setDateFilter={setDateFilter}
           handleTechnicalNameFilter={handleTechnicalNameFilterChange}
-          setCompanyFilter={setCompanyFilter}
-          setTechnicalFilter={setTechnicalFilter}
-          handleDateFilterChange={handleDateFilterChange}
           handleCompanyFilterChange={handleCompanyFilterChange}
-          handleTechnicalFilterChange={handleTechnicalFilterChange}
           resetFilter={resetFilter}
         />
         <div className="rounded-md border">
