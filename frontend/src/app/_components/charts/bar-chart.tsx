@@ -43,9 +43,6 @@ export function BarChartComponent({
           <BarChart
             accessibilityLayer
             data={orderStatus.length > 0 ? orderStatus : data}
-            margin={{
-              top: 40,
-            }}
             width={500}
             onClick={(v) => console.log(v)}
           >
@@ -61,7 +58,7 @@ export function BarChartComponent({
               padding={{ left: 0, right: 0 }}
             />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-            <Bar dataKey="quantity" fill="var(--color-quantity)" radius={8}>
+            <Bar dataKey="quantity" fill="var(--bar-color)" radius={8}>
               <LabelList
                 position="top"
                 offset={12}
