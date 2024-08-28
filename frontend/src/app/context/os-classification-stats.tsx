@@ -2,21 +2,19 @@
 
 import { createContext, useContext, useState } from "react";
 
-interface ClassificationStats {
+interface OrderStatus {
   value: string;
   quantity: number;
 }
 
-interface ClassificationStatsContextProps {
-  classificationStats: ClassificationStats[];
-  setClassificationStats: React.Dispatch<
-    React.SetStateAction<ClassificationStats[]>
-  >;
+interface OrderStatusContextProps {
+  orderStatus: OrderStatus[];
+  setOrderStatus: React.Dispatch<React.SetStateAction<OrderStatus[]>>;
 }
 
-const GlobalClassificationStatsContext = createContext<any>({
-  classificationStats: [],
-  setClassificationStats: () => {},
+const GlobalOrderStatusContext = createContext<any>({
+  orderStatus: [],
+  setOrderStatus: () => {},
 });
 
 export const GlobalClassificationStatsWrapper = ({
@@ -24,24 +22,20 @@ export const GlobalClassificationStatsWrapper = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  let [classificationStats, setClassificationStats] = useState<
-    ClassificationStatsContextProps[]
-  >([]);
+  let [orderStatus, setOrderStatus] = useState<OrderStatusContextProps[]>([]);
 
   return (
-    <GlobalClassificationStatsContext.Provider
-      value={{ classificationStats, setClassificationStats }}
-    >
+    <GlobalOrderStatusContext.Provider value={{ orderStatus, setOrderStatus }}>
       {children}
-    </GlobalClassificationStatsContext.Provider>
+    </GlobalOrderStatusContext.Provider>
   );
 };
 
 type Props = {
-  classificationStats: [];
-  setClassificationStats: (data: ClassificationStats) => void;
+  orderStatus: [];
+  setOrderStatus: (data: OrderStatus) => void;
 };
 
-export const useGlobalClassificationStatsContext = () => {
-  return useContext<Props>(GlobalClassificationStatsContext);
+export const useGlobalOrderStatusContext = () => {
+  return useContext<Props>(GlobalOrderStatusContext);
 };

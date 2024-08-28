@@ -10,7 +10,7 @@ export async function getDigitalScriptsClassificationStats(
   app: FastifyInstance
 ) {
   app.get(
-    "/digital-scripts/classification-stats",
+    "/digital-scripts/order-status",
     {
       schema: {
         querystring: z.object({
@@ -54,7 +54,7 @@ export async function getDigitalScriptsClassificationStats(
 
       const digitalScriptsFromDb = await prisma.checklistAnuntech.findMany({
         select: {
-          order_classification: true,
+          service_order_status: true,
         },
         where: {
           created_at: {
@@ -75,9 +75,9 @@ export async function getDigitalScriptsClassificationStats(
           },
         },
       });
-      const orderClassificationCount = digitalScriptsFromDb.reduce(
+      const orderStatusCount = digitalScriptsFromDb.reduce(
         (acc, script) => {
-          const classification = script.order_classification;
+          const classification = script.service_order_status;
           if (!classification) return acc;
           if (!acc[classification]) {
             acc[classification] = 0;
@@ -88,14 +88,14 @@ export async function getDigitalScriptsClassificationStats(
         {} as Record<string, number>
       );
 
-      const digitalScripts = Object.entries(orderClassificationCount).map(
+      const digitalScriptsOrderStatus = Object.entries(orderStatusCount).map(
         ([value, quantity]) => ({
           value,
           quantity,
         })
       );
 
-      return reply.status(200).send(digitalScripts);
+      return reply.status(200).send(digitalScriptsOrderStatus);
     }
   );
 }

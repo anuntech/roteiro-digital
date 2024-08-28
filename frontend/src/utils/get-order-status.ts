@@ -1,8 +1,8 @@
 import { DigitalScript } from "@/app/_components/columns";
-import { useGlobalClassificationStatsContext } from "@/app/context/os-classification-stats";
+import { useGlobalOrderStatusContext } from "@/app/context/os-classification-stats";
 import { api } from "@/lib/axios";
 
-export async function getClassificationStats(
+export async function getOrderStatus(
   dateFrom: string,
   dateTo?: string,
   pageIndex?: number,
@@ -10,7 +10,7 @@ export async function getClassificationStats(
   companyFilter?: string[],
   technicalFilter?: string[],
 ): Promise<any> {
-  const response = await api.get("/digital-scripts/classification-stats", {
+  const response = await api.get("/digital-scripts/order-status", {
     params: {
       dateFrom,
       dateTo,

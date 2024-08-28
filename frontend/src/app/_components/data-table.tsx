@@ -31,8 +31,8 @@ import { getTotalValues } from "@/utils/get-total-values";
 import { LoaderCircle } from "lucide-react";
 import { DateRange } from "react-day-picker";
 import { RevenueCards, TotalValuesProps } from "./revenue-cards";
-import { getClassificationStats } from "@/utils/get-classification-stats";
-import { useGlobalClassificationStatsContext } from "../context/os-classification-stats";
+import { getOrderStatus } from "@/utils/get-order-status";
+import { useGlobalOrderStatusContext } from "../context/os-classification-stats";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -88,7 +88,7 @@ export function DataTable<TData, TValue>({
     pageCount: Math.ceil(totalCount / pagination.pageSize),
   });
 
-  const { setClassificationStats } = useGlobalClassificationStatsContext();
+  const { setOrderStatus } = useGlobalOrderStatusContext();
   async function fetchData(params: {
     dateFrom: string;
     dateTo?: string;
@@ -108,7 +108,7 @@ export function DataTable<TData, TValue>({
         params.technicalFilter,
       );
 
-      const classificationUpdate = await getClassificationStats(
+      const classificationUpdate = await getOrderStatus(
         params.dateFrom,
         params.dateTo,
         params.pageIndex,
@@ -117,7 +117,7 @@ export function DataTable<TData, TValue>({
         params.technicalFilter,
       );
 
-      setClassificationStats(classificationUpdate);
+      setOrderStatus(classificationUpdate);
 
       setData(data as TData[]);
     } catch (error) {

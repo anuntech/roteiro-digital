@@ -6,8 +6,8 @@ import { getTotalData } from "@/utils/get-total-data";
 import { getTotalValues } from "@/utils/get-total-values";
 import { getTechnical } from "@/utils/get-technicals";
 import { BarChartComponent } from "./_components/charts/bar-chart";
-import { getClassificationStats } from "@/utils/get-classification-stats";
-import { useGlobalClassificationStatsContext } from "./context/os-classification-stats";
+import { useGlobalOrderStatusContext } from "./context/os-classification-stats";
+import { getOrderStatus } from "@/utils/get-order-status";
 
 export const dynamic = "force-dynamic";
 
@@ -29,7 +29,7 @@ export default async function Home() {
 
   const technicalInfo = await getTechnical();
 
-  const classificationStats = await getClassificationStats(
+  const orderStatus = await getOrderStatus(
     new Date().toISOString().split("T")[0],
     new Date().toISOString().split("T")[0],
   );
@@ -54,7 +54,7 @@ export default async function Home() {
       </header>
       <div>
         <BarChartComponent
-          data={classificationStats}
+          data={orderStatus}
           className="flex h-[550px] w-[900px] flex-col justify-center"
         />
       </div>

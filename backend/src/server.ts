@@ -16,7 +16,7 @@ import { deleteTechnical } from "./routes/delete-technical";
 import { updateTechnical } from "./routes/update-technical";
 import { getTechnical } from "./routes/get-technical";
 import { getDigitalScriptsTechnical } from "./routes/get-digital-script-technical";
-import { getDigitalScriptsClassificationStats } from "./routes/get-digital-script-classification-stats";
+import { getDigitalScriptsClassificationStats } from "./routes/get-digital-script-order-status";
 
 const app = fastify();
 config();

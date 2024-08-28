@@ -10,7 +10,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { useGlobalClassificationStatsContext } from "@/app/context/os-classification-stats";
+import { useGlobalOrderStatusContext } from "@/app/context/os-classification-stats";
 
 const chartConfig = {
   quantity: {
@@ -31,7 +31,7 @@ export function BarChartComponent({
   className: string;
   data: dataInput[];
 }) {
-  const { classificationStats } = useGlobalClassificationStatsContext();
+  const { orderStatus } = useGlobalOrderStatusContext();
 
   return (
     <Card className={className}>
@@ -42,7 +42,7 @@ export function BarChartComponent({
         <ChartContainer config={chartConfig}>
           <BarChart
             accessibilityLayer
-            data={classificationStats.length > 0 ? classificationStats : data}
+            data={orderStatus.length > 0 ? orderStatus : data}
             margin={{
               top: 40,
             }}
@@ -56,7 +56,7 @@ export function BarChartComponent({
               tickLine={false}
               axisLine={false}
               tickFormatter={(value) =>
-                value.length > 14 ? value.slice(0, 13) + "..." : value
+                value.length > 14 ? value.slice(0, 4) + "..." : value
               }
               padding={{ left: 0, right: 0 }}
             />
