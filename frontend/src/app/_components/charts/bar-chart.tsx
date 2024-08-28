@@ -32,8 +32,6 @@ export function BarChartComponent({
   data: dataInput[];
 }) {
   const { classificationStats } = useGlobalClassificationStatsContext();
-  console.log(data);
-  console.log(classificationStats);
 
   return (
     <Card className={className}>
@@ -57,7 +55,9 @@ export function BarChartComponent({
               tickMargin={10}
               tickLine={false}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 14)}
+              tickFormatter={(value) =>
+                value.length > 14 ? value.slice(0, 13) + "..." : value
+              }
               padding={{ left: 0, right: 0 }}
             />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
