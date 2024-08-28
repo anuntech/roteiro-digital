@@ -40,6 +40,27 @@ export function BarChartComponent({
 }) {
   const { orderStatus } = useGlobalOrderStatusContext();
 
+  const tickFormatter = (value: string) => {
+    const dataUsing = orderStatus.length > 0 ? orderStatus : data;
+    if (dataUsing.length <= 4) {
+      return value.length > 20 ? value.slice(0, 20) + "..." : value;
+    }
+
+    if (dataUsing.length >= 4 && dataUsing.length <= 6) {
+      return value.length > 17 ? value.slice(0, 17) + "..." : value;
+    }
+
+    if (dataUsing.length >= 6 && dataUsing.length <= 7) {
+      return value.length > 13 ? value.slice(0, 13) + "..." : value;
+    }
+
+    if (dataUsing.length >= 7 && dataUsing.length <= 15) {
+      return value.length > 6 ? value.slice(0, 6) + "..." : value;
+    }
+
+    return value.slice(0, 20) + "...";
+  };
+
   return (
     <Card className={className}>
       <CardHeader>
@@ -59,9 +80,7 @@ export function BarChartComponent({
               tickMargin={10}
               tickLine={false}
               axisLine={false}
-              tickFormatter={(value) =>
-                value.length > 14 ? value.slice(0, 4) + "..." : value
-              }
+              tickFormatter={tickFormatter}
               padding={{ left: 0, right: 0 }}
             />
             <YAxis
