@@ -1,7 +1,14 @@
 "use client";
 
 import { TrendingUp } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  LabelList,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -56,6 +63,11 @@ export function BarChartComponent({
                 value.length > 14 ? value.slice(0, 4) + "..." : value
               }
               padding={{ left: 0, right: 0 }}
+            />
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              tickFormatter={(value) => value.toLocaleString()} // Format numbers with commas
             />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <Bar dataKey="quantity" fill="var(--bar-color)" radius={8}>
