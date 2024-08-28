@@ -4,8 +4,8 @@ import { DataTable } from "./_components/data-table";
 import { ModeToggle } from "./_components/mode-toggle";
 import { getTotalData } from "@/utils/get-total-data";
 import { getTotalValues } from "@/utils/get-total-values";
-import { useEffect, useState } from "react";
 import { getTechnical } from "@/utils/get-technicals";
+import { BarChartComponent } from "./_components/charts/bar-chart";
 
 export const dynamic = "force-dynamic";
 
@@ -45,6 +45,10 @@ export default async function Home() {
         <h2 className="text-2xl font-bold tracking-tight">Roteiro Digital</h2>
         <ModeToggle />
       </header>
+      <div>
+        <BarChartComponent className="flex h-[550px] w-[900px] flex-col justify-center" />
+        <div></div>
+      </div>
       <DataTable
         columns={columns}
         data={getDataWithTechnicalAndCompanyName}
