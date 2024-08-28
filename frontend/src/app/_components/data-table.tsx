@@ -361,16 +361,6 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-8">
-      <RevenueCards
-        totalReceivedValue={totalValues.totalReceivedValue}
-        totalCard={totalValues.totalCard}
-        totalCash={totalValues.totalCash}
-        totalPix={totalValues.totalPix}
-        totalOthers={totalValues.totalOthers}
-        totalOpportunities={totalValues.totalOpportunities}
-        totalApproved={totalValues.totalApproved}
-        loading={loadingTotalValues}
-      />
       <div className="space-y-4">
         <DataTableToolbar
           table={table}

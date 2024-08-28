@@ -8,6 +8,7 @@ import { getTechnical } from "@/utils/get-technicals";
 import { BarChartComponent } from "./_components/charts/bar-chart";
 import { useGlobalOrderStatusContext } from "./context/os-classification-stats";
 import { getOrderStatus } from "@/utils/get-order-status";
+import { RevenueCards } from "./_components/revenue-cards";
 
 export const dynamic = "force-dynamic";
 
@@ -53,6 +54,16 @@ export default async function Home() {
         <ModeToggle />
       </header>
       <div>
+        <RevenueCards
+          totalReceivedValue={totalValues.totalReceivedValue}
+          totalCard={totalValues.totalCard}
+          totalCash={totalValues.totalCash}
+          totalPix={totalValues.totalPix}
+          totalOthers={totalValues.totalOthers}
+          totalOpportunities={totalValues.totalOpportunities}
+          totalApproved={totalValues.totalApproved}
+          loading={false}
+        />
         <BarChartComponent
           data={orderStatus}
           className="flex h-[550px] w-[900px] flex-col justify-center"
