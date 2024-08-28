@@ -58,7 +58,7 @@ export function BarChartComponent({
       return value.length > 6 ? value.slice(0, 6) + "..." : value;
     }
 
-    return value.slice(0, 20) + "...";
+    return value.slice(0, 4) + "...";
   };
 
   return (
