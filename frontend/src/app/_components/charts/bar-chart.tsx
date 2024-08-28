@@ -3,41 +3,38 @@
 import { TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { month: "AAAAAAAAAAAA", desktop: 186 },
-  { month: "BBBBBBBBBBBBBBB", desktop: 305 },
-  { month: "CCCCCCCCCCCCCCCCCCCCCCCC", desktop: 237 },
-  { month: "DDDDDDDDDDDDDDDDDDDDDDDDDDD", desktop: 73 },
-  { month: "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE", desktop: 209 },
-  { month: "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", desktop: 214 },
-  { month: "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", desktop: 214 },
-  { month: "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", desktop: 214 },
-  { month: "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", desktop: 214 },
-  { month: "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", desktop: 214 },
-];
+import { useGlobalClassificationStatsContext } from "@/app/context/os-classification-stats";
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  quantity: {
+    label: "Quantity",
     color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig;
 
-export function BarChartComponent({ className }: { className: string }) {
+type dataInput = {
+  value: string;
+  quantity: number;
+};
+
+export function BarChartComponent({
+  className,
+  data,
+}: {
+  className: string;
+  data: dataInput[];
+}) {
+  const { classificationStats } = useGlobalClassificationStatsContext();
+  console.log(data);
+  console.log(classificationStats);
+
   return (
     <Card className={className}>
       <CardHeader>
@@ -47,7 +44,7 @@ export function BarChartComponent({ className }: { className: string }) {
         <ChartContainer config={chartConfig}>
           <BarChart
             accessibilityLayer
-            data={chartData}
+            data={classificationStats.length > 0 ? classificationStats : data}
             margin={{
               top: 40,
             }}
@@ -56,14 +53,15 @@ export function BarChartComponent({ className }: { className: string }) {
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
+              dataKey="value"
               tickMargin={10}
+              tickLine={false}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 6)}
+              tickFormatter={(value) => value.slice(0, 14)}
               padding={{ left: 0, right: 0 }}
             />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={8}>
+            <Bar dataKey="quantity" fill="var(--color-quantity)" radius={8}>
               <LabelList
                 position="top"
                 offset={12}

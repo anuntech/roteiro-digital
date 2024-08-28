@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
+import { useState } from "react";
 import {
   ColumnDef,
   PaginationState,
@@ -14,7 +14,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from '@tanstack/react-table'
+} from "@tanstack/react-table";
 import {
   Table,
   TableBody,
@@ -22,21 +22,23 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
-import { DataTableToolbar } from './data-table-toolbar'
-import { DataTablePagination } from './data-table-pagination'
-import { getData } from '@/utils/get-data'
-import { getTotalData } from '@/utils/get-total-data'
-import { getTotalValues } from '@/utils/get-total-values'
-import { LoaderCircle } from 'lucide-react'
-import { DateRange } from 'react-day-picker'
-import { RevenueCards, TotalValuesProps } from './revenue-cards'
+} from "@/components/ui/table";
+import { DataTableToolbar } from "./data-table-toolbar";
+import { DataTablePagination } from "./data-table-pagination";
+import { getData } from "@/utils/get-data";
+import { getTotalData } from "@/utils/get-total-data";
+import { getTotalValues } from "@/utils/get-total-values";
+import { LoaderCircle } from "lucide-react";
+import { DateRange } from "react-day-picker";
+import { RevenueCards, TotalValuesProps } from "./revenue-cards";
+import { getClassificationStats } from "@/utils/get-classification-stats";
+import { useGlobalClassificationStatsContext } from "../context/os-classification-stats";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-  totalValues: TotalValuesProps
-  totalCount: number
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  totalValues: TotalValuesProps;
+  totalCount: number;
 }
 
 export function DataTable<TData, TValue>({
@@ -45,25 +47,25 @@ export function DataTable<TData, TValue>({
   totalValues: initialTotalValues,
   totalCount: initialCount,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([])
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [pagination, setPagination] = useState<PaginationState>({
     pageSize: 10,
     pageIndex: 0,
-  })
+  });
   const [dateFilter, setDateFilter] = useState<DateRange | undefined>({
     from: new Date(),
     to: new Date(),
-  })
-  const [orderIdFilter, setOrderIdFilter] = useState('')
-  const [companyFilter, setCompanyFilter] = useState<string[]>([])
-  const [technicalFilter, setTechnicalFilter] = useState<string[]>([])
-  const [totalCount, setTotalCount] = useState(initialCount)
-  const [data, setData] = useState<TData[]>(initialData)
+  });
+  const [orderIdFilter, setOrderIdFilter] = useState("");
+  const [companyFilter, setCompanyFilter] = useState<string[]>([]);
+  const [technicalFilter, setTechnicalFilter] = useState<string[]>([]);
+  const [totalCount, setTotalCount] = useState(initialCount);
+  const [data, setData] = useState<TData[]>(initialData);
   const [totalValues, setTotalValues] =
-    useState<TotalValuesProps>(initialTotalValues)
-  const [loading, setLoading] = useState(false)
-  const [loadingTotalValues, setLoadingTotalValues] = useState(false)
+    useState<TotalValuesProps>(initialTotalValues);
+  const [loading, setLoading] = useState(false);
+  const [loadingTotalValues, setLoadingTotalValues] = useState(false);
 
   const table = useReactTable({
     data,
@@ -84,17 +86,18 @@ export function DataTable<TData, TValue>({
     },
     manualPagination: true,
     pageCount: Math.ceil(totalCount / pagination.pageSize),
-  })
+  });
 
+  const { setClassificationStats } = useGlobalClassificationStatsContext();
   async function fetchData(params: {
-    dateFrom: string
-    dateTo?: string
-    pageIndex?: number
-    orderIdFilter?: string
-    companyFilter?: string[]
-    technicalFilter?: string[]
+    dateFrom: string;
+    dateTo?: string;
+    pageIndex?: number;
+    orderIdFilter?: string;
+    companyFilter?: string[];
+    technicalFilter?: string[];
   }) {
-    setLoading(true)
+    setLoading(true);
     try {
       const data = await getData(
         params.dateFrom,
@@ -103,23 +106,35 @@ export function DataTable<TData, TValue>({
         params.orderIdFilter,
         params.companyFilter,
         params.technicalFilter,
-      )
-      setData(data as TData[])
+      );
+
+      const classificationUpdate = await getClassificationStats(
+        params.dateFrom,
+        params.dateTo,
+        params.pageIndex,
+        params.orderIdFilter,
+        params.companyFilter,
+        params.technicalFilter,
+      );
+
+      setClassificationStats(classificationUpdate);
+
+      setData(data as TData[]);
     } catch (error) {
-      console.error('Failed to fetch data:', error)
+      console.error("Failed to fetch data:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   async function fetchTotalValues(params: {
-    dateFrom: string
-    dateTo?: string
-    orderIdFilter?: string
-    companyFilter?: string[]
-    technicalFilter?: string[]
+    dateFrom: string;
+    dateTo?: string;
+    orderIdFilter?: string;
+    companyFilter?: string[];
+    technicalFilter?: string[];
   }) {
-    setLoadingTotalValues(true)
+    setLoadingTotalValues(true);
     try {
       const data = await getTotalValues(
         params.dateFrom,
@@ -127,21 +142,24 @@ export function DataTable<TData, TValue>({
         params.orderIdFilter,
         params.companyFilter,
         params.technicalFilter,
-      )
-      setTotalValues(data)
+      );
+
+      console.log("AAAAAAAAA");
+
+      setTotalValues(data);
     } catch (error) {
-      console.error('Failed to fetch total values:', error)
+      console.error("Failed to fetch total values:", error);
     } finally {
-      setLoadingTotalValues(false)
+      setLoadingTotalValues(false);
     }
   }
 
   async function fetchTotalCount(params: {
-    dateFrom: string
-    dateTo?: string
-    orderIdFilter?: string
-    companyFilter?: string[]
-    technicalFilter?: string[]
+    dateFrom: string;
+    dateTo?: string;
+    orderIdFilter?: string;
+    companyFilter?: string[];
+    technicalFilter?: string[];
   }) {
     try {
       const data = await getTotalData(
@@ -150,193 +168,195 @@ export function DataTable<TData, TValue>({
         params.orderIdFilter,
         params.companyFilter,
         params.technicalFilter,
-      )
-      setTotalCount(data)
+      );
+      console.log("AAAAAAAAA");
+
+      setTotalCount(data);
     } catch (error) {
-      console.error('Failed to fetch total count:', error)
+      console.error("Failed to fetch total count:", error);
     }
   }
 
   function handlePageChange(pageIndex: number) {
-    setPagination((prev) => ({ ...prev, pageIndex }))
+    setPagination((prev) => ({ ...prev, pageIndex }));
     fetchData({
-      dateFrom: dateFilter?.from?.toISOString().split('T')[0] ?? '',
-      dateTo: dateFilter?.to?.toISOString().split('T')[0],
+      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
+      dateTo: dateFilter?.to?.toISOString().split("T")[0],
       pageIndex: pageIndex + 1,
       orderIdFilter,
       companyFilter,
       technicalFilter,
-    })
+    });
   }
 
   async function handleOrderIdFilterChange(orderId: string) {
-    setOrderIdFilter(orderId)
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }))
+    setOrderIdFilter(orderId);
+    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
 
     const fetchDataPromise = fetchData({
-      dateFrom: dateFilter?.from?.toISOString().split('T')[0] ?? '',
-      dateTo: dateFilter?.to?.toISOString().split('T')[0],
+      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
+      dateTo: dateFilter?.to?.toISOString().split("T")[0],
       orderIdFilter: orderId,
       pageIndex: 1,
       companyFilter,
       technicalFilter,
-    })
+    });
 
     const fetchTotalValuesPromise = fetchTotalValues({
-      dateFrom: dateFilter?.from?.toISOString().split('T')[0] ?? '',
-      dateTo: dateFilter?.to?.toISOString().split('T')[0],
+      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
+      dateTo: dateFilter?.to?.toISOString().split("T")[0],
       orderIdFilter: orderId,
       companyFilter,
       technicalFilter,
-    })
+    });
 
     const fetchTotalCountPromise = fetchTotalCount({
-      dateFrom: dateFilter?.from?.toISOString().split('T')[0] ?? '',
-      dateTo: dateFilter?.to?.toISOString().split('T')[0],
+      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
+      dateTo: dateFilter?.to?.toISOString().split("T")[0],
       orderIdFilter: orderId,
       companyFilter,
       technicalFilter,
-    })
+    });
 
     try {
       await Promise.all([
         fetchDataPromise,
         fetchTotalValuesPromise,
         fetchTotalCountPromise,
-      ])
+      ]);
     } catch (error) {
-      console.error('Failed to fetch data:', error)
+      console.error("Failed to fetch data:", error);
     }
   }
 
   async function handleDateFilterChange(range: DateRange | undefined) {
-    setDateFilter(range)
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }))
+    setDateFilter(range);
+    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
 
     const fetchDataPromise = fetchData({
-      dateFrom: range?.from?.toISOString().split('T')[0] ?? '',
-      dateTo: range?.to?.toISOString().split('T')[0],
+      dateFrom: range?.from?.toISOString().split("T")[0] ?? "",
+      dateTo: range?.to?.toISOString().split("T")[0],
       pageIndex: 1,
       orderIdFilter,
       companyFilter,
       technicalFilter,
-    })
+    });
 
     const fetchTotalValuesPromise = fetchTotalValues({
-      dateFrom: range?.from?.toISOString().split('T')[0] ?? '',
-      dateTo: range?.to?.toISOString().split('T')[0],
+      dateFrom: range?.from?.toISOString().split("T")[0] ?? "",
+      dateTo: range?.to?.toISOString().split("T")[0],
       orderIdFilter,
       companyFilter,
       technicalFilter,
-    })
+    });
 
     const fetchTotalCountPromise = fetchTotalCount({
-      dateFrom: range?.from?.toISOString().split('T')[0] ?? '',
-      dateTo: range?.to?.toISOString().split('T')[0],
+      dateFrom: range?.from?.toISOString().split("T")[0] ?? "",
+      dateTo: range?.to?.toISOString().split("T")[0],
       orderIdFilter,
       companyFilter,
       technicalFilter,
-    })
+    });
 
     try {
       await Promise.all([
         fetchDataPromise,
         fetchTotalValuesPromise,
         fetchTotalCountPromise,
-      ])
+      ]);
     } catch (error) {
-      console.error('Failed to fetch data:', error)
+      console.error("Failed to fetch data:", error);
     }
   }
 
   async function handleCompanyFilterChange(companies: string[]) {
-    setCompanyFilter(companies)
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }))
+    setCompanyFilter(companies);
+    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
 
     const fetchDataPromise = fetchData({
-      dateFrom: dateFilter?.from?.toISOString().split('T')[0] ?? '',
-      dateTo: dateFilter?.to?.toISOString().split('T')[0],
+      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
+      dateTo: dateFilter?.to?.toISOString().split("T")[0],
       pageIndex: 1,
       orderIdFilter,
       companyFilter: companies,
       technicalFilter,
-    })
+    });
 
     const fetchTotalValuesPromise = fetchTotalValues({
-      dateFrom: dateFilter?.from?.toISOString().split('T')[0] ?? '',
-      dateTo: dateFilter?.to?.toISOString().split('T')[0],
+      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
+      dateTo: dateFilter?.to?.toISOString().split("T")[0],
       orderIdFilter,
       companyFilter: companies,
       technicalFilter,
-    })
+    });
 
     const fetchTotalCountPromise = fetchTotalCount({
-      dateFrom: dateFilter?.from?.toISOString().split('T')[0] ?? '',
-      dateTo: dateFilter?.to?.toISOString().split('T')[0],
+      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
+      dateTo: dateFilter?.to?.toISOString().split("T")[0],
       orderIdFilter,
       companyFilter: companies,
       technicalFilter,
-    })
+    });
 
     try {
       await Promise.all([
         fetchDataPromise,
         fetchTotalValuesPromise,
         fetchTotalCountPromise,
-      ])
+      ]);
     } catch (error) {
-      console.error('Failed to fetch data:', error)
+      console.error("Failed to fetch data:", error);
     }
   }
 
   async function handleTechnicalFilterChange(technicians: string[]) {
-    setTechnicalFilter(technicians)
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }))
+    setTechnicalFilter(technicians);
+    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
 
-    console.log(technicalFilter)
+    console.log(technicalFilter);
 
     const fetchDataPromise = fetchData({
-      dateFrom: dateFilter?.from?.toISOString().split('T')[0] ?? '',
-      dateTo: dateFilter?.to?.toISOString().split('T')[0],
+      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
+      dateTo: dateFilter?.to?.toISOString().split("T")[0],
       pageIndex: 1,
       orderIdFilter,
       companyFilter,
       technicalFilter: technicians,
-    })
+    });
 
     const fetchTotalValuesPromise = fetchTotalValues({
-      dateFrom: dateFilter?.from?.toISOString().split('T')[0] ?? '',
-      dateTo: dateFilter?.to?.toISOString().split('T')[0],
+      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
+      dateTo: dateFilter?.to?.toISOString().split("T")[0],
       orderIdFilter,
       companyFilter,
       technicalFilter: technicians,
-    })
+    });
 
     const fetchTotalCountPromise = fetchTotalCount({
-      dateFrom: dateFilter?.from?.toISOString().split('T')[0] ?? '',
-      dateTo: dateFilter?.to?.toISOString().split('T')[0],
+      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
+      dateTo: dateFilter?.to?.toISOString().split("T")[0],
       orderIdFilter,
       companyFilter,
       technicalFilter: technicians,
-    })
+    });
 
     try {
       await Promise.all([
         fetchDataPromise,
         fetchTotalValuesPromise,
         fetchTotalCountPromise,
-      ])
+      ]);
     } catch (error) {
-      console.error('Failed to fetch data:', error)
+      console.error("Failed to fetch data:", error);
     }
   }
 
   function resetFilter() {
-    table.resetColumnFilters()
-    setDateFilter(undefined)
-    setCompanyFilter([])
-    setTechnicalFilter([])
-    setOrderIdFilter('')
+    table.resetColumnFilters();
+    setDateFilter(undefined);
+    setCompanyFilter([]);
+    setTechnicalFilter([]);
+    setOrderIdFilter("");
   }
 
   return (
@@ -382,7 +402,7 @@ export function DataTable<TData, TValue>({
                               header.getContext(),
                             )}
                       </TableHead>
-                    )
+                    );
                   })}
                 </TableRow>
               ))}
@@ -407,7 +427,7 @@ export function DataTable<TData, TValue>({
                 table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}
-                    data-state={row.getIsSelected() && 'selected'}
+                    data-state={row.getIsSelected() && "selected"}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
@@ -438,5 +458,5 @@ export function DataTable<TData, TValue>({
         />
       </div>
     </div>
-  )
+  );
 }

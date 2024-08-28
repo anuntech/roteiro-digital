@@ -6,6 +6,8 @@ import { getTotalData } from "@/utils/get-total-data";
 import { getTotalValues } from "@/utils/get-total-values";
 import { getTechnical } from "@/utils/get-technicals";
 import { BarChartComponent } from "./_components/charts/bar-chart";
+import { getClassificationStats } from "@/utils/get-classification-stats";
+import { useGlobalClassificationStatsContext } from "./context/os-classification-stats";
 
 export const dynamic = "force-dynamic";
 
@@ -27,6 +29,11 @@ export default async function Home() {
 
   const technicalInfo = await getTechnical();
 
+  const classificationStats = await getClassificationStats(
+    new Date().toISOString().split("T")[0],
+    new Date().toISOString().split("T")[0],
+  );
+
   const getDataWithTechnicalAndCompanyName = data.map((val) => {
     const technical = technicalInfo?.find(
       (item: any) => item.technical_number == val.technical,
@@ -46,8 +53,10 @@ export default async function Home() {
         <ModeToggle />
       </header>
       <div>
-        <BarChartComponent className="flex h-[550px] w-[900px] flex-col justify-center" />
-        <div></div>
+        <BarChartComponent
+          data={classificationStats}
+          className="flex h-[550px] w-[900px] flex-col justify-center"
+        />
       </div>
       <DataTable
         columns={columns}
