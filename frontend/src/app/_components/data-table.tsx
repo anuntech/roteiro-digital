@@ -332,8 +332,6 @@ export function DataTable<TData, TValue>({
     setTechnicalFilter(technicians);
     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
 
-    console.log(technicalFilter);
-
     const fetchDataPromise = fetchData({
       dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
       dateTo: dateFilter?.to?.toISOString().split("T")[0],

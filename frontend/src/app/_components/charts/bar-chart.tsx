@@ -10,7 +10,13 @@ import {
   YAxis,
 } from "recharts";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -61,10 +67,18 @@ export function BarChartComponent({
     return value.slice(0, 4) + "...";
   };
 
+  const unproductiveSum = data.reduce((accumulator, current) => {
+    if (current.value === "Serviço Executado") return accumulator;
+    return accumulator + Number(current.quantity);
+  }, 0);
+
   return (
     <Card className={className}>
       <CardHeader>
         <CardTitle>Motivos de improdutividades</CardTitle>
+        <CardDescription>
+          {unproductiveSum} serviços com visita improdutiva
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -73,8 +87,8 @@ export function BarChartComponent({
             data={orderStatus.length > 0 ? orderStatus : data}
             width={500}
             margin={{
-              top: 20,
-              bottom: 25,
+              top: 15,
+              bottom: 50,
             }}
             onClick={(v) => console.log(v)}
           >
