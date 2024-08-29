@@ -34,6 +34,7 @@ import { RevenueCards, TotalValuesProps } from "./revenue-cards";
 import { getOrderStatus } from "@/utils/get-order-status";
 import { useGlobalOrderStatusContext } from "../context/os-classification-stats";
 import { BarChartComponent } from "./charts/bar-chart";
+import { TopFiveTechnical } from "./top-five-technical";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -390,10 +391,13 @@ export function DataTable<TData, TValue>({
           totalApproved={totalValues.totalApproved}
           loading={loadingTotalValues}
         />
-        <BarChartComponent
-          data={orderStatus}
-          className="flex h-[550px] w-[900px] flex-col justify-center"
-        />
+        <div className="flex w-full gap-2">
+          <BarChartComponent
+            data={orderStatus}
+            className="flex h-[550px] w-[2000px] flex-col justify-center"
+          />
+          <TopFiveTechnical />
+        </div>
 
         <div className="rounded-md border">
           <Table>

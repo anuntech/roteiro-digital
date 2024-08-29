@@ -13,27 +13,16 @@ import { RevenueCards } from "./_components/revenue-cards";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const data = await getData(
-    new Date().toISOString().split("T")[0],
-    new Date().toISOString().split("T")[0],
-  );
+  const date = new Date().toISOString().split("T")[0];
+  const data = await getData(date, date);
 
-  const totalCount = await getTotalData(
-    new Date().toISOString().split("T")[0],
-    new Date().toISOString().split("T")[0],
-  );
+  const totalCount = await getTotalData(date, date);
 
-  const totalValues = await getTotalValues(
-    new Date().toISOString().split("T")[0],
-    new Date().toISOString().split("T")[0],
-  );
+  const totalValues = await getTotalValues(date, date);
 
   const technicalInfo = await getTechnical();
 
-  const orderStatus = await getOrderStatus(
-    new Date().toISOString().split("T")[0],
-    new Date().toISOString().split("T")[0],
-  );
+  const orderStatus = await getOrderStatus(date, date);
 
   const getDataWithTechnicalAndCompanyName = data.map((val) => {
     const technical = technicalInfo?.find(
