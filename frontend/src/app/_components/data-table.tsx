@@ -34,7 +34,11 @@ import { RevenueCards, TotalValuesProps } from "./revenue-cards";
 import { getOrderStatus } from "@/utils/get-order-status";
 import { useGlobalOrderStatusContext } from "../context/os-classification-stats";
 import { BarChartComponent } from "./charts/bar-chart";
-import { TopFiveTechnical } from "./top-five-technical";
+import {
+  TopFiveTechnical,
+  TopFiveTechnicalInputProps,
+} from "./top-five-technical";
+import { getTopFiveTechnical } from "@/utils/get-top-five-technical";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -42,6 +46,7 @@ interface DataTableProps<TData, TValue> {
   totalValues: TotalValuesProps;
   totalCount: number;
   orderStatus: any;
+  topFiveTechnical: TopFiveTechnicalInputProps[];
 }
 
 export function DataTable<TData, TValue>({
@@ -50,6 +55,7 @@ export function DataTable<TData, TValue>({
   totalValues: initialTotalValues,
   orderStatus: orderStatus,
   totalCount: initialCount,
+  topFiveTechnical: initialTopFiveTechnical,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -70,6 +76,9 @@ export function DataTable<TData, TValue>({
     useState<TotalValuesProps>(initialTotalValues);
   const [loading, setLoading] = useState(false);
   const [loadingTotalValues, setLoadingTotalValues] = useState(false);
+  const [topFiveTechnical, setTopFiveTechnical] = useState<
+    TopFiveTechnicalInputProps[]
+  >(initialTopFiveTechnical);
 
   const table = useReactTable({
     data,
@@ -121,8 +130,17 @@ export function DataTable<TData, TValue>({
         params.technicalFilter,
       );
 
-      setOrderStatus(classificationUpdate);
+      const topFiveTechnicalResponse = await getTopFiveTechnical(
+        params.dateFrom,
+        params.dateTo,
+        params.pageIndex,
+        params.orderIdFilter,
+        params.companyFilter,
+        params.technicalFilter,
+      );
 
+      setTopFiveTechnical(topFiveTechnicalResponse);
+      setOrderStatus(classificationUpdate);
       setData(data as TData[]);
     } catch (error) {
       console.error("Failed to fetch data:", error);
@@ -396,7 +414,7 @@ export function DataTable<TData, TValue>({
             data={orderStatus}
             className="flex h-[550px] w-[2000px] flex-col justify-center"
           />
-          <TopFiveTechnical />
+          <TopFiveTechnical technical={topFiveTechnical} />
         </div>
 
         <div className="rounded-md border">

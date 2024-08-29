@@ -9,6 +9,7 @@ import { BarChartComponent } from "./_components/charts/bar-chart";
 import { useGlobalOrderStatusContext } from "./context/os-classification-stats";
 import { getOrderStatus } from "@/utils/get-order-status";
 import { RevenueCards } from "./_components/revenue-cards";
+import { getTopFiveTechnical } from "@/utils/get-top-five-technical";
 
 export const dynamic = "force-dynamic";
 
@@ -23,6 +24,8 @@ export default async function Home() {
   const technicalInfo = await getTechnical();
 
   const orderStatus = await getOrderStatus(date, date);
+
+  const topFiveTechnical = await getTopFiveTechnical(date, date);
 
   const getDataWithTechnicalAndCompanyName = data.map((val) => {
     const technical = technicalInfo?.find(
@@ -49,6 +52,7 @@ export default async function Home() {
         totalValues={totalValues}
         totalCount={totalCount}
         orderStatus={orderStatus}
+        topFiveTechnical={topFiveTechnical}
       />
     </div>
   );

@@ -8,7 +8,7 @@ dayjs.extend(utc);
 
 export async function getTopFiveTechnical(app: FastifyInstance) {
   app.get(
-    "/digital-scripts/top-five-technicals",
+    "/digital-scripts/top-five-technical",
     {
       schema: {
         querystring: z.object({

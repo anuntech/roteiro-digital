@@ -19,12 +19,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-type TechnicalInputProps = {
-  label: string;
-  name: string;
+export type TopFiveTechnicalInputProps = {
+  technical_name: string;
+  technical: string;
+  total_received_value: string;
 };
 
-export function TopFiveTechnical() {
+export function TopFiveTechnical({
+  technical,
+}: {
+  technical: TopFiveTechnicalInputProps[];
+}) {
   return (
     <Card className="w-full">
       <CardHeader>
@@ -33,7 +38,11 @@ export function TopFiveTechnical() {
           Realizaram um total de R$ 1.000.000,00
         </CardDescription>
       </CardHeader>
-      <CardContent>aaa</CardContent>
+      <CardContent>
+        {technical.map((val) => {
+          return val.technical_name;
+        })}
+      </CardContent>
     </Card>
   );
 }
