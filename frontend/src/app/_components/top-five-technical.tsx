@@ -1,23 +1,12 @@
 import * as React from "react";
 
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 export type TopFiveTechnicalInputProps = {
   technical_name: string;
@@ -30,18 +19,32 @@ export function TopFiveTechnical({
 }: {
   technical: TopFiveTechnicalInputProps[];
 }) {
+  const totalSum = technical.reduce((accumulator, current) => {
+    return accumulator + Number(current.total_received_value);
+  }, 0);
+
   return (
     <Card className="w-full">
       <CardHeader>
         <CardTitle>Os cinco melhores técnicos</CardTitle>
-        <CardDescription>
-          Realizaram um total de R$ 1.000.000,00
-        </CardDescription>
+        <CardDescription>Realizaram um total de R$ {totalSum}</CardDescription>
       </CardHeader>
-      <CardContent>
-        {technical.map((val) => {
-          return val.technical_name;
-        })}
+      <CardContent className="mt-10 h-full">
+        <div className="space-y-8">
+          {technical.map((val) => (
+            <div className="flex items-center">
+              <div className="ml-4 space-y-1">
+                <p className="text-sm font-medium leading-none">
+                  {val.technical_name}
+                </p>
+                <p className="text-sm text-muted-foreground">{val.technical}</p>
+              </div>
+              <div className="ml-auto font-medium">
+                +R${val.total_received_value}
+              </div>
+            </div>
+          ))}
+        </div>
       </CardContent>
     </Card>
   );

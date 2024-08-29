@@ -64,7 +64,7 @@ export function BarChartComponent({
   return (
     <Card className={className}>
       <CardHeader>
-        <CardTitle>MOTIVOS DE IMPRODUTIVIDADES</CardTitle>
+        <CardTitle>Motivos de improdutividades</CardTitle>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
