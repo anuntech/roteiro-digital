@@ -72,6 +72,9 @@ export function BarChartComponent({
             accessibilityLayer
             data={orderStatus.length > 0 ? orderStatus : data}
             width={500}
+            margin={{
+              top: 25,
+            }}
             onClick={(v) => console.log(v)}
           >
             <CartesianGrid vertical={false} />
