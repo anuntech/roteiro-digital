@@ -388,7 +388,7 @@ export function DataTable<TData, TValue>({
           totalOthers={totalValues.totalOthers}
           totalOpportunities={totalValues.totalOpportunities}
           totalApproved={totalValues.totalApproved}
-          loading={false}
+          loading={loadingTotalValues}
         />
         <BarChartComponent
           data={orderStatus}
