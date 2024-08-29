@@ -33,18 +33,21 @@ import { DateRange } from "react-day-picker";
 import { RevenueCards, TotalValuesProps } from "./revenue-cards";
 import { getOrderStatus } from "@/utils/get-order-status";
 import { useGlobalOrderStatusContext } from "../context/os-classification-stats";
+import { BarChartComponent } from "./charts/bar-chart";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   totalValues: TotalValuesProps;
   totalCount: number;
+  orderStatus: any;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data: initialData,
   totalValues: initialTotalValues,
+  orderStatus: orderStatus,
   totalCount: initialCount,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -377,6 +380,21 @@ export function DataTable<TData, TValue>({
           handleTechnicalFilterChange={handleTechnicalFilterChange}
           resetFilter={resetFilter}
         />
+        <RevenueCards
+          totalReceivedValue={totalValues.totalReceivedValue}
+          totalCard={totalValues.totalCard}
+          totalCash={totalValues.totalCash}
+          totalPix={totalValues.totalPix}
+          totalOthers={totalValues.totalOthers}
+          totalOpportunities={totalValues.totalOpportunities}
+          totalApproved={totalValues.totalApproved}
+          loading={false}
+        />
+        <BarChartComponent
+          data={orderStatus}
+          className="flex h-[550px] w-[900px] flex-col justify-center"
+        />
+
         <div className="rounded-md border">
           <Table>
             <TableHeader>

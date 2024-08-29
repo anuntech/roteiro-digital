@@ -53,27 +53,13 @@ export default async function Home() {
         <h2 className="text-2xl font-bold tracking-tight">Roteiro Digital</h2>
         <ModeToggle />
       </header>
-      <div>
-        <RevenueCards
-          totalReceivedValue={totalValues.totalReceivedValue}
-          totalCard={totalValues.totalCard}
-          totalCash={totalValues.totalCash}
-          totalPix={totalValues.totalPix}
-          totalOthers={totalValues.totalOthers}
-          totalOpportunities={totalValues.totalOpportunities}
-          totalApproved={totalValues.totalApproved}
-          loading={false}
-        />
-        <BarChartComponent
-          data={orderStatus}
-          className="flex h-[550px] w-[900px] flex-col justify-center"
-        />
-      </div>
+
       <DataTable
         columns={columns}
         data={getDataWithTechnicalAndCompanyName}
         totalValues={totalValues}
         totalCount={totalCount}
+        orderStatus={orderStatus}
       />
     </div>
   );
