@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { formatCurrency } from "@/utils/format-currency";
 
 export type TopTechnicalInputProps = {
   technical_name: string;
@@ -27,8 +28,10 @@ export function TopTechnical({
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Top 5 vendedos</CardTitle>
-        <CardDescription>Realizaram um total de R$ {totalSum}</CardDescription>
+        <CardTitle>Top 6 vendedores</CardTitle>
+        <CardDescription>
+          Realizaram um total de {formatCurrency(totalSum)}
+        </CardDescription>
       </CardHeader>
       <CardContent className="h-full">
         <div className="space-y-8">
@@ -43,7 +46,7 @@ export function TopTechnical({
                 </p>
               </div>
               <div className="ml-auto font-medium">
-                R${val.total_received_value}
+                {formatCurrency(parseInt(val.total_received_value))}
               </div>
             </div>
           ))}
