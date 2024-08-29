@@ -2,7 +2,7 @@ import { DigitalScript } from "@/app/_components/columns";
 import { useGlobalOrderStatusContext } from "@/app/context/os-classification-stats";
 import { api } from "@/lib/axios";
 
-export async function getTopFiveTechnical(
+export async function getTopTechnical(
   dateFrom: string,
   dateTo?: string,
   pageIndex?: number,
@@ -10,7 +10,7 @@ export async function getTopFiveTechnical(
   companyFilter?: string[],
   technicalFilter?: string[],
 ): Promise<any> {
-  const response = await api.get("/digital-scripts/top-five-technical", {
+  const response = await api.get("/digital-scripts/top-technical", {
     params: {
       dateFrom,
       dateTo,

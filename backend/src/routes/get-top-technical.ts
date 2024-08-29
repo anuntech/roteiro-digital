@@ -6,9 +6,9 @@ import utc from "dayjs/plugin/utc";
 import z from "zod";
 dayjs.extend(utc);
 
-export async function getTopFiveTechnical(app: FastifyInstance) {
+export async function getTopTechnical(app: FastifyInstance) {
   app.get(
-    "/digital-scripts/top-five-technical",
+    "/digital-scripts/top-technical",
     {
       schema: {
         querystring: z.object({
@@ -55,6 +55,7 @@ export async function getTopFiveTechnical(app: FastifyInstance) {
           technical_name: true,
           technical: true,
           received_value: true,
+          service_order_status: true,
         },
         where: {
           created_at: {
@@ -78,7 +79,12 @@ export async function getTopFiveTechnical(app: FastifyInstance) {
 
       const technicalsReceivedValue = digitalScriptsFromDb.reduce(
         (acc, script) => {
-          const { technical_name, technical, received_value } = script;
+          const {
+            technical_name,
+            technical,
+            received_value,
+            service_order_status,
+          } = script;
           if (!technical_name || !technical) return acc;
 
           const key = `${technical_name}-${technical}`;
@@ -87,9 +93,15 @@ export async function getTopFiveTechnical(app: FastifyInstance) {
               technical_name,
               technical: technical.toString(),
               total_received_value: 0,
+              executed_services: 0,
             };
           }
           acc[key].total_received_value += received_value || 0;
+
+          if (service_order_status === "Serviço Executado") {
+            acc[key].executed_services += 1;
+          }
+
           return acc;
         },
         {} as Record<
@@ -98,13 +110,14 @@ export async function getTopFiveTechnical(app: FastifyInstance) {
             technical_name: string;
             technical: string;
             total_received_value: number;
+            executed_services: number;
           }
         >
       );
 
       const topTechnicals = Object.values(technicalsReceivedValue)
         .sort((a, b) => b.total_received_value - a.total_received_value)
-        .slice(0, 5);
+        .slice(0, 6);
 
       return reply.status(200).send(topTechnicals);
     }

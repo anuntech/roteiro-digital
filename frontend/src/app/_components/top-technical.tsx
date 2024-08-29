@@ -8,36 +8,39 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export type TopFiveTechnicalInputProps = {
+export type TopTechnicalInputProps = {
   technical_name: string;
   technical: string;
   total_received_value: string;
+  executed_services: number;
 };
 
-export function TopFiveTechnical({
+export function TopTechnical({
   technical,
 }: {
-  technical: TopFiveTechnicalInputProps[];
+  technical: TopTechnicalInputProps[];
 }) {
-  const totalSum = technical.reduce((accumulator, current) => {
+  const totalSum = technical?.reduce((accumulator, current) => {
     return accumulator + Number(current.total_received_value);
   }, 0);
 
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Os cinco melhores técnicos</CardTitle>
+        <CardTitle>Top 5 vendedos</CardTitle>
         <CardDescription>Realizaram um total de R$ {totalSum}</CardDescription>
       </CardHeader>
-      <CardContent className="mt-10 h-full">
+      <CardContent className="h-full">
         <div className="space-y-8">
-          {technical.map((val) => (
+          {technical?.map((val) => (
             <div className="flex items-center">
               <div className="ml-4 space-y-1">
                 <p className="text-sm font-medium leading-none">
                   {val.technical_name}
                 </p>
-                <p className="text-sm text-muted-foreground">{val.technical}</p>
+                <p className="text-sm text-muted-foreground">
+                  {val.executed_services} Serviços Executados
+                </p>
               </div>
               <div className="ml-auto font-medium">
                 R${val.total_received_value}

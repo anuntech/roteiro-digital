@@ -34,11 +34,8 @@ import { RevenueCards, TotalValuesProps } from "./revenue-cards";
 import { getOrderStatus } from "@/utils/get-order-status";
 import { useGlobalOrderStatusContext } from "../context/os-classification-stats";
 import { BarChartComponent } from "./charts/bar-chart";
-import {
-  TopFiveTechnical,
-  TopFiveTechnicalInputProps,
-} from "./top-five-technical";
-import { getTopFiveTechnical } from "@/utils/get-top-five-technical";
+import { TopTechnical, TopTechnicalInputProps } from "./top-technical";
+import { getTopTechnical } from "@/utils/get-top-technical";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -46,7 +43,7 @@ interface DataTableProps<TData, TValue> {
   totalValues: TotalValuesProps;
   totalCount: number;
   orderStatus: any;
-  topFiveTechnical: TopFiveTechnicalInputProps[];
+  topTechnical: TopTechnicalInputProps[];
 }
 
 export function DataTable<TData, TValue>({
@@ -55,7 +52,7 @@ export function DataTable<TData, TValue>({
   totalValues: initialTotalValues,
   orderStatus: orderStatus,
   totalCount: initialCount,
-  topFiveTechnical: initialTopFiveTechnical,
+  topTechnical: initialTopTechnical,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -76,9 +73,9 @@ export function DataTable<TData, TValue>({
     useState<TotalValuesProps>(initialTotalValues);
   const [loading, setLoading] = useState(false);
   const [loadingTotalValues, setLoadingTotalValues] = useState(false);
-  const [topFiveTechnical, setTopFiveTechnical] = useState<
-    TopFiveTechnicalInputProps[]
-  >(initialTopFiveTechnical);
+  const [topTechnical, setTopTechnical] =
+    useState<TopTechnicalInputProps[]>(initialTopTechnical);
+  console.log(initialTopTechnical);
 
   const table = useReactTable({
     data,
@@ -130,7 +127,7 @@ export function DataTable<TData, TValue>({
         params.technicalFilter,
       );
 
-      const topFiveTechnicalResponse = await getTopFiveTechnical(
+      const topTechnicalResponse = await getTopTechnical(
         params.dateFrom,
         params.dateTo,
         params.pageIndex,
@@ -139,7 +136,7 @@ export function DataTable<TData, TValue>({
         params.technicalFilter,
       );
 
-      setTopFiveTechnical(topFiveTechnicalResponse);
+      setTopTechnical(topTechnicalResponse);
       setOrderStatus(classificationUpdate);
       setData(data as TData[]);
     } catch (error) {
@@ -414,7 +411,7 @@ export function DataTable<TData, TValue>({
             data={orderStatus}
             className="flex h-[550px] w-[2000px] flex-col justify-center"
           />
-          <TopFiveTechnical technical={topFiveTechnical} />
+          <TopTechnical technical={topTechnical} />
         </div>
 
         <div className="rounded-md border">
