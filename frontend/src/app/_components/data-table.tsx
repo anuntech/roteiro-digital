@@ -409,7 +409,7 @@ export function DataTable<TData, TValue>({
         <div className="flex w-full gap-4">
           <BarChartComponent
             data={orderStatus}
-            className="flex h-[550px] w-[2000px] flex-col justify-center"
+            className="h-[550px] w-[2085px]"
           />
           <TopTechnical technical={topTechnical} />
         </div>

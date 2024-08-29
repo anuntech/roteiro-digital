@@ -73,7 +73,8 @@ export function BarChartComponent({
             data={orderStatus.length > 0 ? orderStatus : data}
             width={500}
             margin={{
-              top: 25,
+              top: 20,
+              bottom: 25,
             }}
             onClick={(v) => console.log(v)}
           >
