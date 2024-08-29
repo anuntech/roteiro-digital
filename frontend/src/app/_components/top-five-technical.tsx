@@ -40,7 +40,7 @@ export function TopFiveTechnical({
                 <p className="text-sm text-muted-foreground">{val.technical}</p>
               </div>
               <div className="ml-auto font-medium">
-                +R${val.total_received_value}
+                R${val.total_received_value}
               </div>
             </div>
           ))}
