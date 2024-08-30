@@ -8,6 +8,7 @@ export async function getTotalValues(
   companyFilter?: string[],
   technicalFilter?: string[],
   orderStatusFilter?: string,
+  methodFilter?: string,
 ): Promise<TotalValuesProps> {
   const response = await api.get("/digital-scripts/sum", {
     params: {
@@ -17,6 +18,7 @@ export async function getTotalValues(
       companyFilter: companyFilter?.join(", "),
       technicalFilter: technicalFilter?.join(", "),
       orderStatusFilter,
+      methodFilter,
     },
   });
 

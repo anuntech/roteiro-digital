@@ -7,6 +7,7 @@ export async function getTotalData(
   companyFilter?: string[],
   technicalFilter?: string[],
   orderStatusFilter?: string,
+  methodFilter?: string,
 ): Promise<number> {
   const response = await api.get("/digital-scripts/total", {
     params: {
@@ -16,6 +17,7 @@ export async function getTotalData(
       companyFilter: companyFilter?.join(", "),
       technicalFilter: technicalFilter?.join(", "),
       orderStatusFilter,
+      methodFilter,
     },
   });
 

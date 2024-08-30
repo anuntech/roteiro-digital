@@ -166,6 +166,7 @@ export function DataTable<TData, TValue>({
     companyFilter?: string[];
     technicalFilter?: string[];
     orderStatusFilter?: string;
+    methodFilter?: string;
   }) {
     setLoadingTotalValues(true);
     try {
@@ -176,6 +177,7 @@ export function DataTable<TData, TValue>({
         params.companyFilter,
         params.technicalFilter,
         params.orderStatusFilter,
+        params.methodFilter,
       );
 
       setTotalValues(data);
@@ -193,6 +195,7 @@ export function DataTable<TData, TValue>({
     companyFilter?: string[];
     technicalFilter?: string[];
     orderStatusFilter?: string;
+    methodFilter?: string;
   }) {
     try {
       const data = await getTotalData(
@@ -202,6 +205,7 @@ export function DataTable<TData, TValue>({
         params.companyFilter,
         params.technicalFilter,
         params.orderStatusFilter,
+        params.methodFilter,
       );
 
       setTotalCount(data);
@@ -220,6 +224,7 @@ export function DataTable<TData, TValue>({
       companyFilter,
       technicalFilter,
       orderStatusFilter,
+      methodFilter,
     });
   }
 
@@ -234,6 +239,7 @@ export function DataTable<TData, TValue>({
       companyFilter,
       technicalFilter,
       orderStatusFilter,
+      methodFilter,
       ...data,
     };
 
@@ -284,8 +290,9 @@ export function DataTable<TData, TValue>({
   }
 
   async function handleMethodFilterChange(method: string) {
-    setMethodFilter(method);
-    await reloadFetches({ methodFilter: method });
+    const methodValue = methodFilter.length > 0 ? "" : method;
+    setMethodFilter(methodValue);
+    await reloadFetches({ methodFilter: methodValue });
   }
 
   function resetFilter() {

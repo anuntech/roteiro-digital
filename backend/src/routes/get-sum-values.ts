@@ -18,6 +18,7 @@ export async function getSumValues(app: FastifyInstance) {
           companyFilter: z.string().optional(),
           technicalFilter: z.string().optional(),
           orderStatusFilter: z.string().optional(),
+          methodFilter: z.string().optional(),
         }),
       },
     },
@@ -29,6 +30,7 @@ export async function getSumValues(app: FastifyInstance) {
         companyFilter = "",
         technicalFilter = "",
         orderStatusFilter = "",
+        methodFilter = "",
       } = request.query as any;
 
       const companyFilterArray = companyFilter
@@ -71,6 +73,9 @@ export async function getSumValues(app: FastifyInstance) {
           service_order_status: {
             contains: orderStatusFilter,
           },
+          payment_method: {
+            contains: methodFilter,
+          },
         },
       });
 
@@ -85,6 +90,7 @@ export async function getSumValues(app: FastifyInstance) {
           },
           payment_method: {
             in: ["Crédito", "Débito"],
+            contains: methodFilter,
           },
           order_id: {
             contains: orderIdFilter,
@@ -113,7 +119,7 @@ export async function getSumValues(app: FastifyInstance) {
             ...(dateFilter.gte && { gte: dateFilter.gte }),
             ...(dateFilter.lte && { lte: dateFilter.lte }),
           },
-          payment_method: "Dinheiro",
+          payment_method: { equals: "Dinheiro", contains: methodFilter },
           order_id: {
             contains: orderIdFilter,
           },
@@ -171,6 +177,7 @@ export async function getSumValues(app: FastifyInstance) {
           },
           payment_method: {
             notIn: ["Crédito", "Débito", "Dinheiro", "Pix"],
+            contains: methodFilter,
           },
           order_id: {
             contains: orderIdFilter,
@@ -228,6 +235,9 @@ export async function getSumValues(app: FastifyInstance) {
             ],
             contains: orderStatusFilter,
           },
+          payment_method: {
+            contains: methodFilter,
+          },
         },
       });
 
@@ -267,6 +277,9 @@ export async function getSumValues(app: FastifyInstance) {
               "Reagendado",
             ],
             contains: orderStatusFilter,
+          },
+          payment_method: {
+            contains: methodFilter,
           },
         },
       });
