@@ -379,21 +379,6 @@ export function DataTable<TData, TValue>({
   return (
     <div className="space-y-8">
       <div className="space-y-4">
-        <DataTableToolbar
-          table={table}
-          orderIdFilter={orderIdFilter}
-          dateFilter={dateFilter}
-          companyFilter={companyFilter}
-          technicalFilter={technicalFilter}
-          setDateFilter={setDateFilter}
-          setOrderIdFilter={handleOrderIdFilterChange}
-          setCompanyFilter={setCompanyFilter}
-          setTechnicalFilter={setTechnicalFilter}
-          handleDateFilterChange={handleDateFilterChange}
-          handleCompanyFilterChange={handleCompanyFilterChange}
-          handleTechnicalFilterChange={handleTechnicalFilterChange}
-          resetFilter={resetFilter}
-        />
         <RevenueCards
           totalReceivedValue={totalValues.totalReceivedValue}
           totalCard={totalValues.totalCard}
@@ -411,6 +396,21 @@ export function DataTable<TData, TValue>({
           />
           <TopTechnical technical={topTechnical} />
         </div>
+        <DataTableToolbar
+          table={table}
+          orderIdFilter={orderIdFilter}
+          dateFilter={dateFilter}
+          companyFilter={companyFilter}
+          technicalFilter={technicalFilter}
+          setDateFilter={setDateFilter}
+          setOrderIdFilter={handleOrderIdFilterChange}
+          setCompanyFilter={setCompanyFilter}
+          setTechnicalFilter={setTechnicalFilter}
+          handleDateFilterChange={handleDateFilterChange}
+          handleCompanyFilterChange={handleCompanyFilterChange}
+          handleTechnicalFilterChange={handleTechnicalFilterChange}
+          resetFilter={resetFilter}
+        />
 
         <div className="rounded-md border">
           <Table>

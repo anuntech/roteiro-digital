@@ -46,6 +46,13 @@ export function BarChartComponent({
 }) {
   const { orderStatus } = useGlobalOrderStatusContext();
 
+  const dataWithoutSomeValues = data.filter(
+    (item) =>
+      !["Serviço Executado", "Instrução de Uso Sem Defeito"].includes(
+        item.value,
+      ),
+  );
+
   const tickFormatter = (value: string) => {
     const dataUsing = orderStatus.length > 0 ? orderStatus : data;
     if (dataUsing.length <= 4) {
@@ -84,7 +91,7 @@ export function BarChartComponent({
         <ChartContainer config={chartConfig}>
           <BarChart
             accessibilityLayer
-            data={orderStatus.length > 0 ? orderStatus : data}
+            data={orderStatus.length > 0 ? orderStatus : dataWithoutSomeValues}
             width={500}
             margin={{
               top: 15,
