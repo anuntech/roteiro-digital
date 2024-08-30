@@ -50,7 +50,6 @@ export function DataTable<TData, TValue>({
   columns,
   data: initialData,
   totalValues: initialTotalValues,
-  orderStatus: orderStatus,
   totalCount: initialCount,
   topTechnical: initialTopTechnical,
 }: DataTableProps<TData, TValue>) {
@@ -298,7 +297,6 @@ export function DataTable<TData, TValue>({
         />
         <div className="flex w-full gap-4">
           <BarChartComponent
-            data={orderStatus}
             className="h-[550px] w-[2085px]"
             handleOrderStatusFilterChange={handleOrderStatusFilterChange}
           />

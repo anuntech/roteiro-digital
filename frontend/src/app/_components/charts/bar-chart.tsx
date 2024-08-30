@@ -39,25 +39,21 @@ type dataInput = {
 
 export function BarChartComponent({
   className,
-  data,
   handleOrderStatusFilterChange,
 }: {
   className: string;
-  data: dataInput[];
   handleOrderStatusFilterChange: (orderStatus: string) => void;
 }) {
   const { orderStatus } = useGlobalOrderStatusContext();
 
   const filterToRemoveSomeValue = (item: dataInput) =>
     !["Serviço Executado", "Instrução de Uso Sem Defeito"].includes(item.value);
-  const dataWithoutSomeValues = data.filter(filterToRemoveSomeValue);
-
   const initialDataWithoutSomeValues = orderStatus.filter(
     filterToRemoveSomeValue,
   );
 
   const tickFormatter = (value: string) => {
-    const dataUsing = orderStatus.length > 0 ? orderStatus : data;
+    const dataUsing = initialDataWithoutSomeValues;
     if (dataUsing.length <= 4) {
       return value.length > 20 ? value.slice(0, 20) + "..." : value;
     }
@@ -77,10 +73,13 @@ export function BarChartComponent({
     return value.slice(0, 4) + "...";
   };
 
-  const unproductiveSum = data.reduce((accumulator, current) => {
-    if (current.value === "Serviço Executado") return accumulator;
-    return accumulator + Number(current.quantity);
-  }, 0);
+  const unproductiveSum = (orderStatus as any).reduce(
+    (accumulator: any, current: any) => {
+      if (current.value === "Serviço Executado") return accumulator;
+      return accumulator + Number(current.quantity);
+    },
+    0,
+  );
 
   return (
     <Card className={className}>
@@ -94,11 +93,7 @@ export function BarChartComponent({
         <ChartContainer config={chartConfig}>
           <BarChart
             accessibilityLayer
-            data={
-              initialDataWithoutSomeValues.length > 0
-                ? initialDataWithoutSomeValues
-                : dataWithoutSomeValues
-            }
+            data={initialDataWithoutSomeValues}
             width={500}
             margin={{
               top: 25,
