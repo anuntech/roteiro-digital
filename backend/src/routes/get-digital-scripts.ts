@@ -19,6 +19,7 @@ export async function getDigitalScripts(app: FastifyInstance) {
           companyFilter: z.string().optional(),
           technicalFilter: z.string().optional(),
           orderStatusFilter: z.string().optional(),
+          methodFilter: z.string().optional(),
         }),
       },
     },
@@ -31,6 +32,7 @@ export async function getDigitalScripts(app: FastifyInstance) {
         companyFilter = "",
         technicalFilter = "",
         orderStatusFilter = "",
+        methodFilter = "",
       } = request.query as any;
 
       const companyFilterArray = companyFilter
@@ -81,6 +83,9 @@ export async function getDigitalScripts(app: FastifyInstance) {
               technicalFilterArray.length > 0
                 ? technicalFilterArray
                 : undefined,
+          },
+          payment_method: {
+            contains: methodFilter,
           },
         },
       });

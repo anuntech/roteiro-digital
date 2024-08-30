@@ -10,6 +10,7 @@ export async function getTopTechnical(
   companyFilter?: string[],
   technicalFilter?: string[],
   orderStatusFilter?: string,
+  methodFilter?: string,
 ): Promise<any> {
   const response = await api.get("/digital-scripts/top-technical", {
     params: {
@@ -20,6 +21,7 @@ export async function getTopTechnical(
       companyFilter: companyFilter?.join(", "),
       technicalFilter: technicalFilter?.join(", "),
       orderStatusFilter,
+      methodFilter,
     },
   });
 

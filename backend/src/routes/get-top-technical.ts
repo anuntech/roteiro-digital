@@ -18,6 +18,7 @@ export async function getTopTechnical(app: FastifyInstance) {
           companyFilter: z.string().optional(),
           technicalFilter: z.string().optional(),
           orderStatusFilter: z.string().optional(),
+          methodFilter: z.string().optional(),
         }),
       },
     },
@@ -29,6 +30,7 @@ export async function getTopTechnical(app: FastifyInstance) {
         companyFilter = "",
         technicalFilter = "",
         orderStatusFilter = "",
+        methodFilter = "",
       } = request.query as any;
 
       const companyFilterArray = companyFilter
@@ -78,6 +80,9 @@ export async function getTopTechnical(app: FastifyInstance) {
           },
           service_order_status: {
             contains: orderStatusFilter,
+          },
+          payment_method: {
+            contains: methodFilter,
           },
         },
       });

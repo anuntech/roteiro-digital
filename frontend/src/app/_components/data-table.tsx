@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ColumnDef,
   PaginationState,
@@ -52,6 +52,7 @@ export function DataTable<TData, TValue>({
   totalValues: initialTotalValues,
   totalCount: initialCount,
   topTechnical: initialTopTechnical,
+  orderStatus: orderStatus,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -75,6 +76,7 @@ export function DataTable<TData, TValue>({
   const [topTechnical, setTopTechnical] =
     useState<TopTechnicalInputProps[]>(initialTopTechnical);
   const [orderStatusFilter, setOrderStatusFilter] = useState<string>("");
+  const [methodFilter, setMethodFilter] = useState<string>("");
 
   const table = useReactTable({
     data,
@@ -98,6 +100,10 @@ export function DataTable<TData, TValue>({
   });
 
   const { setOrderStatus } = useGlobalOrderStatusContext();
+  useEffect(() => {
+    setOrderStatus(orderStatus);
+  }, [orderStatus]);
+
   async function fetchData(params: {
     dateFrom: string;
     dateTo?: string;
@@ -106,6 +112,7 @@ export function DataTable<TData, TValue>({
     companyFilter?: string[];
     technicalFilter?: string[];
     orderStatusFilter?: string;
+    methodFilter?: string;
   }) {
     setLoading(true);
     try {
@@ -117,6 +124,7 @@ export function DataTable<TData, TValue>({
         params.companyFilter,
         params.technicalFilter,
         params.orderStatusFilter,
+        params.methodFilter,
       );
 
       const classificationUpdate = await getOrderStatus(
@@ -127,6 +135,7 @@ export function DataTable<TData, TValue>({
         params.companyFilter,
         params.technicalFilter,
         params.orderStatusFilter,
+        params.methodFilter,
       );
 
       const topTechnicalResponse = await getTopTechnical(
@@ -137,6 +146,7 @@ export function DataTable<TData, TValue>({
         params.companyFilter,
         params.technicalFilter,
         params.orderStatusFilter,
+        params.methodFilter,
       );
 
       setTopTechnical(topTechnicalResponse);
@@ -273,6 +283,11 @@ export function DataTable<TData, TValue>({
     await reloadFetches({ orderStatusFilter: orderStatusValue });
   }
 
+  async function handleMethodFilterChange(method: string) {
+    setMethodFilter(method);
+    await reloadFetches({ methodFilter: method });
+  }
+
   function resetFilter() {
     table.resetColumnFilters();
     setDateFilter(undefined);
@@ -294,6 +309,7 @@ export function DataTable<TData, TValue>({
           totalOpportunities={totalValues.totalOpportunities}
           totalApproved={totalValues.totalApproved}
           loading={loadingTotalValues}
+          handleMethodFilterChange={handleMethodFilterChange}
         />
         <div className="flex w-full gap-4">
           <BarChartComponent

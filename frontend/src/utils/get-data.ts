@@ -9,6 +9,7 @@ export async function getData(
   companyFilter?: string[],
   technicalFilter?: string[],
   orderStatusFilter?: string,
+  methodFilter?: string,
 ): Promise<DigitalScript[]> {
   const response = await api.get("/digital-scripts", {
     params: {
@@ -19,6 +20,7 @@ export async function getData(
       companyFilter: companyFilter?.join(", "),
       technicalFilter: technicalFilter?.join(", "),
       orderStatusFilter: orderStatusFilter,
+      methodFilter: methodFilter,
     },
   });
 
