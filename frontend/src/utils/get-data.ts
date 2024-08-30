@@ -1,5 +1,5 @@
-import { DigitalScript } from '@/app/_components/columns'
-import { api } from '@/lib/axios'
+import { DigitalScript } from "@/app/_components/columns";
+import { api } from "@/lib/axios";
 
 export async function getData(
   dateFrom: string,
@@ -8,21 +8,23 @@ export async function getData(
   orderIdFilter?: string,
   companyFilter?: string[],
   technicalFilter?: string[],
+  orderStatusFilter?: string,
 ): Promise<DigitalScript[]> {
-  const response = await api.get('/digital-scripts', {
+  const response = await api.get("/digital-scripts", {
     params: {
       dateFrom,
       dateTo,
       page: pageIndex,
       orderIdFilter,
-      companyFilter: companyFilter?.join(', '),
-      technicalFilter: technicalFilter?.join(', '),
+      companyFilter: companyFilter?.join(", "),
+      technicalFilter: technicalFilter?.join(", "),
+      orderStatusFilter: orderStatusFilter,
     },
-  })
+  });
 
   if (!response.data) {
-    throw new Error('Failed to fetch data')
+    throw new Error("Failed to fetch data");
   }
 
-  return response.data
+  return response.data;
 }

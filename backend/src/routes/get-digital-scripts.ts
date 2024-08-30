@@ -18,6 +18,7 @@ export async function getDigitalScripts(app: FastifyInstance) {
           orderIdFilter: z.string().optional(),
           companyFilter: z.string().optional(),
           technicalFilter: z.string().optional(),
+          orderStatusFilter: z.string().optional(),
         }),
       },
     },
@@ -29,6 +30,7 @@ export async function getDigitalScripts(app: FastifyInstance) {
         orderIdFilter = "",
         companyFilter = "",
         technicalFilter = "",
+        orderStatusFilter = "",
       } = request.query as any;
 
       const companyFilterArray = companyFilter
@@ -67,6 +69,9 @@ export async function getDigitalScripts(app: FastifyInstance) {
           },
           order_id: {
             contains: orderIdFilter,
+          },
+          service_order_status: {
+            contains: orderStatusFilter,
           },
           company_name: {
             in: companyFilterArray.length > 0 ? companyFilterArray : undefined,

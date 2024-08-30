@@ -106,6 +106,7 @@ export function DataTable<TData, TValue>({
     orderIdFilter?: string;
     companyFilter?: string[];
     technicalFilter?: string[];
+    orderStatusFilter?: string;
   }) {
     setLoading(true);
     try {
@@ -116,6 +117,7 @@ export function DataTable<TData, TValue>({
         params.orderIdFilter,
         params.companyFilter,
         params.technicalFilter,
+        params.orderStatusFilter,
       );
 
       const classificationUpdate = await getOrderStatus(
@@ -162,8 +164,6 @@ export function DataTable<TData, TValue>({
         params.companyFilter,
         params.technicalFilter,
       );
-
-      console.log("AAAAAAAAA");
 
       setTotalValues(data);
     } catch (error) {
