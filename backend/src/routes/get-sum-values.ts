@@ -49,12 +49,25 @@ export async function getSumValues(app: FastifyInstance) {
         dateFilter.lte = dayjs(dateTo).utc().endOf("day").toDate();
       }
 
-      // const paymentSettings =
-      // methodFilter == "Crédito"
-      //   ? { in: ["Crédito", "Débito"] }
-      //   : {
-      //       contains: methodFilter == "Outros" ? "undefined" : methodFilter,
-      //     };
+      let paymentMethodForCardAndOthers = {};
+      switch (methodFilter) {
+        case "Outros":
+          paymentMethodForCardAndOthers = {
+            notIn: ["Crédito", "Débito", "Dinheiro", "Pix"],
+            contains: "",
+          };
+          break;
+        case "Cartao":
+          paymentMethodForCardAndOthers = {
+            in: ["Crédito", "Débito"],
+          };
+          break;
+        default:
+          paymentMethodForCardAndOthers = {
+            contains: methodFilter == "Outros" ? "undefined" : methodFilter,
+          };
+          break;
+      }
 
       const totalReceivedValue = await prisma.checklistAnuntech.aggregate({
         _sum: {
@@ -80,13 +93,7 @@ export async function getSumValues(app: FastifyInstance) {
           service_order_status: {
             contains: orderStatusFilter,
           },
-          payment_method: {
-            notIn:
-              methodFilter == "Outros"
-                ? ["Crédito", "Débito", "Dinheiro", "Pix"]
-                : [""],
-            contains: methodFilter == "Outros" ? "" : methodFilter,
-          },
+          payment_method: paymentMethodForCardAndOthers,
         },
       });
 
@@ -100,8 +107,8 @@ export async function getSumValues(app: FastifyInstance) {
             ...(dateFilter.lte && { lte: dateFilter.lte }),
           },
           payment_method: {
+            ...paymentMethodForCardAndOthers,
             in: ["Crédito", "Débito"],
-            contains: methodFilter == "Outros" ? "undefined" : methodFilter,
           },
           order_id: {
             contains: orderIdFilter,
@@ -249,9 +256,7 @@ export async function getSumValues(app: FastifyInstance) {
             ],
             contains: orderStatusFilter,
           },
-          payment_method: {
-            contains: methodFilter == "Outros" ? "undefined" : methodFilter,
-          },
+          payment_method: paymentMethodForCardAndOthers,
         },
       });
 
@@ -292,9 +297,7 @@ export async function getSumValues(app: FastifyInstance) {
             ],
             contains: orderStatusFilter,
           },
-          payment_method: {
-            contains: methodFilter == "Outros" ? "undefined" : methodFilter,
-          },
+          payment_method: paymentMethodForCardAndOthers,
         },
       });
 
