@@ -75,7 +75,7 @@ export function DataTable<TData, TValue>({
   const [loadingTotalValues, setLoadingTotalValues] = useState(false);
   const [topTechnical, setTopTechnical] =
     useState<TopTechnicalInputProps[]>(initialTopTechnical);
-  console.log(initialTopTechnical);
+  const [orderStatusFilter, setOrderStatusFilter] = useState<string>("");
 
   const table = useReactTable({
     data,
@@ -188,7 +188,6 @@ export function DataTable<TData, TValue>({
         params.companyFilter,
         params.technicalFilter,
       );
-      console.log("AAAAAAAAA");
 
       setTotalCount(data);
     } catch (error) {
@@ -208,33 +207,35 @@ export function DataTable<TData, TValue>({
     });
   }
 
-  async function handleOrderIdFilterChange(orderId: string) {
-    setOrderIdFilter(orderId);
+  const reloadFetches = async (data: any) => {
     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
 
     const fetchDataPromise = fetchData({
       dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
       dateTo: dateFilter?.to?.toISOString().split("T")[0],
-      orderIdFilter: orderId,
       pageIndex: 1,
+      orderIdFilter,
       companyFilter,
       technicalFilter,
+      ...data,
     });
 
     const fetchTotalValuesPromise = fetchTotalValues({
       dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
       dateTo: dateFilter?.to?.toISOString().split("T")[0],
-      orderIdFilter: orderId,
+      orderIdFilter,
       companyFilter,
       technicalFilter,
+      ...data,
     });
 
     const fetchTotalCountPromise = fetchTotalCount({
       dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
       dateTo: dateFilter?.to?.toISOString().split("T")[0],
-      orderIdFilter: orderId,
+      orderIdFilter,
       companyFilter,
       technicalFilter,
+      ...data,
     });
 
     try {
@@ -246,126 +247,34 @@ export function DataTable<TData, TValue>({
     } catch (error) {
       console.error("Failed to fetch data:", error);
     }
+  };
+
+  async function handleOrderIdFilterChange(orderId: string) {
+    setOrderIdFilter(orderId);
+    await reloadFetches({ orderIdFilter: orderId });
   }
 
   async function handleDateFilterChange(range: DateRange | undefined) {
     setDateFilter(range);
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-
-    const fetchDataPromise = fetchData({
+    await reloadFetches({
       dateFrom: range?.from?.toISOString().split("T")[0] ?? "",
       dateTo: range?.to?.toISOString().split("T")[0],
-      pageIndex: 1,
-      orderIdFilter,
-      companyFilter,
-      technicalFilter,
     });
-
-    const fetchTotalValuesPromise = fetchTotalValues({
-      dateFrom: range?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: range?.to?.toISOString().split("T")[0],
-      orderIdFilter,
-      companyFilter,
-      technicalFilter,
-    });
-
-    const fetchTotalCountPromise = fetchTotalCount({
-      dateFrom: range?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: range?.to?.toISOString().split("T")[0],
-      orderIdFilter,
-      companyFilter,
-      technicalFilter,
-    });
-
-    try {
-      await Promise.all([
-        fetchDataPromise,
-        fetchTotalValuesPromise,
-        fetchTotalCountPromise,
-      ]);
-    } catch (error) {
-      console.error("Failed to fetch data:", error);
-    }
   }
 
   async function handleCompanyFilterChange(companies: string[]) {
     setCompanyFilter(companies);
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-
-    const fetchDataPromise = fetchData({
-      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: dateFilter?.to?.toISOString().split("T")[0],
-      pageIndex: 1,
-      orderIdFilter,
-      companyFilter: companies,
-      technicalFilter,
-    });
-
-    const fetchTotalValuesPromise = fetchTotalValues({
-      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: dateFilter?.to?.toISOString().split("T")[0],
-      orderIdFilter,
-      companyFilter: companies,
-      technicalFilter,
-    });
-
-    const fetchTotalCountPromise = fetchTotalCount({
-      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: dateFilter?.to?.toISOString().split("T")[0],
-      orderIdFilter,
-      companyFilter: companies,
-      technicalFilter,
-    });
-
-    try {
-      await Promise.all([
-        fetchDataPromise,
-        fetchTotalValuesPromise,
-        fetchTotalCountPromise,
-      ]);
-    } catch (error) {
-      console.error("Failed to fetch data:", error);
-    }
+    await reloadFetches({ companyFilter: companies });
   }
 
   async function handleTechnicalFilterChange(technicians: string[]) {
     setTechnicalFilter(technicians);
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+    await reloadFetches({ technicalFilter: technicians });
+  }
 
-    const fetchDataPromise = fetchData({
-      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: dateFilter?.to?.toISOString().split("T")[0],
-      pageIndex: 1,
-      orderIdFilter,
-      companyFilter,
-      technicalFilter: technicians,
-    });
-
-    const fetchTotalValuesPromise = fetchTotalValues({
-      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: dateFilter?.to?.toISOString().split("T")[0],
-      orderIdFilter,
-      companyFilter,
-      technicalFilter: technicians,
-    });
-
-    const fetchTotalCountPromise = fetchTotalCount({
-      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: dateFilter?.to?.toISOString().split("T")[0],
-      orderIdFilter,
-      companyFilter,
-      technicalFilter: technicians,
-    });
-
-    try {
-      await Promise.all([
-        fetchDataPromise,
-        fetchTotalValuesPromise,
-        fetchTotalCountPromise,
-      ]);
-    } catch (error) {
-      console.error("Failed to fetch data:", error);
-    }
+  async function handleOrderStatusFilterChange(orderStatus: string) {
+    setOrderStatusFilter(orderStatus);
+    await reloadFetches({ orderStatusFilter: orderStatus });
   }
 
   function resetFilter() {
