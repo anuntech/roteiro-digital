@@ -1,5 +1,5 @@
-import { TotalValuesProps } from '@/app/_components/revenue-cards'
-import { api } from '@/lib/axios'
+import { TotalValuesProps } from "@/app/_components/revenue-cards";
+import { api } from "@/lib/axios";
 
 export async function getTotalValues(
   dateFrom: string,
@@ -7,20 +7,22 @@ export async function getTotalValues(
   orderIdFilter?: string,
   companyFilter?: string[],
   technicalFilter?: string[],
+  orderStatusFilter?: string,
 ): Promise<TotalValuesProps> {
-  const response = await api.get('/digital-scripts/sum', {
+  const response = await api.get("/digital-scripts/sum", {
     params: {
       dateFrom,
       dateTo,
       orderIdFilter,
-      companyFilter: companyFilter?.join(', '),
-      technicalFilter: technicalFilter?.join(', '),
+      companyFilter: companyFilter?.join(", "),
+      technicalFilter: technicalFilter?.join(", "),
+      orderStatusFilter,
     },
-  })
+  });
 
   if (!response.data) {
-    throw new Error('Failed to fetch total values')
+    throw new Error("Failed to fetch total values");
   }
 
-  return response.data
+  return response.data;
 }

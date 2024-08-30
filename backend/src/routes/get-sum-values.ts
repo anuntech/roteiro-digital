@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { FastifyInstance } from 'fastify'
-import { prisma } from '../lib/prisma'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-import z from 'zod'
-dayjs.extend(utc)
+import type { FastifyInstance } from "fastify";
+import { prisma } from "../lib/prisma";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import z from "zod";
+dayjs.extend(utc);
 
 export async function getSumValues(app: FastifyInstance) {
   app.get(
-    '/digital-scripts/sum',
+    "/digital-scripts/sum",
     {
       schema: {
         querystring: z.object({
@@ -17,6 +17,7 @@ export async function getSumValues(app: FastifyInstance) {
           orderIdFilter: z.string().optional(),
           companyFilter: z.string().optional(),
           technicalFilter: z.string().optional(),
+          orderStatusFilter: z.string().optional(),
         }),
       },
     },
@@ -24,25 +25,26 @@ export async function getSumValues(app: FastifyInstance) {
       const {
         dateFrom,
         dateTo,
-        orderIdFilter = '',
-        companyFilter = '',
-        technicalFilter = '',
-      } = request.query as any
+        orderIdFilter = "",
+        companyFilter = "",
+        technicalFilter = "",
+        orderStatusFilter = "",
+      } = request.query as any;
 
       const companyFilterArray = companyFilter
-        ? companyFilter.split(',').map((name: string) => name.trim())
-        : []
+        ? companyFilter.split(",").map((name: string) => name.trim())
+        : [];
 
       const technicalFilterArray = technicalFilter
-        ? technicalFilter.split(',').map((name: string) => name.trim())
-        : []
+        ? technicalFilter.split(",").map((name: string) => name.trim())
+        : [];
 
-      const dateFilter: any = {}
+      const dateFilter: any = {};
       if (dateFrom) {
-        dateFilter.gte = dayjs(dateFrom).utc().startOf('day').toDate()
+        dateFilter.gte = dayjs(dateFrom).utc().startOf("day").toDate();
       }
       if (dateTo) {
-        dateFilter.lte = dayjs(dateTo).utc().endOf('day').toDate()
+        dateFilter.lte = dayjs(dateTo).utc().endOf("day").toDate();
       }
 
       const totalReceivedValue = await prisma.checklistAnuntech.aggregate({
@@ -66,8 +68,11 @@ export async function getSumValues(app: FastifyInstance) {
                 ? technicalFilterArray
                 : undefined,
           },
+          service_order_status: {
+            contains: orderStatusFilter,
+          },
         },
-      })
+      });
 
       const totalCard = await prisma.checklistAnuntech.aggregate({
         _sum: {
@@ -79,7 +84,7 @@ export async function getSumValues(app: FastifyInstance) {
             ...(dateFilter.lte && { lte: dateFilter.lte }),
           },
           payment_method: {
-            in: ['Crédito', 'Débito'],
+            in: ["Crédito", "Débito"],
           },
           order_id: {
             contains: orderIdFilter,
@@ -93,8 +98,11 @@ export async function getSumValues(app: FastifyInstance) {
                 ? technicalFilterArray
                 : undefined,
           },
+          service_order_status: {
+            contains: orderStatusFilter,
+          },
         },
-      })
+      });
 
       const totalCash = await prisma.checklistAnuntech.aggregate({
         _sum: {
@@ -105,7 +113,7 @@ export async function getSumValues(app: FastifyInstance) {
             ...(dateFilter.gte && { gte: dateFilter.gte }),
             ...(dateFilter.lte && { lte: dateFilter.lte }),
           },
-          payment_method: 'Dinheiro',
+          payment_method: "Dinheiro",
           order_id: {
             contains: orderIdFilter,
           },
@@ -118,8 +126,11 @@ export async function getSumValues(app: FastifyInstance) {
                 ? technicalFilterArray
                 : undefined,
           },
+          service_order_status: {
+            contains: orderStatusFilter,
+          },
         },
-      })
+      });
 
       const totalPix = await prisma.checklistAnuntech.aggregate({
         _sum: {
@@ -130,7 +141,7 @@ export async function getSumValues(app: FastifyInstance) {
             ...(dateFilter.gte && { gte: dateFilter.gte }),
             ...(dateFilter.lte && { lte: dateFilter.lte }),
           },
-          payment_method: 'Pix',
+          payment_method: "Pix",
           order_id: {
             contains: orderIdFilter,
           },
@@ -143,8 +154,11 @@ export async function getSumValues(app: FastifyInstance) {
                 ? technicalFilterArray
                 : undefined,
           },
+          service_order_status: {
+            contains: orderStatusFilter,
+          },
         },
-      })
+      });
 
       const totalOthers = await prisma.checklistAnuntech.aggregate({
         _sum: {
@@ -156,7 +170,7 @@ export async function getSumValues(app: FastifyInstance) {
             ...(dateFilter.lte && { lte: dateFilter.lte }),
           },
           payment_method: {
-            notIn: ['Crédito', 'Débito', 'Dinheiro', 'Pix'],
+            notIn: ["Crédito", "Débito", "Dinheiro", "Pix"],
           },
           order_id: {
             contains: orderIdFilter,
@@ -170,8 +184,11 @@ export async function getSumValues(app: FastifyInstance) {
                 ? technicalFilterArray
                 : undefined,
           },
+          service_order_status: {
+            contains: orderStatusFilter,
+          },
         },
-      })
+      });
 
       const totalOpportunities = await prisma.checklistAnuntech.aggregate({
         _sum: {
@@ -198,25 +215,26 @@ export async function getSumValues(app: FastifyInstance) {
           },
           service_order_status: {
             notIn: [
-              'Falta/Voltar com Peça',
-              'Serviço Executado',
-              'Reagendado',
-              'Oficina - Entrega de Produto',
-              'Oficina - Aguardando Retirada',
-              'Produto/Peça Retirada da Oficina',
-              'Instrução de Uso Sem Defeito',
-              'Consumidor Ausente',
-              'Local Inadequado',
-              'Endereço Não Localizado',
+              "Falta/Voltar com Peça",
+              "Serviço Executado",
+              "Reagendado",
+              "Oficina - Entrega de Produto",
+              "Oficina - Aguardando Retirada",
+              "Produto/Peça Retirada da Oficina",
+              "Instrução de Uso Sem Defeito",
+              "Consumidor Ausente",
+              "Local Inadequado",
+              "Endereço Não Localizado",
             ],
+            contains: orderStatusFilter,
           },
         },
-      })
+      });
 
       const totalOpportunitiesSum =
         (totalOpportunities._sum.parts_value || 0) +
         (totalOpportunities._sum.labor_value || 0) +
-        (totalOpportunities._sum.visit_fee || 0)
+        (totalOpportunities._sum.visit_fee || 0);
 
       const totalApproved = await prisma.checklistAnuntech.aggregate({
         _sum: {
@@ -243,19 +261,20 @@ export async function getSumValues(app: FastifyInstance) {
           },
           service_order_status: {
             in: [
-              'Falta/Voltar com Peça',
-              'Oficina - Aguardando Retirada',
-              'Produto/Peça Retirada da Oficina',
-              'Reagendado',
+              "Falta/Voltar com Peça",
+              "Oficina - Aguardando Retirada",
+              "Produto/Peça Retirada da Oficina",
+              "Reagendado",
             ],
+            contains: orderStatusFilter,
           },
         },
-      })
+      });
 
       const totalApprovedSum =
         (totalApproved._sum.parts_value || 0) +
         (totalApproved._sum.labor_value || 0) +
-        (totalApproved._sum.visit_fee || 0)
+        (totalApproved._sum.visit_fee || 0);
 
       return reply.status(200).send({
         totalReceivedValue: totalReceivedValue._sum.received_value || 0,
@@ -265,7 +284,7 @@ export async function getSumValues(app: FastifyInstance) {
         totalOthers: totalOthers._sum.received_value || 0,
         totalOpportunities: totalOpportunitiesSum,
         totalApproved: totalApprovedSum,
-      })
-    },
-  )
+      });
+    }
+  );
 }

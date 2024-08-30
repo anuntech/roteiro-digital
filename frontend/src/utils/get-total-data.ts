@@ -1,4 +1,4 @@
-import { api } from '@/lib/axios'
+import { api } from "@/lib/axios";
 
 export async function getTotalData(
   dateFrom: string,
@@ -6,20 +6,22 @@ export async function getTotalData(
   orderIdFilter?: string,
   companyFilter?: string[],
   technicalFilter?: string[],
+  orderStatusFilter?: string,
 ): Promise<number> {
-  const response = await api.get('/digital-scripts/total', {
+  const response = await api.get("/digital-scripts/total", {
     params: {
       dateFrom,
       dateTo,
       orderIdFilter,
-      companyFilter: companyFilter?.join(', '),
-      technicalFilter: technicalFilter?.join(', '),
+      companyFilter: companyFilter?.join(", "),
+      technicalFilter: technicalFilter?.join(", "),
+      orderStatusFilter,
     },
-  })
+  });
 
   if (!response.data) {
-    return 1
+    return 1;
   }
 
-  return response.data
+  return response.data;
 }
