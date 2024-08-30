@@ -74,7 +74,7 @@ export async function getSumValues(app: FastifyInstance) {
             contains: orderStatusFilter,
           },
           payment_method: {
-            contains: methodFilter,
+            contains: methodFilter == "Outros" ? "undefined" : methodFilter,
           },
         },
       });
@@ -90,7 +90,7 @@ export async function getSumValues(app: FastifyInstance) {
           },
           payment_method: {
             in: ["Crédito", "Débito"],
-            contains: methodFilter,
+            contains: methodFilter == "Outros" ? "undefined" : methodFilter,
           },
           order_id: {
             contains: orderIdFilter,
@@ -147,7 +147,10 @@ export async function getSumValues(app: FastifyInstance) {
             ...(dateFilter.gte && { gte: dateFilter.gte }),
             ...(dateFilter.lte && { lte: dateFilter.lte }),
           },
-          payment_method: "Pix",
+          payment_method: {
+            equals: "Pix",
+            contains: methodFilter == "Outros" ? "undefined" : methodFilter,
+          },
           order_id: {
             contains: orderIdFilter,
           },
@@ -177,7 +180,7 @@ export async function getSumValues(app: FastifyInstance) {
           },
           payment_method: {
             notIn: ["Crédito", "Débito", "Dinheiro", "Pix"],
-            contains: methodFilter,
+            contains: methodFilter == "Outros" ? "" : methodFilter,
           },
           order_id: {
             contains: orderIdFilter,
@@ -236,7 +239,7 @@ export async function getSumValues(app: FastifyInstance) {
             contains: orderStatusFilter,
           },
           payment_method: {
-            contains: methodFilter,
+            contains: methodFilter == "Outros" ? "undefined" : methodFilter,
           },
         },
       });
@@ -279,7 +282,7 @@ export async function getSumValues(app: FastifyInstance) {
             contains: orderStatusFilter,
           },
           payment_method: {
-            contains: methodFilter,
+            contains: methodFilter == "Outros" ? "undefined" : methodFilter,
           },
         },
       });

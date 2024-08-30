@@ -365,7 +365,7 @@ export function DataTable<TData, TValue>({
               {loading ? (
                 <TableRow>
                   <TableCell colSpan={columns.length}>
-                    <div className="flex h-[50vh] items-center justify-center">
+                    <div>
                       <LoaderCircle className="mx-auto size-7 animate-spin" />
                     </div>
                   </TableCell>

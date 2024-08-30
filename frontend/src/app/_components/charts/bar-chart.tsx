@@ -116,7 +116,12 @@ export function BarChartComponent({
               tickFormatter={(value) => value.toLocaleString()} // Format numbers with commas
             />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-            <Bar dataKey="quantity" fill="var(--bar-color)" radius={8}>
+            <Bar
+              className="cursor-pointer"
+              dataKey="quantity"
+              fill="var(--bar-color)"
+              radius={8}
+            >
               <LabelList
                 position="top"
                 offset={12}

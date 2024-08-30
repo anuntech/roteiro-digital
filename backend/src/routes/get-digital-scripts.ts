@@ -85,7 +85,11 @@ export async function getDigitalScripts(app: FastifyInstance) {
                 : undefined,
           },
           payment_method: {
-            contains: methodFilter,
+            contains: methodFilter == "Outros" ? "" : methodFilter,
+            notIn:
+              methodFilter == "Outros"
+                ? ["Crédito", "Débito", "Dinheiro", "Pix"]
+                : [""],
           },
         },
       });

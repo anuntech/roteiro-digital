@@ -71,7 +71,11 @@ export async function getTotalScripts(app: FastifyInstance) {
             contains: orderStatusFilter,
           },
           payment_method: {
-            contains: methodFilter,
+            contains: methodFilter == "Outros" ? "" : methodFilter,
+            notIn:
+              methodFilter == "Outros"
+                ? ["Crédito", "Débito", "Dinheiro", "Pix"]
+                : [""],
           },
         },
       });
