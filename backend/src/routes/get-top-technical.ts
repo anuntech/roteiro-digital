@@ -54,6 +54,26 @@ export async function getTopTechnical(app: FastifyInstance) {
         dateFilter.lte = null;
       }
 
+      let paymentMethodForCardAndOthers = {};
+      switch (methodFilter) {
+        case "Outros":
+          paymentMethodForCardAndOthers = {
+            notIn: ["Crédito", "Débito", "Dinheiro", "Pix"],
+            contains: "",
+          };
+          break;
+        case "Cartao":
+          paymentMethodForCardAndOthers = {
+            in: ["Crédito", "Débito"],
+          };
+          break;
+        default:
+          paymentMethodForCardAndOthers = {
+            contains: methodFilter == "Outros" ? "undefined" : methodFilter,
+          };
+          break;
+      }
+
       const digitalScriptsFromDb = await prisma.checklistAnuntech.findMany({
         select: {
           technical_name: true,
@@ -81,13 +101,7 @@ export async function getTopTechnical(app: FastifyInstance) {
           service_order_status: {
             contains: orderStatusFilter,
           },
-          payment_method: {
-            contains: methodFilter == "Outros" ? "" : methodFilter,
-            notIn:
-              methodFilter == "Outros"
-                ? ["Crédito", "Débito", "Dinheiro", "Pix"]
-                : [""],
-          },
+          payment_method: paymentMethodForCardAndOthers,
         },
       });
 

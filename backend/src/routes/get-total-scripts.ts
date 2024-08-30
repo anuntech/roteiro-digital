@@ -49,6 +49,26 @@ export async function getTotalScripts(app: FastifyInstance) {
         dateFilter.lte = dayjs(dateTo).utc().endOf("day").toDate();
       }
 
+      let paymentMethodForCardAndOthers = {};
+      switch (methodFilter) {
+        case "Outros":
+          paymentMethodForCardAndOthers = {
+            notIn: ["Crédito", "Débito", "Dinheiro", "Pix"],
+            contains: "",
+          };
+          break;
+        case "Cartao":
+          paymentMethodForCardAndOthers = {
+            in: ["Crédito", "Débito"],
+          };
+          break;
+        default:
+          paymentMethodForCardAndOthers = {
+            contains: methodFilter == "Outros" ? "undefined" : methodFilter,
+          };
+          break;
+      }
+
       const total = await prisma.checklistAnuntech.count({
         where: {
           created_at: {
@@ -70,13 +90,7 @@ export async function getTotalScripts(app: FastifyInstance) {
           service_order_status: {
             contains: orderStatusFilter,
           },
-          payment_method: {
-            contains: methodFilter == "Outros" ? "" : methodFilter,
-            notIn:
-              methodFilter == "Outros"
-                ? ["Crédito", "Débito", "Dinheiro", "Pix"]
-                : [""],
-          },
+          payment_method: paymentMethodForCardAndOthers,
         },
       });
 
