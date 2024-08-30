@@ -263,8 +263,9 @@ export function DataTable<TData, TValue>({
   }
 
   async function handleOrderStatusFilterChange(orderStatus: string) {
-    setOrderStatusFilter(orderStatus);
-    await reloadFetches({ orderStatusFilter: orderStatus });
+    const orderStatusValue = orderStatusFilter.length > 0 ? "" : orderStatus;
+    setOrderStatusFilter(orderStatusValue);
+    await reloadFetches({ orderStatusFilter: orderStatusValue });
   }
 
   function resetFilter() {

@@ -101,7 +101,7 @@ export function BarChartComponent({
             }
             width={500}
             margin={{
-              top: 15,
+              top: 25,
               bottom: 50,
             }}
             onClick={(v) => handleOrderStatusFilterChange(v.activeLabel || "")}
