@@ -343,8 +343,10 @@ export function DataTable<TData, TValue>({
             <TableBody>
               {loading ? (
                 <TableRow>
-                  <TableCell colSpan={columns.length} className="h-24">
-                    <LoaderCircle className="mx-auto block size-7 animate-spin" />
+                  <TableCell colSpan={columns.length}>
+                    <div className="flex h-[50vh] items-center justify-center">
+                      <LoaderCircle className="mx-auto size-7 animate-spin" />
+                    </div>
                   </TableCell>
                 </TableRow>
               ) : !dateFilter?.from ? (
