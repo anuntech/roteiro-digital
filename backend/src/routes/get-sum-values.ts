@@ -49,6 +49,13 @@ export async function getSumValues(app: FastifyInstance) {
         dateFilter.lte = dayjs(dateTo).utc().endOf("day").toDate();
       }
 
+      // const paymentSettings =
+      // methodFilter == "Crédito"
+      //   ? { in: ["Crédito", "Débito"] }
+      //   : {
+      //       contains: methodFilter == "Outros" ? "undefined" : methodFilter,
+      //     };
+
       const totalReceivedValue = await prisma.checklistAnuntech.aggregate({
         _sum: {
           received_value: true,
@@ -74,7 +81,11 @@ export async function getSumValues(app: FastifyInstance) {
             contains: orderStatusFilter,
           },
           payment_method: {
-            contains: methodFilter == "Outros" ? "undefined" : methodFilter,
+            notIn:
+              methodFilter == "Outros"
+                ? ["Crédito", "Débito", "Dinheiro", "Pix"]
+                : [""],
+            contains: methodFilter == "Outros" ? "" : methodFilter,
           },
         },
       });
