@@ -40,17 +40,20 @@ type dataInput = {
 export function BarChartComponent({
   className,
   data,
+  handleOrderStatusFilterChange,
 }: {
   className: string;
   data: dataInput[];
+  handleOrderStatusFilterChange: (orderStatus: string) => void;
 }) {
   const { orderStatus } = useGlobalOrderStatusContext();
 
-  const dataWithoutSomeValues = data.filter(
-    (item) =>
-      !["Serviço Executado", "Instrução de Uso Sem Defeito"].includes(
-        item.value,
-      ),
+  const filterToRemoveSomeValue = (item: dataInput) =>
+    !["Serviço Executado", "Instrução de Uso Sem Defeito"].includes(item.value);
+  const dataWithoutSomeValues = data.filter(filterToRemoveSomeValue);
+
+  const initialDataWithoutSomeValues = orderStatus.filter(
+    filterToRemoveSomeValue,
   );
 
   const tickFormatter = (value: string) => {
@@ -91,13 +94,17 @@ export function BarChartComponent({
         <ChartContainer config={chartConfig}>
           <BarChart
             accessibilityLayer
-            data={orderStatus.length > 0 ? orderStatus : dataWithoutSomeValues}
+            data={
+              initialDataWithoutSomeValues.length > 0
+                ? initialDataWithoutSomeValues
+                : dataWithoutSomeValues
+            }
             width={500}
             margin={{
               top: 15,
               bottom: 50,
             }}
-            onClick={(v) => console.log(v)}
+            onClick={(v) => handleOrderStatusFilterChange(v.activeLabel || "")}
           >
             <CartesianGrid vertical={false} />
             <XAxis

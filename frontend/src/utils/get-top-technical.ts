@@ -9,6 +9,7 @@ export async function getTopTechnical(
   orderIdFilter?: string,
   companyFilter?: string[],
   technicalFilter?: string[],
+  orderStatusFilter?: string,
 ): Promise<any> {
   const response = await api.get("/digital-scripts/top-technical", {
     params: {
@@ -18,6 +19,7 @@ export async function getTopTechnical(
       orderIdFilter,
       companyFilter: companyFilter?.join(", "),
       technicalFilter: technicalFilter?.join(", "),
+      orderStatusFilter,
     },
   });
 

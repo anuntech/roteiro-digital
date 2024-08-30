@@ -9,6 +9,7 @@ export async function getOrderStatus(
   orderIdFilter?: string,
   companyFilter?: string[],
   technicalFilter?: string[],
+  orderStatusFilter?: string,
 ): Promise<any> {
   const response = await api.get("/digital-scripts/order-status", {
     params: {
@@ -18,6 +19,7 @@ export async function getOrderStatus(
       orderIdFilter,
       companyFilter: companyFilter?.join(", "),
       technicalFilter: technicalFilter?.join(", "),
+      orderStatusFilter,
     },
   });
 

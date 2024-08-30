@@ -127,6 +127,7 @@ export function DataTable<TData, TValue>({
         params.orderIdFilter,
         params.companyFilter,
         params.technicalFilter,
+        params.orderStatusFilter,
       );
 
       const topTechnicalResponse = await getTopTechnical(
@@ -136,6 +137,7 @@ export function DataTable<TData, TValue>({
         params.orderIdFilter,
         params.companyFilter,
         params.technicalFilter,
+        params.orderStatusFilter,
       );
 
       setTopTechnical(topTechnicalResponse);
@@ -210,7 +212,7 @@ export function DataTable<TData, TValue>({
   const reloadFetches = async (data: any) => {
     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
 
-    const fetchDataPromise = fetchData({
+    const fetchInput = {
       dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
       dateTo: dateFilter?.to?.toISOString().split("T")[0],
       pageIndex: 1,
@@ -218,25 +220,13 @@ export function DataTable<TData, TValue>({
       companyFilter,
       technicalFilter,
       ...data,
-    });
+    };
 
-    const fetchTotalValuesPromise = fetchTotalValues({
-      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: dateFilter?.to?.toISOString().split("T")[0],
-      orderIdFilter,
-      companyFilter,
-      technicalFilter,
-      ...data,
-    });
+    const fetchDataPromise = fetchData(fetchInput);
 
-    const fetchTotalCountPromise = fetchTotalCount({
-      dateFrom: dateFilter?.from?.toISOString().split("T")[0] ?? "",
-      dateTo: dateFilter?.to?.toISOString().split("T")[0],
-      orderIdFilter,
-      companyFilter,
-      technicalFilter,
-      ...data,
-    });
+    const fetchTotalValuesPromise = fetchTotalValues(fetchInput);
+
+    const fetchTotalCountPromise = fetchTotalCount(fetchInput);
 
     try {
       await Promise.all([
@@ -302,6 +292,7 @@ export function DataTable<TData, TValue>({
           <BarChartComponent
             data={orderStatus}
             className="h-[550px] w-[2085px]"
+            handleOrderStatusFilterChange={handleOrderStatusFilterChange}
           />
           <TopTechnical technical={topTechnical} />
         </div>
