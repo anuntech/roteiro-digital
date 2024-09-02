@@ -8,6 +8,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { formatCurrency } from "@/utils/format-currency";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { avatarList } from "../data/data";
 
 export type TopTechnicalInputProps = {
   technical_name: string;
@@ -33,23 +35,30 @@ export function TopTechnical({
           Realizaram um total de {formatCurrency(totalSum)}
         </CardDescription>
       </CardHeader>
-      <CardContent className="max-h-[400px] overflow-y-auto">
+      <CardContent className="scrollbar-hide max-h-[400px] overflow-y-auto">
         <div className="space-y-8">
-          {technical?.map((val) => (
-            <div className="flex items-center">
-              <div className="ml-4 space-y-1">
-                <p className="text-sm font-medium leading-none">
-                  {val.technical_name}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  {val.executed_services} Serviços Executados
-                </p>
+          {technical?.map((val) => {
+            const randomIndex = Math.floor(Math.random() * avatarList.length);
+
+            return (
+              <div className="flex items-center">
+                <Avatar>
+                  <AvatarImage src={avatarList[randomIndex]} />
+                </Avatar>
+                <div className="ml-4 space-y-1">
+                  <p className="text-sm font-medium leading-none">
+                    {val.technical_name}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {val.executed_services} Serviços Executados
+                  </p>
+                </div>
+                <div className="ml-auto font-medium">
+                  {formatCurrency(parseInt(val.total_received_value))}
+                </div>
               </div>
-              <div className="ml-auto font-medium">
-                {formatCurrency(parseInt(val.total_received_value))}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </CardContent>
     </Card>

@@ -61,6 +61,15 @@
   }
 }
 
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Oculta a barra de rolagem no Chrome, Safari, e outros navegadores WebKit */
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* Oculta a barra de rolagem no Internet Explorer e Edge */
+  scrollbar-width: none; /* Oculta a barra de rolagem no Firefox */
+}
+
 @layer base {
   * {
     @apply border-border;
