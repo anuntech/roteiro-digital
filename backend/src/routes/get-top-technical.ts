@@ -143,10 +143,9 @@ export async function getTopTechnical(app: FastifyInstance) {
         >
       );
 
-      const topTechnicals = Object.values(technicalsReceivedValue)
-        .sort((a, b) => b.total_received_value - a.total_received_value)
-        .slice(0, 6);
-
+      const topTechnicals = Object.values(technicalsReceivedValue).sort(
+        (a, b) => b.total_received_value - a.total_received_value
+      );
       return reply.status(200).send(topTechnicals);
     }
   );

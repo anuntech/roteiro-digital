@@ -28,12 +28,12 @@ export function TopTechnical({
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Top 6 vendedores</CardTitle>
+        <CardTitle>Top vendedores</CardTitle>
         <CardDescription>
           Realizaram um total de {formatCurrency(totalSum)}
         </CardDescription>
       </CardHeader>
-      <CardContent className="h-full">
+      <CardContent className="max-h-[400px] overflow-y-auto">
         <div className="space-y-8">
           {technical?.map((val) => (
             <div className="flex items-center">
