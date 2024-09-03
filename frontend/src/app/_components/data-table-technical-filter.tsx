@@ -85,7 +85,7 @@ export function DataTableTechnicalFilter({
                     variant="secondary"
                     className="rounded-sm px-1 font-normal"
                   >
-                    {technicalOptions.length} selecionados
+                    {selectedValues.length} selecionados
                   </Badge>
                 ) : (
                   technicalOptions?.map((option) => (
