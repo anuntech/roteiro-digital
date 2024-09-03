@@ -100,6 +100,17 @@ export function DataTable<TData, TValue>({
   });
 
   const { setOrderStatus } = useGlobalOrderStatusContext();
+
+  useEffect(() => {
+    reloadFetches({});
+  }, [
+    orderIdFilter,
+    dateFilter,
+    orderStatusFilter,
+    technicalFilter,
+    methodFilter,
+  ]);
+
   useEffect(() => {
     setOrderStatus(orderStatus);
   }, [orderStatus]);
@@ -295,9 +306,8 @@ export function DataTable<TData, TValue>({
     await reloadFetches({ methodFilter: methodValue });
   }
 
-  function resetFilter() {
+  async function resetFilter() {
     table.resetColumnFilters();
-    setDateFilter(undefined);
     setCompanyFilter([]);
     setTechnicalFilter([]);
     setOrderIdFilter("");
