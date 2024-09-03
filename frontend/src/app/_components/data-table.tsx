@@ -328,9 +328,10 @@ export function DataTable<TData, TValue>({
           loading={loadingTotalValues}
           handleMethodFilterChange={handleMethodFilterChange}
         />
-        <div className="flex w-full gap-4">
+        <div className="flex h-full gap-4">
           <BarChartComponent
-            className="h-[550px] w-[2085px]"
+            // className="h-[550px] w-[2085px]"
+            className="h-[50vh] w-[100%] flex-col"
             handleOrderStatusFilterChange={handleOrderStatusFilterChange}
           />
           <TopTechnical technical={topTechnical} />

@@ -97,7 +97,7 @@ export function BarChartComponent({
             width={500}
             margin={{
               top: 25,
-              bottom: 50,
+              bottom: 15,
             }}
             onClick={(v) => {
               if (Object.keys(v).length === 0) return;
