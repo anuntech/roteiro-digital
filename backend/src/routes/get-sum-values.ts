@@ -50,6 +50,7 @@ export async function getSumValues(app: FastifyInstance) {
       }
 
       let paymentMethodForCardAndOthers = {};
+      let serviceOrderStatusValidation = {};
       switch (methodFilter) {
         case "Outros":
           paymentMethodForCardAndOthers = {
@@ -62,6 +63,23 @@ export async function getSumValues(app: FastifyInstance) {
             in: ["Crédito", "Débito"],
           };
           break;
+        case "Oportunidade":
+          serviceOrderStatusValidation = {
+            notIn: [
+              "Falta/Voltar com Peça",
+              "Serviço Executado",
+              "Reagendado",
+              "Oficina - Entrega de Produto",
+              "Oficina - Aguardando Retirada",
+              "Produto/Peça Retirada da Oficina",
+              "Instrução de Uso Sem Defeito",
+              "Consumidor Ausente",
+              "Local Inadequado",
+              "Endereço Não Localizado",
+            ],
+          };
+          break;
+
         default:
           paymentMethodForCardAndOthers = {
             contains: methodFilter == "Outros" ? "undefined" : methodFilter,
@@ -91,6 +109,7 @@ export async function getSumValues(app: FastifyInstance) {
                 : undefined,
           },
           service_order_status: {
+            ...serviceOrderStatusValidation,
             contains: orderStatusFilter,
           },
           payment_method: paymentMethodForCardAndOthers,
@@ -123,6 +142,7 @@ export async function getSumValues(app: FastifyInstance) {
                 : undefined,
           },
           service_order_status: {
+            ...serviceOrderStatusValidation,
             contains: orderStatusFilter,
           },
         },
@@ -151,6 +171,7 @@ export async function getSumValues(app: FastifyInstance) {
                 : undefined,
           },
           service_order_status: {
+            ...serviceOrderStatusValidation,
             contains: orderStatusFilter,
           },
         },
@@ -182,6 +203,7 @@ export async function getSumValues(app: FastifyInstance) {
                 : undefined,
           },
           service_order_status: {
+            ...serviceOrderStatusValidation,
             contains: orderStatusFilter,
           },
         },
@@ -213,6 +235,7 @@ export async function getSumValues(app: FastifyInstance) {
                 : undefined,
           },
           service_order_status: {
+            ...serviceOrderStatusValidation,
             contains: orderStatusFilter,
           },
         },
@@ -295,6 +318,7 @@ export async function getSumValues(app: FastifyInstance) {
               "Produto/Peça Retirada da Oficina",
               "Reagendado",
             ],
+            ...serviceOrderStatusValidation,
             contains: orderStatusFilter,
           },
           payment_method: paymentMethodForCardAndOthers,

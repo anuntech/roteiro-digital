@@ -58,6 +58,7 @@ export async function getDigitalScripts(app: FastifyInstance) {
         dateFilter.lte = null;
       }
       let paymentMethodForCardAndOthers = {};
+      let serviceOrderStatusValidation = {};
       switch (methodFilter) {
         case "Outros":
           paymentMethodForCardAndOthers = {
@@ -68,6 +69,22 @@ export async function getDigitalScripts(app: FastifyInstance) {
         case "Cartao":
           paymentMethodForCardAndOthers = {
             in: ["Crédito", "Débito"],
+          };
+          break;
+        case "Oportunidade":
+          serviceOrderStatusValidation = {
+            notIn: [
+              "Falta/Voltar com Peça",
+              "Serviço Executado",
+              "Reagendado",
+              "Oficina - Entrega de Produto",
+              "Oficina - Aguardando Retirada",
+              "Produto/Peça Retirada da Oficina",
+              "Instrução de Uso Sem Defeito",
+              "Consumidor Ausente",
+              "Local Inadequado",
+              "Endereço Não Localizado",
+            ],
           };
           break;
         default:
@@ -92,6 +109,7 @@ export async function getDigitalScripts(app: FastifyInstance) {
             contains: orderIdFilter,
           },
           service_order_status: {
+            ...serviceOrderStatusValidation,
             contains: orderStatusFilter,
           },
           company_name: {

@@ -57,6 +57,7 @@ export async function getDigitalScriptsClassificationStats(
       }
 
       let paymentMethodForCardAndOthers = {};
+      let serviceOrderStatusValidation = {};
       switch (methodFilter) {
         case "Outros":
           paymentMethodForCardAndOthers = {
@@ -67,6 +68,22 @@ export async function getDigitalScriptsClassificationStats(
         case "Cartao":
           paymentMethodForCardAndOthers = {
             in: ["Crédito", "Débito"],
+          };
+          break;
+        case "Oportunidade":
+          serviceOrderStatusValidation = {
+            notIn: [
+              "Falta/Voltar com Peça",
+              "Serviço Executado",
+              "Reagendado",
+              "Oficina - Entrega de Produto",
+              "Oficina - Aguardando Retirada",
+              "Produto/Peça Retirada da Oficina",
+              "Instrução de Uso Sem Defeito",
+              "Consumidor Ausente",
+              "Local Inadequado",
+              "Endereço Não Localizado",
+            ],
           };
           break;
         default:
@@ -98,6 +115,7 @@ export async function getDigitalScriptsClassificationStats(
                 : undefined,
           },
           service_order_status: {
+            ...serviceOrderStatusValidation,
             contains: orderStatusFilter,
           },
           payment_method: paymentMethodForCardAndOthers,
