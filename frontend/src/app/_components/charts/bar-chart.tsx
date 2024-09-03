@@ -99,7 +99,10 @@ export function BarChartComponent({
               top: 25,
               bottom: 50,
             }}
-            onClick={(v) => handleOrderStatusFilterChange(v.activeLabel || "")}
+            onClick={(v) => {
+              if (Object.keys(v).length === 0) return;
+              handleOrderStatusFilterChange(v.activeLabel || "");
+            }}
           >
             <CartesianGrid vertical={false} />
             <XAxis
