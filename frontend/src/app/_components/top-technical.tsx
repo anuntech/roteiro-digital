@@ -43,7 +43,10 @@ export function TopTechnical({
             return (
               <div className="flex items-center">
                 <Avatar>
-                  <AvatarImage src={avatarList[randomIndex]} />
+                  <AvatarImage
+                    className="scale-110 transform rounded-full object-cover"
+                    src={avatarList[randomIndex]}
+                  />
                 </Avatar>
                 <div className="ml-4 space-y-1">
                   <p className="text-sm font-medium leading-none">
