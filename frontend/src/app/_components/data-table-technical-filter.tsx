@@ -80,24 +80,25 @@ export function DataTableTechnicalFilter({
                 {technicalOptions.length}
               </Badge>
               <div className="hidden space-x-1 lg:flex">
-                {technicalOptions.length > 2 ? (
-                  <Badge
-                    variant="secondary"
-                    className="rounded-sm px-1 font-normal"
-                  >
-                    {selectedValues.length} selecionados
-                  </Badge>
-                ) : (
-                  technicalOptions?.map((option) => (
+                {selectedValues.length > 0 &&
+                  (technicalOptions.length > 2 ? (
                     <Badge
                       variant="secondary"
-                      key={option}
                       className="rounded-sm px-1 font-normal"
                     >
-                      {option}
+                      {selectedValues.length} selecionados
                     </Badge>
-                  ))
-                )}
+                  ) : (
+                    technicalOptions?.map((option) => (
+                      <Badge
+                        variant="secondary"
+                        key={option}
+                        className="rounded-sm px-1 font-normal"
+                      >
+                        {option}
+                      </Badge>
+                    ))
+                  ))}
               </div>
             </>
           )}
