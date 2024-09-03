@@ -76,7 +76,6 @@ export async function getTopTechnical(app: FastifyInstance) {
 
       const digitalScriptsFromDb = await prisma.checklistAnuntech.findMany({
         select: {
-          technical_name: true,
           technical: true,
           received_value: true,
           service_order_status: true,
@@ -107,18 +106,12 @@ export async function getTopTechnical(app: FastifyInstance) {
 
       const technicalsReceivedValue = digitalScriptsFromDb.reduce(
         (acc, script) => {
-          const {
-            technical_name,
-            technical,
-            received_value,
-            service_order_status,
-          } = script;
-          if (!technical_name || !technical) return acc;
+          const { technical, received_value, service_order_status } = script;
+          if (!technical) return acc;
 
-          const key = `${technical_name}-${technical}`;
+          const key = `${technical}`;
           if (!acc[key]) {
             acc[key] = {
-              technical_name,
               technical: technical.toString(),
               total_received_value: 0,
               executed_services: 0,
@@ -135,7 +128,7 @@ export async function getTopTechnical(app: FastifyInstance) {
         {} as Record<
           string,
           {
-            technical_name: string;
+            technical_name?: string;
             technical: string;
             total_received_value: number;
             executed_services: number;
@@ -146,7 +139,23 @@ export async function getTopTechnical(app: FastifyInstance) {
       const topTechnicals = Object.values(technicalsReceivedValue).sort(
         (a, b) => b.total_received_value - a.total_received_value
       );
-      return reply.status(200).send(topTechnicals);
+
+      const topTechnicalWithName = await Promise.all(
+        topTechnicals.map(async (val) => {
+          return {
+            ...val,
+            technical_name: (
+              await prisma.technicals.findUnique({
+                where: {
+                  technical_number: val.technical,
+                },
+              })
+            )?.name,
+          };
+        })
+      );
+
+      return reply.status(200).send(topTechnicalWithName);
     }
   );
 }
