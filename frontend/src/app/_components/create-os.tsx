@@ -157,8 +157,8 @@ export const CreateOs = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size="sm" className="h-8 px-2 lg:px-3">
-          <Plus className="black size-4" /> Adicionar
+        <Button size="sm" className="ml-auto hidden h-8 lg:flex">
+          <Plus className="black mr-2 size-4" /> Adicionar
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[90vh] overflow-y-auto">

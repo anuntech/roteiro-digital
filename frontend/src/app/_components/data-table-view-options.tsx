@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import { Table } from '@tanstack/react-table'
+import { Table } from "@tanstack/react-table";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -8,33 +8,33 @@ import {
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu'
-import { Button } from '@/components/ui/button'
-import { Settings2 } from 'lucide-react'
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Settings2 } from "lucide-react";
 
 interface DataTableViewOptionsProps<TData> {
-  table: Table<TData>
+  table: Table<TData>;
 }
 
 const columnNameMap: Record<string, string> = {
-  created_at: 'Visita',
-  order_id: 'Serviço',
-  technical_name: 'Técnico',
-  company_name: 'Autorizada',
-  order_classification: 'Classificação',
-  service_order_status: 'Status do serviço',
-  payment_method: 'Método',
-  payment_condition: 'Condição',
-  parts_value: 'Peças',
-  labor_value: 'M. obra',
-  visit_fee: 'Taxa',
-  received_value: 'Recebido',
-  advance_revenue: 'Adiantamento',
-  revenue_deduction: 'Abatimento',
-  payment_receipt: 'Comprovante',
-  notes: 'Anotações',
-  actions: 'Ações',
-}
+  created_at: "Visita",
+  order_id: "Serviço",
+  technical_name: "Técnico",
+  company_name: "Autorizada",
+  order_classification: "Classificação",
+  service_order_status: "Status do serviço",
+  payment_method: "Método",
+  payment_condition: "Condição",
+  parts_value: "Peças",
+  labor_value: "M. obra",
+  visit_fee: "Taxa",
+  received_value: "Recebido",
+  advance_revenue: "Adiantamento",
+  revenue_deduction: "Abatimento",
+  payment_receipt: "Comprovante",
+  notes: "Anotações",
+  actions: "Ações",
+};
 
 export function DataTableViewOptions<TData>({
   table,
@@ -58,10 +58,10 @@ export function DataTableViewOptions<TData>({
           .getAllColumns()
           .filter(
             (column) =>
-              typeof column.accessorFn !== 'undefined' && column.getCanHide(),
+              typeof column.accessorFn !== "undefined" && column.getCanHide(),
           )
           .map((column) => {
-            const columnName = columnNameMap[column.id] || column.id
+            const columnName = columnNameMap[column.id] || column.id;
 
             return (
               <DropdownMenuCheckboxItem
@@ -71,9 +71,9 @@ export function DataTableViewOptions<TData>({
               >
                 {columnName}
               </DropdownMenuCheckboxItem>
-            )
+            );
           })}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
