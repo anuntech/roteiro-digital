@@ -58,10 +58,12 @@ export function BarChartComponent({
     .reduce((acc, curr) => acc + (curr as any).quantity, 0);
   top4.sort((a, b) => (b as any).quantity - (a as any).quantity);
 
-  top4.push({
-    quantity: othersSum,
-    value: "Outros",
-  } as dataInput);
+  if (initialDataWithoutSomeValues.length > 4)
+    top4.push({
+      quantity: othersSum,
+      value: "Outros",
+    } as dataInput);
+
   const unproductiveSum = (orderStatus as any).reduce(
     (accumulator: any, current: any) => {
       if (current.value === "Serviço Executado") return accumulator;
