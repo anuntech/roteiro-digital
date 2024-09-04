@@ -52,27 +52,16 @@ export function BarChartComponent({
     filterToRemoveSomeValue,
   );
 
-  const tickFormatter = (value: string) => {
-    const dataUsing = initialDataWithoutSomeValues;
-    if (dataUsing.length <= 4) {
-      return value.length > 20 ? value.slice(0, 20) + "..." : value;
-    }
+  const top4 = initialDataWithoutSomeValues.slice(0, 4) as dataInput[];
+  const othersSum = initialDataWithoutSomeValues
+    .slice(4)
+    .reduce((acc, curr) => acc + (curr as any).quantity, 0);
+  top4.sort((a, b) => (b as any).quantity - (a as any).quantity);
 
-    if (dataUsing.length >= 4 && dataUsing.length <= 6) {
-      return value.length > 17 ? value.slice(0, 17) + "..." : value;
-    }
-
-    if (dataUsing.length >= 6 && dataUsing.length <= 7) {
-      return value.length > 13 ? value.slice(0, 13) + "..." : value;
-    }
-
-    if (dataUsing.length >= 7 && dataUsing.length <= 15) {
-      return value.length > 6 ? value.slice(0, 6) + "..." : value;
-    }
-
-    return value.slice(0, 4) + "...";
-  };
-
+  top4.push({
+    quantity: othersSum,
+    value: "Outros",
+  } as dataInput);
   const unproductiveSum = (orderStatus as any).reduce(
     (accumulator: any, current: any) => {
       if (current.value === "Serviço Executado") return accumulator;
@@ -93,7 +82,7 @@ export function BarChartComponent({
         <ChartContainer config={chartConfig}>
           <BarChart
             accessibilityLayer
-            data={initialDataWithoutSomeValues}
+            data={top4}
             width={500}
             margin={{
               top: 25,
@@ -109,8 +98,10 @@ export function BarChartComponent({
               dataKey="value"
               tickMargin={10}
               tickLine={false}
+              tickFormatter={(value: string) =>
+                value.slice(0, 15) + (value.length > 15 ? "..." : "")
+              }
               axisLine={false}
-              tickFormatter={tickFormatter}
               padding={{ left: 0, right: 0 }}
             />
             <YAxis
