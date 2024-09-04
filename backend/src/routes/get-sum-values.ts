@@ -115,8 +115,8 @@ export async function getSumValues(app: FastifyInstance) {
                 : undefined,
           },
           service_order_status: {
-            ...serviceOrderStatusValidation,
             notIn: othersOrderStatusFilterNotIn,
+            ...serviceOrderStatusValidation,
             contains:
               othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },
@@ -150,8 +150,8 @@ export async function getSumValues(app: FastifyInstance) {
                 : undefined,
           },
           service_order_status: {
-            ...serviceOrderStatusValidation,
             notIn: othersOrderStatusFilterNotIn,
+            ...serviceOrderStatusValidation,
             contains:
               othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },
@@ -181,8 +181,8 @@ export async function getSumValues(app: FastifyInstance) {
                 : undefined,
           },
           service_order_status: {
-            ...serviceOrderStatusValidation,
             notIn: othersOrderStatusFilterNotIn,
+            ...serviceOrderStatusValidation,
             contains:
               othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },
@@ -215,8 +215,8 @@ export async function getSumValues(app: FastifyInstance) {
                 : undefined,
           },
           service_order_status: {
-            ...serviceOrderStatusValidation,
             notIn: othersOrderStatusFilterNotIn,
+            ...serviceOrderStatusValidation,
             contains:
               othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },
@@ -249,8 +249,8 @@ export async function getSumValues(app: FastifyInstance) {
                 : undefined,
           },
           service_order_status: {
-            ...serviceOrderStatusValidation,
             notIn: othersOrderStatusFilterNotIn,
+            ...serviceOrderStatusValidation,
             contains:
               othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },
@@ -336,8 +336,8 @@ export async function getSumValues(app: FastifyInstance) {
               "Produto/Peça Retirada da Oficina",
               "Reagendado",
             ],
-            ...serviceOrderStatusValidation,
             notIn: othersOrderStatusFilterNotIn,
+            ...serviceOrderStatusValidation,
             contains:
               othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },

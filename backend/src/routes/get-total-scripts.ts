@@ -111,8 +111,8 @@ export async function getTotalScripts(app: FastifyInstance) {
                 : undefined,
           },
           service_order_status: {
-            ...serviceOrderStatusValidation,
             notIn: othersOrderStatusFilterNotIn,
+            ...serviceOrderStatusValidation,
             contains:
               othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },
