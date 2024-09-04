@@ -19,6 +19,7 @@ export async function getSumValues(app: FastifyInstance) {
           technicalFilter: z.string().optional(),
           orderStatusFilter: z.string().optional(),
           methodFilter: z.string().optional(),
+          orderStatusFilterNotIn: z.string().optional(),
         }),
       },
     },
@@ -31,6 +32,7 @@ export async function getSumValues(app: FastifyInstance) {
         technicalFilter = "",
         orderStatusFilter = "",
         methodFilter = "",
+        orderStatusFilterNotIn = "",
       } = request.query as any;
 
       const companyFilterArray = companyFilter
@@ -39,6 +41,10 @@ export async function getSumValues(app: FastifyInstance) {
 
       const technicalFilterArray = technicalFilter
         ? technicalFilter.split(",").map((name: string) => name.trim())
+        : [];
+
+      const othersOrderStatusFilterNotIn = orderStatusFilterNotIn
+        ? orderStatusFilterNotIn.split(",").map((name: string) => name.trim())
         : [];
 
       const dateFilter: any = {};
@@ -110,7 +116,9 @@ export async function getSumValues(app: FastifyInstance) {
           },
           service_order_status: {
             ...serviceOrderStatusValidation,
-            contains: orderStatusFilter,
+            notIn: othersOrderStatusFilterNotIn,
+            contains:
+              othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },
           payment_method: paymentMethodForCardAndOthers,
         },
@@ -143,7 +151,9 @@ export async function getSumValues(app: FastifyInstance) {
           },
           service_order_status: {
             ...serviceOrderStatusValidation,
-            contains: orderStatusFilter,
+            notIn: othersOrderStatusFilterNotIn,
+            contains:
+              othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },
         },
       });
@@ -172,7 +182,9 @@ export async function getSumValues(app: FastifyInstance) {
           },
           service_order_status: {
             ...serviceOrderStatusValidation,
-            contains: orderStatusFilter,
+            notIn: othersOrderStatusFilterNotIn,
+            contains:
+              othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },
         },
       });
@@ -204,7 +216,9 @@ export async function getSumValues(app: FastifyInstance) {
           },
           service_order_status: {
             ...serviceOrderStatusValidation,
-            contains: orderStatusFilter,
+            notIn: othersOrderStatusFilterNotIn,
+            contains:
+              othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },
         },
       });
@@ -236,7 +250,9 @@ export async function getSumValues(app: FastifyInstance) {
           },
           service_order_status: {
             ...serviceOrderStatusValidation,
-            contains: orderStatusFilter,
+            notIn: othersOrderStatusFilterNotIn,
+            contains:
+              othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },
         },
       });
@@ -276,8 +292,10 @@ export async function getSumValues(app: FastifyInstance) {
               "Consumidor Ausente",
               "Local Inadequado",
               "Endereço Não Localizado",
+              ...othersOrderStatusFilterNotIn,
             ],
-            contains: orderStatusFilter,
+            contains:
+              othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },
           payment_method: paymentMethodForCardAndOthers,
         },
@@ -319,7 +337,9 @@ export async function getSumValues(app: FastifyInstance) {
               "Reagendado",
             ],
             ...serviceOrderStatusValidation,
-            contains: orderStatusFilter,
+            notIn: othersOrderStatusFilterNotIn,
+            contains:
+              othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },
           payment_method: paymentMethodForCardAndOthers,
         },
