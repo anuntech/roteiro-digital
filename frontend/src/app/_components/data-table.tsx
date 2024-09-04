@@ -185,6 +185,7 @@ export function DataTable<TData, TValue>({
     technicalFilter?: string[];
     orderStatusFilter?: string;
     methodFilter?: string;
+    orderStatusFilterNotIn?: string[];
   }) {
     setLoadingTotalValues(true);
     try {
@@ -196,6 +197,7 @@ export function DataTable<TData, TValue>({
         params.technicalFilter,
         params.orderStatusFilter,
         params.methodFilter,
+        params.orderStatusFilterNotIn,
       );
 
       setTotalValues(data);
@@ -214,6 +216,7 @@ export function DataTable<TData, TValue>({
     technicalFilter?: string[];
     orderStatusFilter?: string;
     methodFilter?: string;
+    orderStatusFilterNotIn?: string[];
   }) {
     try {
       const data = await getTotalData(
@@ -224,6 +227,7 @@ export function DataTable<TData, TValue>({
         params.technicalFilter,
         params.orderStatusFilter,
         params.methodFilter,
+        params.orderStatusFilterNotIn,
       );
 
       setTotalCount(data);

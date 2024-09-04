@@ -116,7 +116,9 @@ export async function getDigitalScripts(app: FastifyInstance) {
           },
           service_order_status: {
             ...serviceOrderStatusValidation,
-            contains: orderStatusFilter,
+            notIn: othersOrderStatusFilterNotIn,
+            contains:
+              othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },
           company_name: {
             in: companyFilterArray.length > 0 ? companyFilterArray : undefined,

@@ -8,6 +8,7 @@ export async function getTotalData(
   technicalFilter?: string[],
   orderStatusFilter?: string,
   methodFilter?: string,
+  orderStatusFilterNotIn?: string[],
 ): Promise<number> {
   const response = await api.get("/digital-scripts/total", {
     params: {
@@ -18,6 +19,7 @@ export async function getTotalData(
       technicalFilter: technicalFilter?.join(", "),
       orderStatusFilter,
       methodFilter,
+      orderStatusFilterNotIn: orderStatusFilterNotIn?.join(", "),
     },
   });
 

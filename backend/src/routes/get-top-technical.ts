@@ -19,6 +19,7 @@ export async function getTopTechnical(app: FastifyInstance) {
           technicalFilter: z.string().optional(),
           orderStatusFilter: z.string().optional(),
           methodFilter: z.string().optional(),
+          orderStatusFilterNotIn: z.string().optional(),
         }),
       },
     },
@@ -31,6 +32,7 @@ export async function getTopTechnical(app: FastifyInstance) {
         technicalFilter = "",
         orderStatusFilter = "",
         methodFilter = "",
+        orderStatusFilterNotIn = "",
       } = request.query as any;
 
       const companyFilterArray = companyFilter
@@ -53,6 +55,10 @@ export async function getTopTechnical(app: FastifyInstance) {
         dateFilter.gte = null;
         dateFilter.lte = null;
       }
+
+      const othersOrderStatusFilterNotIn = orderStatusFilterNotIn
+        ? orderStatusFilterNotIn.split(",").map((name: string) => name.trim())
+        : [];
 
       let paymentMethodForCardAndOthers = {};
       let serviceOrderStatusValidation = {};
@@ -116,7 +122,9 @@ export async function getTopTechnical(app: FastifyInstance) {
           },
           service_order_status: {
             ...serviceOrderStatusValidation,
-            contains: orderStatusFilter,
+            notIn: othersOrderStatusFilterNotIn,
+            contains:
+              othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },
           payment_method: paymentMethodForCardAndOthers,
         },
