@@ -42,7 +42,10 @@ export function BarChartComponent({
   handleOrderStatusFilterChange,
 }: {
   className: string;
-  handleOrderStatusFilterChange: (orderStatus: string) => void;
+  handleOrderStatusFilterChange: (
+    orderStatus: string,
+    valuesFilterNotIn: string[],
+  ) => void;
 }) {
   const { orderStatus } = useGlobalOrderStatusContext();
 
@@ -92,7 +95,10 @@ export function BarChartComponent({
             }}
             onClick={(v) => {
               if (Object.keys(v).length === 0) return;
-              handleOrderStatusFilterChange(v.activeLabel || "");
+              handleOrderStatusFilterChange(
+                v.activeLabel || "",
+                top4.slice(0, 4).map((item) => item.value),
+              );
             }}
           >
             <CartesianGrid vertical={false} />

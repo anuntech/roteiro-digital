@@ -20,6 +20,7 @@ export async function getDigitalScripts(app: FastifyInstance) {
           technicalFilter: z.string().optional(),
           orderStatusFilter: z.string().optional(),
           methodFilter: z.string().optional(),
+          orderStatusFilterNotIn: z.string().optional(),
         }),
       },
     },
@@ -33,6 +34,7 @@ export async function getDigitalScripts(app: FastifyInstance) {
         technicalFilter = "",
         orderStatusFilter = "",
         methodFilter = "",
+        orderStatusFilterNotIn = "",
       } = request.query as any;
 
       const companyFilterArray = companyFilter
@@ -41,6 +43,10 @@ export async function getDigitalScripts(app: FastifyInstance) {
 
       const technicalFilterArray = technicalFilter
         ? technicalFilter.split(",").map((name: string) => name.trim())
+        : [];
+
+      const othersOrderStatusFilterNotIn = orderStatusFilterNotIn
+        ? orderStatusFilterNotIn.split(",").map((name: string) => name.trim())
         : [];
 
       const offset = (page - 1) * 10;

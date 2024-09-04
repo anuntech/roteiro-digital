@@ -77,6 +77,9 @@ export function DataTable<TData, TValue>({
     useState<TopTechnicalInputProps[]>(initialTopTechnical);
   const [orderStatusFilter, setOrderStatusFilter] = useState<string>("");
   const [methodFilter, setMethodFilter] = useState<string>("");
+  const [orderStatusFilterNotIn, setOrderStatusFilterNotIn] = useState<
+    string[]
+  >([]);
 
   const table = useReactTable({
     data,
@@ -124,6 +127,7 @@ export function DataTable<TData, TValue>({
     technicalFilter?: string[];
     orderStatusFilter?: string;
     methodFilter?: string;
+    orderStatusFilterNotIn?: string[];
   }) {
     setLoading(true);
     try {
@@ -136,6 +140,7 @@ export function DataTable<TData, TValue>({
         params.technicalFilter,
         params.orderStatusFilter,
         params.methodFilter,
+        params.orderStatusFilterNotIn,
       );
 
       const classificationUpdate = await getOrderStatus(
@@ -147,6 +152,7 @@ export function DataTable<TData, TValue>({
         params.technicalFilter,
         params.orderStatusFilter,
         params.methodFilter,
+        params.orderStatusFilterNotIn,
       );
 
       const topTechnicalResponse = await getTopTechnical(
@@ -158,6 +164,7 @@ export function DataTable<TData, TValue>({
         params.technicalFilter,
         params.orderStatusFilter,
         params.methodFilter,
+        params.orderStatusFilterNotIn,
       );
 
       setTopTechnical(topTechnicalResponse);
@@ -251,6 +258,7 @@ export function DataTable<TData, TValue>({
       technicalFilter,
       orderStatusFilter,
       methodFilter,
+      orderStatusFilterNotIn,
       ...data,
     };
 
@@ -294,10 +302,21 @@ export function DataTable<TData, TValue>({
     await reloadFetches({ technicalFilter: technicians });
   }
 
-  async function handleOrderStatusFilterChange(orderStatus: string) {
+  async function handleOrderStatusFilterChange(
+    orderStatus: string,
+    valuesFilterNotIn: string[],
+  ) {
     const orderStatusValue = orderStatusFilter.length > 0 ? "" : orderStatus;
+    const orderStatusFilterNotInValue =
+      orderStatusValue == "Outros" ? valuesFilterNotIn : [];
+
+    setOrderStatusFilterNotIn(orderStatusFilterNotInValue);
+
     setOrderStatusFilter(orderStatusValue);
-    await reloadFetches({ orderStatusFilter: orderStatusValue });
+    await reloadFetches({
+      orderStatusFilter: orderStatusValue,
+      orderStatusFilterNotIn: orderStatusFilterNotInValue,
+    });
   }
 
   async function handleMethodFilterChange(method: string) {
