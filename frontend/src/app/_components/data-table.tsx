@@ -352,6 +352,7 @@ export function DataTable<TData, TValue>({
             // className="h-[550px] w-[2085px]"
             className="h-[50vh] w-[100%] flex-col"
             handleOrderStatusFilterChange={handleOrderStatusFilterChange}
+            orderStatusFilterNotIn={orderStatusFilterNotIn}
           />
           <TopTechnical technical={topTechnical} />
         </div>

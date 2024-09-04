@@ -40,12 +40,14 @@ type dataInput = {
 export function BarChartComponent({
   className,
   handleOrderStatusFilterChange,
+  orderStatusFilterNotIn,
 }: {
   className: string;
   handleOrderStatusFilterChange: (
     orderStatus: string,
     valuesFilterNotIn: string[],
   ) => void;
+  orderStatusFilterNotIn: string[];
 }) {
   const { orderStatus } = useGlobalOrderStatusContext();
 
@@ -67,7 +69,7 @@ export function BarChartComponent({
       value: "Outros",
     } as dataInput);
 
-  const unproductiveSum = (orderStatus as any).reduce(
+  const unproductiveSum = (top4 as any).reduce(
     (accumulator: any, current: any) => {
       if (current.value === "Serviço Executado") return accumulator;
       return accumulator + Number(current.quantity);
@@ -87,7 +89,11 @@ export function BarChartComponent({
         <ChartContainer config={chartConfig}>
           <BarChart
             accessibilityLayer
-            data={top4}
+            data={
+              orderStatusFilterNotIn?.length > 0
+                ? initialDataWithoutSomeValues
+                : top4
+            }
             width={500}
             margin={{
               top: 25,
