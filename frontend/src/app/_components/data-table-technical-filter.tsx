@@ -70,7 +70,7 @@ export function DataTableTechnicalFilter({
         <Button variant="outline" size="sm" className="h-8 border-dashed">
           <PlusCircle className="mr-2 size-4" />
           Técnico
-          {technicalOptions?.length > 0 && (
+          {selectedValues?.length > 0 && (
             <>
               <Separator orientation="vertical" className="mx-2 h-4" />
               <Badge
@@ -80,25 +80,24 @@ export function DataTableTechnicalFilter({
                 {technicalOptions.length}
               </Badge>
               <div className="hidden space-x-1 lg:flex">
-                {selectedValues.length > 0 &&
-                  (technicalOptions.length > 2 ? (
+                {technicalOptions.length > 2 ? (
+                  <Badge
+                    variant="secondary"
+                    className="rounded-sm px-1 font-normal"
+                  >
+                    {selectedValues.length} selecionados
+                  </Badge>
+                ) : (
+                  technicalOptions?.map((option) => (
                     <Badge
                       variant="secondary"
+                      key={option}
                       className="rounded-sm px-1 font-normal"
                     >
-                      {selectedValues.length} selecionados
+                      {option}
                     </Badge>
-                  ) : (
-                    technicalOptions?.map((option) => (
-                      <Badge
-                        variant="secondary"
-                        key={option}
-                        className="rounded-sm px-1 font-normal"
-                      >
-                        {option}
-                      </Badge>
-                    ))
-                  ))}
+                  ))
+                )}
               </div>
             </>
           )}
