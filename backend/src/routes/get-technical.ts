@@ -29,7 +29,8 @@ export async function getTechnical(app: FastifyInstance) {
 
       const companyArray = companyFilter
         ?.split(",")
-        ?.map((name: string) => name.trim());
+        ?.map((name: string) => name.trim())
+        ?.filter((name: string) => name.length > 0);
 
       console.log(companyArray, "\n\n\n\n\n\n\n\n\n");
 
@@ -41,7 +42,7 @@ export async function getTechnical(app: FastifyInstance) {
             contains: technicalFilter,
           },
           company_name: {
-            in: companyArray.length > 1 ? companyArray : undefined,
+            in: companyArray.length > 0 ? companyArray : undefined,
           },
         },
       });

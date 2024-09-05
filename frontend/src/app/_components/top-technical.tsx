@@ -39,7 +39,7 @@ export function TopTechnical({
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Top vendedores</CardTitle>
+        <CardTitle>Ranking de vendas</CardTitle>
         <CardDescription>
           Realizaram um total de {formatCurrency(totalSum)}
         </CardDescription>

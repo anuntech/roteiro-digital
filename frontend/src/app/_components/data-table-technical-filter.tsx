@@ -67,7 +67,7 @@ export function DataTableTechnicalFilter({
     api
       .get(`/technical`, {
         params: {
-          companyFilter: companyFilter?.join(", "),
+          companyFilter: companyFilter?.join(","),
         },
       })
       .then((res) => {
