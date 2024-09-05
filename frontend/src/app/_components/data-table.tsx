@@ -358,7 +358,10 @@ export function DataTable<TData, TValue>({
             handleOrderStatusFilterChange={handleOrderStatusFilterChange}
             orderStatusFilterNotIn={orderStatusFilterNotIn}
           />
-          <TopTechnical technical={topTechnical} />
+          <TopTechnical
+            technical={topTechnical}
+            handleTechnicalFilterChange={handleTechnicalFilterChange}
+          />
         </div>
         <DataTableToolbar
           table={table}

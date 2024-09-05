@@ -20,12 +20,21 @@ export type TopTechnicalInputProps = {
 
 export function TopTechnical({
   technical,
+  handleTechnicalFilterChange,
 }: {
   technical: TopTechnicalInputProps[];
+  handleTechnicalFilterChange: (technicians: string[]) => Promise<void>;
 }) {
   const totalSum = technical?.reduce((accumulator, current) => {
     return accumulator + Number(current.total_received_value);
   }, 0);
+
+  const [isFiltering, setIsFiltering] = React.useState(false);
+
+  const handleTechnicalFilter = async (technical: string) => {
+    setIsFiltering(!isFiltering);
+    await handleTechnicalFilterChange([isFiltering ? technical : ""]);
+  };
 
   return (
     <Card className="w-full">
@@ -41,7 +50,10 @@ export function TopTechnical({
             const randomIndex = Math.floor(Math.random() * avatarList.length);
 
             return (
-              <div className="flex items-center">
+              <div
+                className="flex cursor-pointer items-center"
+                onClick={() => handleTechnicalFilter(val.technical)}
+              >
                 <Avatar>
                   <AvatarImage
                     className="scale-110 transform rounded-full object-cover"
