@@ -102,7 +102,20 @@ export async function getDigitalScripts(app: FastifyInstance) {
           break;
       }
 
-      console.log(technicalFilterArray, "\n\n\n\n aaaaaaaa");
+      const technicalNumbersForCompanyNameFilter = (
+        await prisma.technicals.findMany({
+          where: {
+            company_name: {
+              in:
+                companyFilterArray.length > 0 ? companyFilterArray : undefined,
+            },
+          },
+
+          select: {
+            technical_number: true,
+          },
+        })
+      ).map((item) => parseInt(item.technical_number));
 
       const digitalScriptsFromDb = await prisma.checklistAnuntech.findMany({
         skip: offset,
@@ -124,14 +137,11 @@ export async function getDigitalScripts(app: FastifyInstance) {
             contains:
               othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },
-          company_name: {
-            in: companyFilterArray.length > 0 ? companyFilterArray : undefined,
-          },
           technical: {
             in:
               technicalFilterArray.length > 0
                 ? technicalFilterArray
-                : undefined,
+                : technicalNumbersForCompanyNameFilter,
           },
           payment_method: paymentMethodForCardAndOthers,
         },
