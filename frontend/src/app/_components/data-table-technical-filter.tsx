@@ -59,7 +59,9 @@ export function DataTableTechnicalFilter({
   const [technicalOptions, setTechnicalOptions] = useState<string[]>([""]);
 
   useEffect(() => {
-    api.get(`/digital-scripts/technical`).then((res) => {
+    api.get(`/technical`).then((res) => {
+      console.log(res.data);
+
       setTechnicalOptions(res.data);
     });
   }, []);

@@ -18,6 +18,7 @@ import { getTechnical } from "./routes/get-technical";
 import { getDigitalScriptsTechnical } from "./routes/get-digital-script-technical";
 import { getDigitalScriptsClassificationStats } from "./routes/get-digital-script-order-status";
 import { getTopTechnical } from "./routes/get-top-technical";
+import { getTechnicalByNumber } from "./routes/get-technical-by-number";
 
 const app = fastify();
 config();
@@ -44,6 +45,7 @@ app.register(
     instance.register(getDigitalScriptsTechnical);
     instance.register(getDigitalScriptsClassificationStats);
     instance.register(getTopTechnical);
+    instance.register(getTechnicalByNumber);
 
     done();
   },
