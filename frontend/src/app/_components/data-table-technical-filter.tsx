@@ -115,7 +115,7 @@ export function DataTableTechnicalFilter({
       </PopoverTrigger>
       <PopoverContent className="w-[300px] p-0" align="start">
         <Command>
-          <CommandInput placeholder="Autorizada" />
+          <CommandInput placeholder="Técnico" />
           <CommandList>
             <CommandEmpty>Nenhum resultado encontrado.</CommandEmpty>
             <CommandGroup>
