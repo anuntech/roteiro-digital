@@ -120,7 +120,9 @@ export function DataTableTechnicalFilter({
             <CommandEmpty>Nenhum resultado encontrado.</CommandEmpty>
             <CommandGroup>
               {technicalOptions?.map((option) => {
-                const isSelected = selectedValues.includes(option.name);
+                const isSelected = selectedValues.includes(
+                  option.technicalNumber,
+                );
                 return (
                   <CommandItem
                     key={option.name}

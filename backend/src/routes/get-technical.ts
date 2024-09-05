@@ -20,10 +20,6 @@ export async function getTechnical(app: FastifyInstance) {
     async (request, reply) => {
       const { page, technicalFilter = "" } = request.query as any;
 
-      const technicalFilterArray = technicalFilter
-        ? technicalFilter.split(",").map((name: string) => name.trim())
-        : [];
-
       const offset = page ? (page - 1) * 10 : undefined;
 
       const technicals = await prisma.technicals.findMany({

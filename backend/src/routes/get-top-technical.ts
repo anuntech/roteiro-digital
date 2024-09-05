@@ -40,7 +40,9 @@ export async function getTopTechnical(app: FastifyInstance) {
         : [];
 
       const technicalFilterArray = technicalFilter
-        ? technicalFilter.split(",").map((name: string) => name.trim())
+        ? technicalFilter
+            .split(",")
+            .map((name: string) => parseInt(name.trim()))
         : [];
 
       const dateFilter: any = {};
@@ -114,7 +116,7 @@ export async function getTopTechnical(app: FastifyInstance) {
           company_name: {
             in: companyFilterArray.length > 0 ? companyFilterArray : undefined,
           },
-          technical_name: {
+          technical: {
             in:
               technicalFilterArray.length > 0
                 ? technicalFilterArray
