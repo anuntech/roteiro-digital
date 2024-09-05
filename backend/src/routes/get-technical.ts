@@ -14,13 +14,24 @@ export async function getTechnical(app: FastifyInstance) {
         querystring: z.object({
           page: z.coerce.number().optional(),
           technicalFilter: z.string().optional(),
+          companyFilter: z.string().optional(),
         }),
       },
     },
     async (request, reply) => {
-      const { page, technicalFilter = "" } = request.query as any;
+      const {
+        page,
+        technicalFilter = "",
+        companyFilter = "",
+      } = request.query as any;
 
       const offset = page ? (page - 1) * 10 : undefined;
+
+      const companyArray = companyFilter
+        ?.split(",")
+        ?.map((name: string) => name.trim());
+
+      console.log(companyArray, "\n\n\n\n\n\n\n\n\n");
 
       const technicals = await prisma.technicals.findMany({
         skip: offset,
@@ -28,6 +39,9 @@ export async function getTechnical(app: FastifyInstance) {
         where: {
           name: {
             contains: technicalFilter,
+          },
+          company_name: {
+            in: companyArray.length > 1 ? companyArray : undefined,
           },
         },
       });

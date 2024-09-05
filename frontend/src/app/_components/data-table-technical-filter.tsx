@@ -64,15 +64,21 @@ export function DataTableTechnicalFilter({
   const [technicalOptions, setTechnicalOptions] = useState<Option[]>([]);
 
   useEffect(() => {
-    api.get(`/technical`).then((res) => {
-      setTechnicalOptions(
-        res.data.map((item: any) => ({
-          name: item.name,
-          technicalNumber: item.technical_number,
-        })),
-      );
-    });
-  }, []);
+    api
+      .get(`/technical`, {
+        params: {
+          companyFilter: companyFilter?.join(", "),
+        },
+      })
+      .then((res) => {
+        setTechnicalOptions(
+          res.data.map((item: any) => ({
+            name: item.name,
+            technicalNumber: item.technical_number,
+          })),
+        );
+      });
+  }, [companyFilter]);
 
   return (
     <Popover>
