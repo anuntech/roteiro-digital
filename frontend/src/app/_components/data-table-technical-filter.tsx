@@ -56,13 +56,21 @@ export function DataTableTechnicalFilter({
     onChange([]);
   }
 
-  const [technicalOptions, setTechnicalOptions] = useState<string[]>([""]);
+  type Option = {
+    technicalNumber: string;
+    name: string;
+  };
+
+  const [technicalOptions, setTechnicalOptions] = useState<Option[]>([]);
 
   useEffect(() => {
     api.get(`/technical`).then((res) => {
-      console.log(res.data);
-
-      setTechnicalOptions(res.data.map((item: any) => item.name));
+      setTechnicalOptions(
+        res.data.map((item: any) => ({
+          name: item.name,
+          technicalNumber: item.technical_number,
+        })),
+      );
     });
   }, []);
 
@@ -93,10 +101,10 @@ export function DataTableTechnicalFilter({
                   technicalOptions?.map((option) => (
                     <Badge
                       variant="secondary"
-                      key={option}
+                      key={option.name}
                       className="rounded-sm px-1 font-normal"
                     >
-                      {option}
+                      {option.name}
                     </Badge>
                   ))
                 )}
@@ -112,11 +120,11 @@ export function DataTableTechnicalFilter({
             <CommandEmpty>Nenhum resultado encontrado.</CommandEmpty>
             <CommandGroup>
               {technicalOptions?.map((option) => {
-                const isSelected = selectedValues.includes(option);
+                const isSelected = selectedValues.includes(option.name);
                 return (
                   <CommandItem
-                    key={option}
-                    onSelect={() => handleSelect(option)}
+                    key={option.name}
+                    onSelect={() => handleSelect(option.technicalNumber)}
                   >
                     <div
                       className={cn(
@@ -128,7 +136,7 @@ export function DataTableTechnicalFilter({
                     >
                       <Check className={cn("size-4")} />
                     </div>
-                    <span>{option}</span>
+                    <span>{option.name}</span>
                   </CommandItem>
                 );
               })}
