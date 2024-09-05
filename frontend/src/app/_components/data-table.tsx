@@ -306,6 +306,10 @@ export function DataTable<TData, TValue>({
     await reloadFetches({ technicalFilter: technicians });
   }
 
+  async function handleTopTechnicalFilterChange(technicians: string[]) {
+    await reloadFetches({ technicalFilter: technicians });
+  }
+
   async function handleOrderStatusFilterChange(
     orderStatus: string,
     valuesFilterNotIn: string[],
@@ -360,7 +364,7 @@ export function DataTable<TData, TValue>({
           />
           <TopTechnical
             technical={topTechnical}
-            handleTechnicalFilterChange={handleTechnicalFilterChange}
+            handleTechnicalFilterChange={handleTopTechnicalFilterChange}
           />
         </div>
         <DataTableToolbar

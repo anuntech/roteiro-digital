@@ -29,11 +29,11 @@ export function TopTechnical({
     return accumulator + Number(current.total_received_value);
   }, 0);
 
-  const [isFiltering, setIsFiltering] = React.useState(false);
+  const [isFiltering, setIsFiltering] = React.useState(true);
 
   const handleTechnicalFilter = async (technical: string) => {
-    setIsFiltering(!isFiltering);
     await handleTechnicalFilterChange([isFiltering ? technical : ""]);
+    setIsFiltering(!isFiltering);
   };
 
   return (
