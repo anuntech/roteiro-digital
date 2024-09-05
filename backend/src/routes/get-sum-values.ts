@@ -95,6 +95,21 @@ export async function getSumValues(app: FastifyInstance) {
           break;
       }
 
+      const technicalNumbersForCompanyNameFilter = (
+        await prisma.technicals.findMany({
+          where: {
+            company_name: {
+              in:
+                companyFilterArray.length > 0 ? companyFilterArray : undefined,
+            },
+          },
+
+          select: {
+            technical_number: true,
+          },
+        })
+      ).map((item) => parseInt(item.technical_number));
+
       const totalReceivedValue = await prisma.checklistAnuntech.aggregate({
         _sum: {
           received_value: true,
@@ -107,14 +122,11 @@ export async function getSumValues(app: FastifyInstance) {
           order_id: {
             contains: orderIdFilter,
           },
-          company_name: {
-            in: companyFilterArray.length > 0 ? companyFilterArray : undefined,
-          },
           technical: {
             in:
               technicalFilterArray.length > 0
                 ? technicalFilterArray
-                : undefined,
+                : technicalNumbersForCompanyNameFilter,
           },
           service_order_status: {
             notIn: othersOrderStatusFilterNotIn,
@@ -142,14 +154,11 @@ export async function getSumValues(app: FastifyInstance) {
           order_id: {
             contains: orderIdFilter,
           },
-          company_name: {
-            in: companyFilterArray.length > 0 ? companyFilterArray : undefined,
-          },
           technical: {
             in:
               technicalFilterArray.length > 0
                 ? technicalFilterArray
-                : undefined,
+                : technicalNumbersForCompanyNameFilter,
           },
           service_order_status: {
             notIn: othersOrderStatusFilterNotIn,
@@ -173,14 +182,11 @@ export async function getSumValues(app: FastifyInstance) {
           order_id: {
             contains: orderIdFilter,
           },
-          company_name: {
-            in: companyFilterArray.length > 0 ? companyFilterArray : undefined,
-          },
           technical: {
             in:
               technicalFilterArray.length > 0
                 ? technicalFilterArray
-                : undefined,
+                : technicalNumbersForCompanyNameFilter,
           },
           service_order_status: {
             notIn: othersOrderStatusFilterNotIn,
@@ -207,14 +213,11 @@ export async function getSumValues(app: FastifyInstance) {
           order_id: {
             contains: orderIdFilter,
           },
-          company_name: {
-            in: companyFilterArray.length > 0 ? companyFilterArray : undefined,
-          },
           technical: {
             in:
               technicalFilterArray.length > 0
                 ? technicalFilterArray
-                : undefined,
+                : technicalNumbersForCompanyNameFilter,
           },
           service_order_status: {
             notIn: othersOrderStatusFilterNotIn,
@@ -241,14 +244,11 @@ export async function getSumValues(app: FastifyInstance) {
           order_id: {
             contains: orderIdFilter,
           },
-          company_name: {
-            in: companyFilterArray.length > 0 ? companyFilterArray : undefined,
-          },
           technical: {
             in:
               technicalFilterArray.length > 0
                 ? technicalFilterArray
-                : undefined,
+                : technicalNumbersForCompanyNameFilter,
           },
           service_order_status: {
             notIn: othersOrderStatusFilterNotIn,
@@ -273,14 +273,11 @@ export async function getSumValues(app: FastifyInstance) {
           order_id: {
             contains: orderIdFilter,
           },
-          company_name: {
-            in: companyFilterArray.length > 0 ? companyFilterArray : undefined,
-          },
           technical: {
             in:
               technicalFilterArray.length > 0
                 ? technicalFilterArray
-                : undefined,
+                : technicalNumbersForCompanyNameFilter,
           },
           service_order_status: {
             notIn: [
@@ -322,14 +319,11 @@ export async function getSumValues(app: FastifyInstance) {
           order_id: {
             contains: orderIdFilter,
           },
-          company_name: {
-            in: companyFilterArray.length > 0 ? companyFilterArray : undefined,
-          },
           technical: {
             in:
               technicalFilterArray.length > 0
                 ? technicalFilterArray
-                : undefined,
+                : technicalNumbersForCompanyNameFilter,
           },
           service_order_status: {
             in: [

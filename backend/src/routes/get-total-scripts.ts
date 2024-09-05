@@ -94,6 +94,21 @@ export async function getTotalScripts(app: FastifyInstance) {
           break;
       }
 
+      const technicalNumbersForCompanyNameFilter = (
+        await prisma.technicals.findMany({
+          where: {
+            company_name: {
+              in:
+                companyFilterArray.length > 0 ? companyFilterArray : undefined,
+            },
+          },
+
+          select: {
+            technical_number: true,
+          },
+        })
+      ).map((item) => parseInt(item.technical_number));
+
       const total = await prisma.checklistAnuntech.count({
         where: {
           created_at: {
@@ -103,14 +118,11 @@ export async function getTotalScripts(app: FastifyInstance) {
           order_id: {
             contains: orderIdFilter,
           },
-          company_name: {
-            in: companyFilterArray.length > 0 ? companyFilterArray : undefined,
-          },
           technical: {
             in:
               technicalFilterArray.length > 0
                 ? technicalFilterArray
-                : undefined,
+                : technicalNumbersForCompanyNameFilter,
           },
           service_order_status: {
             notIn: othersOrderStatusFilterNotIn,
