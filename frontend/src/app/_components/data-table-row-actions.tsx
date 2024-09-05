@@ -162,15 +162,25 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
     }));
   }
 
+  const [password, setPassword] = useState("");
   async function handleDeleteRow(id: string) {
-    const response = await api.delete(`/digital-scripts/${id}`);
-    setAlertDialogOpen(false);
-    // router.refresh()
-    window.location.reload();
+    try {
+      const response = await api.delete(`/digital-scripts/${id}`, {
+        params: { password },
+      });
+      setAlertDialogOpen(false);
+      // router.refresh()
+      window.location.reload();
 
-    if (response.status === 200) {
-      toast.message("Sucesso", {
-        description: "Roteiro deletado com sucesso!",
+      if (response.status === 200) {
+        toast.message("Sucesso", {
+          description: "Roteiro deletado com sucesso!",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.message("Erro!", {
+        description: "Falha ao deletar!",
       });
     }
   }
@@ -570,7 +580,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
       </Dialog>
 
       <AlertDialog open={isAlertDialogOpen} onOpenChange={setAlertDialogOpen}>
-        <AlertDialogContent>
+        <AlertDialogContent className="flex flex-col items-start">
           <AlertDialogHeader>
             <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
             <AlertDialogDescription>
@@ -578,14 +588,25 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
               essa informação da tabela.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setAlertDialogOpen(false)}>
-              Cancelar
-            </AlertDialogCancel>
-            <AlertDialogAction onClick={() => handleDeleteRow(row.id)}>
-              Continue
-            </AlertDialogAction>
-          </AlertDialogFooter>
+          <div className="flex w-full items-center justify-between">
+            <Input
+              className="w-36"
+              placeholder="Senha"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+            <AlertDialogFooter className="flex">
+              <AlertDialogCancel onClick={() => setAlertDialogOpen(false)}>
+                Cancelar
+              </AlertDialogCancel>
+              <Button
+                variant="destructive"
+                onClick={() => handleDeleteRow(row.id)}
+              >
+                Continue
+              </Button>
+            </AlertDialogFooter>
+          </div>
         </AlertDialogContent>
       </AlertDialog>
     </>
