@@ -33,7 +33,11 @@ export async function getData(
   const digitalScripts = await Promise.all(
     response.data.map(async (val: any) => {
       const { data } = await api.get(`/technical/${val.technical}`);
-      return { ...val, technical_name: data?.name };
+      return {
+        ...val,
+        technical_name: data?.name,
+        company_name: data?.company_name,
+      };
     }),
   );
   return digitalScripts;
