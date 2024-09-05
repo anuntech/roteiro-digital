@@ -62,7 +62,7 @@ export function DataTableTechnicalFilter({
     api.get(`/technical`).then((res) => {
       console.log(res.data);
 
-      setTechnicalOptions(res.data);
+      setTechnicalOptions(res.data.map((item: any) => item.name));
     });
   }, []);
 
