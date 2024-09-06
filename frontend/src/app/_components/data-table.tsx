@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import {
   ColumnDef,
   PaginationState,
+  Row,
   SortingState,
   VisibilityState,
   flexRender,
@@ -341,6 +342,42 @@ export function DataTable<TData, TValue>({
     setOrderStatusFilter("");
   }
 
+  const isRedRowFirstRule = (paymentMethod: string): boolean => {
+    return paymentMethod === "Pendente de Recebimento";
+  };
+
+  type secondRuleInput = {
+    orderClassification: string;
+    serviceOrderStatus: string;
+    receivedValue: number;
+  };
+
+  const isRedRowSecondRule = (data: secondRuleInput) => {
+    return (
+      data.orderClassification === "Fora de Garantia" &&
+      (data.serviceOrderStatus === "Serviço Executado" ||
+        data.serviceOrderStatus === "Instrução de Uso Sem Defeito") &&
+      data.receivedValue == 0
+    );
+  };
+
+  function isRedRow(row: Row<any>): boolean {
+    const {
+      payment_method,
+      service_order_status,
+      received_value,
+      order_classification,
+    } = row.original;
+    return (
+      isRedRowFirstRule(payment_method) ||
+      isRedRowSecondRule({
+        orderClassification: order_classification,
+        serviceOrderStatus: service_order_status,
+        receivedValue: received_value,
+      })
+    );
+  }
+
   return (
     <div className="space-y-8">
       <div className="space-y-4">
@@ -427,7 +464,12 @@ export function DataTable<TData, TValue>({
                     data-state={row.getIsSelected() && "selected"}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
+                      <TableCell
+                        key={cell.id}
+                        className={
+                          isRedRow(row) ? "bg-destructive text-white" : ""
+                        }
+                      >
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext(),
