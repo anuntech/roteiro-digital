@@ -1,6 +1,7 @@
 "use client";
 
-import { Table } from "@tanstack/react-table";
+import { useEffect } from "react";
+import { Column, Table } from "@tanstack/react-table";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -39,6 +40,45 @@ const columnNameMap: Record<string, string> = {
 export function DataTableViewOptions<TData>({
   table,
 }: DataTableViewOptionsProps<TData>) {
+  const saveVisibilityToLocalStorage = (column: Column<TData>) => {
+    const invisibleColumns = JSON.parse(
+      localStorage.getItem("tableInvisibleVisibleColumns") || "[]",
+    ) as string[];
+
+    if (column.getIsVisible()) {
+      invisibleColumns.push(column.id);
+    } else {
+      invisibleColumns.splice(invisibleColumns.indexOf(column.id), 1);
+    }
+
+    localStorage.setItem(
+      "tableInvisibleVisibleColumns",
+      JSON.stringify(invisibleColumns),
+    );
+  };
+
+  const loadVisibilityFromLocalStorage = () => {
+    const storedVisibility = localStorage.getItem(
+      "tableInvisibleVisibleColumns",
+    );
+    if (storedVisibility) {
+      const invisibleColumns: string[] = JSON.parse(storedVisibility);
+
+      table.getAllColumns().forEach((column) => {
+        if (invisibleColumns.includes(column.id)) {
+          column.toggleVisibility(false);
+          return;
+        }
+
+        column.toggleVisibility(true);
+      });
+    }
+  };
+
+  useEffect(() => {
+    loadVisibilityFromLocalStorage();
+  }, [table]);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -67,7 +107,10 @@ export function DataTableViewOptions<TData>({
               <DropdownMenuCheckboxItem
                 key={column.id}
                 checked={column.getIsVisible()}
-                onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                onCheckedChange={(value) => {
+                  column.toggleVisibility(value);
+                  saveVisibilityToLocalStorage(column);
+                }}
               >
                 {columnName}
               </DropdownMenuCheckboxItem>
