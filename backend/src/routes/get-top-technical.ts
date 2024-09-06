@@ -92,6 +92,16 @@ export async function getTopTechnical(app: FastifyInstance) {
             ],
           };
           break;
+        case "Aprovado":
+          serviceOrderStatusValidation = {
+            in: [
+              "Falta/Voltar com Peça",
+              "Oficina - Aguardando Retirada",
+              "Produto/Peça Retirada da Oficina",
+              "Reagendado",
+            ],
+          };
+          break;
         default:
           paymentMethodForCardAndOthers = {
             contains: methodFilter == "Outros" ? "undefined" : methodFilter,
