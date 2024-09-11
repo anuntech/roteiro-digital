@@ -140,7 +140,7 @@ export const CreateOs = () => {
     const technicalName = formData.technical_name;
 
     const foundTechnical = technicalInfo?.find(
-      (item: any) => item.name === technicalName,
+      (item: any) => item.technical_number === formData.technical,
     );
 
     return foundTechnical?.company_name;
