@@ -1,4 +1,10 @@
-import { Dispatch, SetStateAction } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { DateRange } from "react-day-picker";
 import { Table } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
@@ -18,6 +24,7 @@ import { ptBR } from "date-fns/locale";
 import { DataTableCompanyFilter } from "./data-table-company-filter";
 import { DataTableTechnicalFilter } from "./data-table-technical-filter";
 import { CreateOs } from "./create-os";
+import { debounce } from "lodash";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -50,6 +57,7 @@ export function DataTableToolbar<TData>({
   handleTechnicalFilterChange,
   resetFilter,
 }: DataTableToolbarProps<TData>) {
+  const [orderIdValue, setOrderIdValue] = useState("");
   const isFiltered =
     table.getState().columnFilters.length > 0 ||
     dateFilter !== undefined ||
@@ -61,6 +69,19 @@ export function DataTableToolbar<TData>({
       : format(dateFilter.from, "dd LLL, yyyy", { locale: ptBR })
     : null;
 
+  const debouncedSetOrderIdFilter = useCallback(
+    debounce((value: string) => {
+      setOrderIdFilter(value);
+    }, 400),
+    [setOrderIdFilter],
+  );
+
+  useEffect(() => {
+    return () => {
+      debouncedSetOrderIdFilter.cancel();
+    };
+  }, [debouncedSetOrderIdFilter]);
+
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center gap-2">
@@ -68,8 +89,11 @@ export function DataTableToolbar<TData>({
           <Search className="absolute left-3 size-4" />
           <Input
             placeholder="Buscar ordem de serviço..."
-            value={orderIdFilter}
-            onChange={(event) => setOrderIdFilter(event.target.value.trim())}
+            value={orderIdValue}
+            onChange={(event) => {
+              setOrderIdValue(event.target.value.trim());
+              debouncedSetOrderIdFilter(event.target.value.trim());
+            }}
             className="h-8 w-40 px-9 lg:w-64"
           />
         </div>
