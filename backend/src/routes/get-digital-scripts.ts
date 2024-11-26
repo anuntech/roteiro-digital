@@ -132,7 +132,7 @@ export async function getDigitalScripts(app: FastifyInstance) {
           company_name: {
             in: companyFilterArray.length > 0 ? companyFilterArray : undefined,
           },
-          technical: {
+          technical_id: {
             in:
               technicalFilterArray.length > 0
                 ? technicalFilterArray
@@ -168,10 +168,10 @@ export async function getDigitalScripts(app: FastifyInstance) {
           revenue_deduction: script.revenue_deduction ?? 0,
           notes: script.notes ?? "",
           payment_receipt: script.payment_receipt ?? "",
-          technical: script.technical,
+          technical: script.technical_id,
         };
       });
-      console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCC");
+      console.log(digitalScripts);
       return reply.status(200).send(digitalScripts);
     }
   );

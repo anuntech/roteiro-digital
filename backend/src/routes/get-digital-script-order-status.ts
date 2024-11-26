@@ -125,7 +125,7 @@ export async function getDigitalScriptsClassificationStats(
           company_name: {
             in: companyFilterArray.length > 0 ? companyFilterArray : undefined,
           },
-          technical: {
+          technical_id: {
             in:
               technicalFilterArray.length > 0
                 ? technicalFilterArray

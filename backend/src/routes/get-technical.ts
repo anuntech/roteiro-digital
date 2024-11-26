@@ -47,13 +47,17 @@ export async function getTechnical(app: FastifyInstance) {
         },
         distinct: ["technical", "technical_name", "company_name"],
         select: {
-          technical: true,
+          technical_id: true,
           technical_name: true,
           company_name: true,
         },
       });
 
-      return reply.status(200).send(technicals);
+      return reply
+        .status(200)
+        .send(
+          technicals.map((item) => ({ ...item, technical: item.technical_id }))
+        );
     }
   );
 }

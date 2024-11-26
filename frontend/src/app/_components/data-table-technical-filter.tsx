@@ -40,6 +40,7 @@ export function DataTableTechnicalFilter({
   setSelectedValues,
   onChange,
 }: DataTableTechnicalFilterProps) {
+  console.log(selectedValues);
   function handleSelect(label: string) {
     const newSelectedValues = new Set(selectedValues);
     if (newSelectedValues.has(label)) {
@@ -71,12 +72,13 @@ export function DataTableTechnicalFilter({
         },
       })
       .then((res) => {
-        setTechnicalOptions(
-          res.data.map((item: any) => ({
-            name: item.technical_name,
-            technicalNumber: item.technical,
-          })),
-        );
+        console.log(res.data),
+          setTechnicalOptions(
+            res.data.map((item: any) => ({
+              name: item.technical_name,
+              technicalNumber: item.technical,
+            })),
+          );
       });
   }, [companyFilter]);
 
