@@ -148,7 +148,7 @@ export const CreateOs = () => {
 
   function setTechnicalNumber(technicalName: string) {
     const foundTechnical = technicalInfo?.find(
-      (item: any) => item.name === technicalName,
+      (item: any) => item.technical_name === technicalName,
     );
 
     handleSelectChange("technical", foundTechnical.technical);
@@ -226,7 +226,7 @@ export const CreateOs = () => {
                       {technicalInfo?.map((item: any) => (
                         <CommandItem
                           key={item.id}
-                          value={item.name}
+                          value={item.technical_name}
                           onSelect={(currentValue) => {
                             handleSelectChange("technical_name", currentValue);
                             setIsTechnicalSelectOpen(false);
@@ -245,7 +245,7 @@ export const CreateOs = () => {
                                 : "opacity-0",
                             )}
                           />
-                          {item.name}
+                          {item.technical_name}
                         </CommandItem>
                       ))}
                     </CommandGroup>
