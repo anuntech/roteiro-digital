@@ -120,7 +120,7 @@ export async function getTopTechnical(app: FastifyInstance) {
         company_name: {
           in: companyFilterArray.length > 0 ? companyFilterArray : undefined,
         },
-        technical: {
+        technical_id: {
           in:
             technicalFilterArray.length > 0 ? technicalFilterArray : undefined,
         },
@@ -135,7 +135,7 @@ export async function getTopTechnical(app: FastifyInstance) {
 
       const digitalScriptsFromDb = await prisma.checklistAnuntech.findMany({
         select: {
-          technical: true,
+          technical_id: true,
           technical_name: true,
           received_value: true,
           service_order_status: true,
@@ -146,17 +146,17 @@ export async function getTopTechnical(app: FastifyInstance) {
       const technicalsReceivedValue = digitalScriptsFromDb.reduce(
         (acc, script) => {
           const {
-            technical,
+            technical_id,
             technical_name,
             received_value,
             service_order_status,
           } = script;
-          if (!technical) return acc;
+          if (!technical_id) return acc;
 
-          const key = `${technical}`;
+          const key = `${technical_id}`;
           if (!acc[key]) {
             acc[key] = {
-              technical: technical.toString(),
+              technical: technical_id.toString(),
               technical_name: technical_name ?? undefined,
               total_received_value: 0,
               executed_services: 0,
