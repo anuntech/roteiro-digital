@@ -26,12 +26,12 @@ model ChecklistAnuntech {
   received_value       Float?
   advance_revenue      Float?
   revenue_deduction    Float?
-  notes                String? @db.Text
-  payment_receipt      String? @db.Text
+  notes                String?  @db.Text
+  payment_receipt      String?  @db.Text
   updated_at           DateTime @updatedAt
   technical            Int?
 
-  @@map("checklist_anuntech")
+  @@map("checklistAnuntech")
 }
 
 model ChecklistWhirlpool {
@@ -60,7 +60,7 @@ model ChecklistWhirlpool {
   failure_photo3          String?
   failure_photo4          String?
   failure_photo5          String?
-  technical_report        String? @db.Text
+  technical_report        String?   @db.Text
   signature               String?
   final_status_id         String?
   final_reason_id         String?
@@ -73,7 +73,7 @@ model ChecklistWhirlpool {
   total_price             Float?
   received_price          Float?
   payment_method          String?
-  notes                   String? @db.Text
+  notes                   String?   @db.Text
   service_warranty        String?
   parts_warranty          String?
   approved                String?
@@ -84,8 +84,8 @@ model ChecklistWhirlpool {
 }
 
 model Technicals {
-  id               String   @id @default(uuid())
-  technical_number String   @unique
+  id               String @id @default(uuid())
+  technical_number String @unique
   name             String
   company_name     String
 
