@@ -113,6 +113,8 @@ export async function getDigitalScripts(app: FastifyInstance) {
           break;
       }
 
+      console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
       const digitalScriptsFromDb = await prisma.checklistAnuntech.findMany({
         skip: offset,
         take: 10,
@@ -145,6 +147,7 @@ export async function getDigitalScripts(app: FastifyInstance) {
           payment_method: paymentMethodForCardAndOthers,
         },
       });
+      console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBB");
 
       const digitalScripts = digitalScriptsFromDb.map((script) => {
         return {
@@ -168,7 +171,7 @@ export async function getDigitalScripts(app: FastifyInstance) {
           technical: script.technical,
         };
       });
-
+      console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCC");
       return reply.status(200).send(digitalScripts);
     }
   );
