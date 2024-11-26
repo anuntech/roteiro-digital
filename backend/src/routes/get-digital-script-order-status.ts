@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { FastifyInstance } from "fastify";
 import { prisma } from "../lib/prisma";
 import dayjs from "dayjs";
@@ -111,21 +110,6 @@ export async function getDigitalScriptsClassificationStats(
           break;
       }
 
-      const technicalNumbersForCompanyNameFilter = (
-        await prisma.technicals.findMany({
-          where: {
-            company_name: {
-              in:
-                companyFilterArray.length > 0 ? companyFilterArray : undefined,
-            },
-          },
-
-          select: {
-            technical_number: true,
-          },
-        })
-      ).map((item) => parseInt(item.technical_number));
-
       const digitalScriptsFromDb = await prisma.checklistAnuntech.findMany({
         select: {
           service_order_status: true,
@@ -138,11 +122,14 @@ export async function getDigitalScriptsClassificationStats(
           order_id: {
             contains: orderIdFilter,
           },
+          company_name: {
+            in: companyFilterArray.length > 0 ? companyFilterArray : undefined,
+          },
           technical: {
             in:
               technicalFilterArray.length > 0
                 ? technicalFilterArray
-                : technicalNumbersForCompanyNameFilter,
+                : undefined,
           },
           service_order_status: {
             notIn: othersOrderStatusFilterNotIn,
@@ -153,6 +140,7 @@ export async function getDigitalScriptsClassificationStats(
           payment_method: paymentMethodForCardAndOthers,
         },
       });
+
       const orderStatusCount = digitalScriptsFromDb.reduce(
         (acc, script) => {
           const classification = script.service_order_status;

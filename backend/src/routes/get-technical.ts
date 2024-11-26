@@ -20,12 +20,12 @@ export async function getTechnical(app: FastifyInstance) {
     },
     async (request, reply) => {
       const {
-        page,
+        page = 1,
         technicalFilter = "",
         companyFilter = "",
       } = request.query as any;
 
-      const offset = page ? (page - 1) * 10 : undefined;
+      const offset = (page - 1) * 10;
 
       const companyArray = companyFilter
         ?.split(",")
@@ -34,16 +34,22 @@ export async function getTechnical(app: FastifyInstance) {
 
       console.log(companyArray, "\n\n\n\n\n\n\n\n\n");
 
-      const technicals = await prisma.technicals.findMany({
+      const technicals = await prisma.checklistAnuntech.findMany({
         skip: offset,
-        take: page ? 10 : undefined,
+        take: 10,
         where: {
-          name: {
+          technical_name: {
             contains: technicalFilter,
           },
           company_name: {
             in: companyArray.length > 0 ? companyArray : undefined,
           },
+        },
+        distinct: ["technical", "technical_name", "company_name"],
+        select: {
+          technical: true,
+          technical_name: true,
+          company_name: true,
         },
       });
 

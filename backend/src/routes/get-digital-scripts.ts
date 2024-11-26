@@ -65,6 +65,7 @@ export async function getDigitalScripts(app: FastifyInstance) {
         dateFilter.gte = null;
         dateFilter.lte = null;
       }
+
       let paymentMethodForCardAndOthers = {};
       let serviceOrderStatusValidation = {};
       switch (methodFilter) {
@@ -112,21 +113,6 @@ export async function getDigitalScripts(app: FastifyInstance) {
           break;
       }
 
-      const technicalNumbersForCompanyNameFilter = (
-        await prisma.technicals.findMany({
-          where: {
-            company_name: {
-              in:
-                companyFilterArray.length > 0 ? companyFilterArray : undefined,
-            },
-          },
-
-          select: {
-            technical_number: true,
-          },
-        })
-      ).map((item) => parseInt(item.technical_number));
-
       const digitalScriptsFromDb = await prisma.checklistAnuntech.findMany({
         skip: offset,
         take: 10,
@@ -141,17 +127,20 @@ export async function getDigitalScripts(app: FastifyInstance) {
           order_id: {
             contains: orderIdFilter,
           },
-          service_order_status: {
-            notIn: othersOrderStatusFilterNotIn,
-            ...serviceOrderStatusValidation,
-            contains:
-              othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
+          company_name: {
+            in: companyFilterArray.length > 0 ? companyFilterArray : undefined,
           },
           technical: {
             in:
               technicalFilterArray.length > 0
                 ? technicalFilterArray
-                : technicalNumbersForCompanyNameFilter,
+                : undefined,
+          },
+          service_order_status: {
+            notIn: othersOrderStatusFilterNotIn,
+            ...serviceOrderStatusValidation,
+            contains:
+              othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },
           payment_method: paymentMethodForCardAndOthers,
         },

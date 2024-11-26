@@ -104,47 +104,35 @@ export async function getSumValues(app: FastifyInstance) {
           break;
       }
 
-      const technicalNumbersForCompanyNameFilter = (
-        await prisma.technicals.findMany({
-          where: {
-            company_name: {
-              in:
-                companyFilterArray.length > 0 ? companyFilterArray : undefined,
-            },
-          },
-
-          select: {
-            technical_number: true,
-          },
-        })
-      ).map((item) => parseInt(item.technical_number));
+      const whereConditions = {
+        created_at: {
+          ...(dateFilter.gte && { gte: dateFilter.gte }),
+          ...(dateFilter.lte && { lte: dateFilter.lte }),
+        },
+        order_id: {
+          contains: orderIdFilter,
+        },
+        company_name: {
+          in: companyFilterArray.length > 0 ? companyFilterArray : undefined,
+        },
+        technical: {
+          in:
+            technicalFilterArray.length > 0 ? technicalFilterArray : undefined,
+        },
+        service_order_status: {
+          notIn: othersOrderStatusFilterNotIn,
+          ...serviceOrderStatusValidation,
+          contains:
+            othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
+        },
+        payment_method: paymentMethodForCardAndOthers,
+      };
 
       const totalReceivedValue = await prisma.checklistAnuntech.aggregate({
         _sum: {
           received_value: true,
         },
-        where: {
-          created_at: {
-            ...(dateFilter.gte && { gte: dateFilter.gte }),
-            ...(dateFilter.lte && { lte: dateFilter.lte }),
-          },
-          order_id: {
-            contains: orderIdFilter,
-          },
-          technical: {
-            in:
-              technicalFilterArray.length > 0
-                ? technicalFilterArray
-                : technicalNumbersForCompanyNameFilter,
-          },
-          service_order_status: {
-            notIn: othersOrderStatusFilterNotIn,
-            ...serviceOrderStatusValidation,
-            contains:
-              othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
-          },
-          payment_method: paymentMethodForCardAndOthers,
-        },
+        where: whereConditions,
       });
 
       const totalCard = await prisma.checklistAnuntech.aggregate({
@@ -152,28 +140,9 @@ export async function getSumValues(app: FastifyInstance) {
           received_value: true,
         },
         where: {
-          created_at: {
-            ...(dateFilter.gte && { gte: dateFilter.gte }),
-            ...(dateFilter.lte && { lte: dateFilter.lte }),
-          },
+          ...whereConditions,
           payment_method: {
-            ...paymentMethodForCardAndOthers,
             in: ["Crédito", "Débito"],
-          },
-          order_id: {
-            contains: orderIdFilter,
-          },
-          technical: {
-            in:
-              technicalFilterArray.length > 0
-                ? technicalFilterArray
-                : technicalNumbersForCompanyNameFilter,
-          },
-          service_order_status: {
-            notIn: othersOrderStatusFilterNotIn,
-            ...serviceOrderStatusValidation,
-            contains:
-              othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },
         },
       });
@@ -183,26 +152,8 @@ export async function getSumValues(app: FastifyInstance) {
           received_value: true,
         },
         where: {
-          created_at: {
-            ...(dateFilter.gte && { gte: dateFilter.gte }),
-            ...(dateFilter.lte && { lte: dateFilter.lte }),
-          },
-          payment_method: { equals: "Dinheiro", contains: methodFilter },
-          order_id: {
-            contains: orderIdFilter,
-          },
-          technical: {
-            in:
-              technicalFilterArray.length > 0
-                ? technicalFilterArray
-                : technicalNumbersForCompanyNameFilter,
-          },
-          service_order_status: {
-            notIn: othersOrderStatusFilterNotIn,
-            ...serviceOrderStatusValidation,
-            contains:
-              othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
-          },
+          ...whereConditions,
+          payment_method: { equals: "Dinheiro" },
         },
       });
 
@@ -211,29 +162,8 @@ export async function getSumValues(app: FastifyInstance) {
           received_value: true,
         },
         where: {
-          created_at: {
-            ...(dateFilter.gte && { gte: dateFilter.gte }),
-            ...(dateFilter.lte && { lte: dateFilter.lte }),
-          },
-          payment_method: {
-            equals: "Pix",
-            contains: methodFilter == "Outros" ? "undefined" : methodFilter,
-          },
-          order_id: {
-            contains: orderIdFilter,
-          },
-          technical: {
-            in:
-              technicalFilterArray.length > 0
-                ? technicalFilterArray
-                : technicalNumbersForCompanyNameFilter,
-          },
-          service_order_status: {
-            notIn: othersOrderStatusFilterNotIn,
-            ...serviceOrderStatusValidation,
-            contains:
-              othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
-          },
+          ...whereConditions,
+          payment_method: { equals: "Pix" },
         },
       });
 
@@ -242,28 +172,10 @@ export async function getSumValues(app: FastifyInstance) {
           received_value: true,
         },
         where: {
-          created_at: {
-            ...(dateFilter.gte && { gte: dateFilter.gte }),
-            ...(dateFilter.lte && { lte: dateFilter.lte }),
-          },
+          ...whereConditions,
           payment_method: {
             notIn: ["Crédito", "Débito", "Dinheiro", "Pix"],
             contains: methodFilter == "Outros" ? "" : methodFilter,
-          },
-          order_id: {
-            contains: orderIdFilter,
-          },
-          technical: {
-            in:
-              technicalFilterArray.length > 0
-                ? technicalFilterArray
-                : technicalNumbersForCompanyNameFilter,
-          },
-          service_order_status: {
-            notIn: othersOrderStatusFilterNotIn,
-            ...serviceOrderStatusValidation,
-            contains:
-              othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },
         },
       });
@@ -275,19 +187,7 @@ export async function getSumValues(app: FastifyInstance) {
           visit_fee: true,
         },
         where: {
-          created_at: {
-            ...(dateFilter.gte && { gte: dateFilter.gte }),
-            ...(dateFilter.lte && { lte: dateFilter.lte }),
-          },
-          order_id: {
-            contains: orderIdFilter,
-          },
-          technical: {
-            in:
-              technicalFilterArray.length > 0
-                ? technicalFilterArray
-                : technicalNumbersForCompanyNameFilter,
-          },
+          ...whereConditions,
           service_order_status: {
             notIn: [
               "Falta/Voltar com Peça",
@@ -305,7 +205,6 @@ export async function getSumValues(app: FastifyInstance) {
             contains:
               othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },
-          payment_method: paymentMethodForCardAndOthers,
         },
       });
 
@@ -321,19 +220,7 @@ export async function getSumValues(app: FastifyInstance) {
           visit_fee: true,
         },
         where: {
-          created_at: {
-            ...(dateFilter.gte && { gte: dateFilter.gte }),
-            ...(dateFilter.lte && { lte: dateFilter.lte }),
-          },
-          order_id: {
-            contains: orderIdFilter,
-          },
-          technical: {
-            in:
-              technicalFilterArray.length > 0
-                ? technicalFilterArray
-                : technicalNumbersForCompanyNameFilter,
-          },
+          ...whereConditions,
           service_order_status: {
             in: [
               "Falta/Voltar com Peça",
@@ -342,11 +229,9 @@ export async function getSumValues(app: FastifyInstance) {
               "Reagendado",
             ],
             notIn: othersOrderStatusFilterNotIn,
-            ...serviceOrderStatusValidation,
             contains:
               othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
           },
-          payment_method: paymentMethodForCardAndOthers,
         },
       });
 

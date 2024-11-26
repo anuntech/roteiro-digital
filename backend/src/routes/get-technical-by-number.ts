@@ -14,22 +14,33 @@ export async function getTechnicalByNumber(app: FastifyInstance) {
         params: z.object({
           id: z.string(),
         }),
+        querystring: z.object({
+          page: z.coerce.number().optional(),
+          technicalFilter: z.string().optional(),
+        }),
       },
     },
     async (request, reply) => {
-      const { page, technicalFilter = "" } = request.query as any;
+      const { page = 1, technicalFilter = "" } = request.query as any;
       const { id } = request.params as any;
 
-      const offset = page ? (page - 1) * 10 : undefined;
+      const offset = (page - 1) * 10;
 
-      const technicals = await prisma.technicals.findFirst({
+      const technicalId = parseInt(id);
+
+      const technicals = await prisma.checklistAnuntech.findMany({
         skip: offset,
-        take: page ? 10 : undefined,
+        take: 10,
         where: {
-          name: {
+          technical: technicalId,
+          technical_name: {
             contains: technicalFilter,
           },
-          technical_number: id,
+        },
+        distinct: ["technical", "technical_name"],
+        select: {
+          technical: true,
+          technical_name: true,
         },
       });
 

@@ -109,60 +109,55 @@ export async function getTopTechnical(app: FastifyInstance) {
           break;
       }
 
-      const technicalNumbersForCompanyNameFilter = (
-        await prisma.technicals.findMany({
-          where: {
-            company_name: {
-              in:
-                companyFilterArray.length > 0 ? companyFilterArray : undefined,
-            },
-          },
-
-          select: {
-            technical_number: true,
-          },
-        })
-      ).map((item) => parseInt(item.technical_number));
+      const whereConditions = {
+        created_at: {
+          ...(dateFilter.gte && { gte: dateFilter.gte }),
+          ...(dateFilter.lte && { lte: dateFilter.lte }),
+        },
+        order_id: {
+          contains: orderIdFilter,
+        },
+        company_name: {
+          in: companyFilterArray.length > 0 ? companyFilterArray : undefined,
+        },
+        technical: {
+          in:
+            technicalFilterArray.length > 0 ? technicalFilterArray : undefined,
+        },
+        service_order_status: {
+          notIn: othersOrderStatusFilterNotIn,
+          ...serviceOrderStatusValidation,
+          contains:
+            othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
+        },
+        payment_method: paymentMethodForCardAndOthers,
+      };
 
       const digitalScriptsFromDb = await prisma.checklistAnuntech.findMany({
         select: {
           technical: true,
+          technical_name: true,
           received_value: true,
           service_order_status: true,
         },
-        where: {
-          created_at: {
-            ...(dateFilter.gte && { gte: dateFilter.gte }),
-            ...(dateFilter.lte && { lte: dateFilter.lte }),
-          },
-          order_id: {
-            contains: orderIdFilter,
-          },
-          technical: {
-            in:
-              technicalFilterArray.length > 0
-                ? technicalFilterArray
-                : technicalNumbersForCompanyNameFilter,
-          },
-          service_order_status: {
-            notIn: othersOrderStatusFilterNotIn,
-            ...serviceOrderStatusValidation,
-            contains:
-              othersOrderStatusFilterNotIn.length > 0 ? "" : orderStatusFilter,
-          },
-          payment_method: paymentMethodForCardAndOthers,
-        },
+        where: whereConditions,
       });
 
       const technicalsReceivedValue = digitalScriptsFromDb.reduce(
         (acc, script) => {
-          const { technical, received_value, service_order_status } = script;
+          const {
+            technical,
+            technical_name,
+            received_value,
+            service_order_status,
+          } = script;
           if (!technical) return acc;
 
           const key = `${technical}`;
           if (!acc[key]) {
             acc[key] = {
               technical: technical.toString(),
+              technical_name: technical_name ?? undefined,
               total_received_value: 0,
               executed_services: 0,
             };
@@ -190,22 +185,7 @@ export async function getTopTechnical(app: FastifyInstance) {
         (a, b) => b.total_received_value - a.total_received_value
       );
 
-      const topTechnicalWithName = await Promise.all(
-        topTechnicals.map(async (val) => {
-          return {
-            ...val,
-            technical_name: (
-              await prisma.technicals.findUnique({
-                where: {
-                  technical_number: val.technical,
-                },
-              })
-            )?.name,
-          };
-        })
-      );
-
-      return reply.status(200).send(topTechnicalWithName);
+      return reply.status(200).send(topTechnicals);
     }
   );
 }
