@@ -75,13 +75,11 @@ export const CreateOs = () => {
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
     const { id, value } = event.target;
-    console.log(id, value);
     const newValue = id === "created_at" ? value : value;
     setFormData((state) => ({
       ...state,
       [id]: newValue,
     }));
-    console.log(formData);
   }
 
   useEffect(() => {
@@ -122,7 +120,6 @@ export const CreateOs = () => {
         window.location.reload();
       }
     } catch (error) {
-      console.log(error);
       toast.message("Erro!", {
         description: "Preencha todos os campos obrigatórios!",
       });

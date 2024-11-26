@@ -85,7 +85,7 @@ export function CreateTechnicalDialogue() {
   }, []);
 
   const [formData, setFormData] = useState({
-    name: "",
+    technical_name: "",
     technical: "",
     company_name: "",
   });
@@ -133,7 +133,6 @@ export function CreateTechnicalDialogue() {
         window.location.reload();
       }
     } catch (error) {
-      console.log(error);
       toast.message("Erro!", {
         description: "Identificador já existe!",
       });
@@ -160,7 +159,7 @@ export function CreateTechnicalDialogue() {
             <Label htmlFor="name">Nome</Label>
             <Input
               id="name"
-              value={formData.name}
+              value={formData.technical_name}
               onChange={handleInputChange}
             />
           </div>

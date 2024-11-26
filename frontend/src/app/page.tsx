@@ -13,6 +13,7 @@ import { getTopTechnical } from "@/utils/get-top-technical";
 
 export const dynamic = "force-dynamic";
 
+// No componente Home
 export default async function Home() {
   const date = new Date().toISOString().split("T")[0];
   const data = await getData(date, date);
@@ -21,23 +22,9 @@ export default async function Home() {
 
   const totalValues = await getTotalValues(date, date);
 
-  const technicalInfo = await getTechnical();
-
   const orderStatus = await getOrderStatus(date, date);
 
   const topTechnical = await getTopTechnical(date, date);
-
-  const getDataWithTechnicalAndCompanyName = data.map((val) => {
-    const technical = technicalInfo?.find(
-      (item: any) => item.technical == val.technical,
-    );
-
-    return {
-      ...val,
-      company_name: technical?.company_name || val.company_name,
-      technical_name: technical?.name || val.technical_name,
-    };
-  });
 
   return (
     <div className="hidden flex-col gap-8 p-10 md:flex">
@@ -48,7 +35,7 @@ export default async function Home() {
 
       <DataTable
         columns={columns}
-        data={getDataWithTechnicalAndCompanyName}
+        data={data}
         totalValues={totalValues}
         totalCount={totalCount}
         orderStatus={orderStatus}

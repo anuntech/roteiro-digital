@@ -178,7 +178,6 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
         });
       }
     } catch (error) {
-      console.log(error);
       toast.message("Erro!", {
         description: "Falha ao deletar!",
       });
@@ -190,15 +189,12 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
       (item: any) => item.technical_name === technicalName,
     );
 
-    console.log(foundTechnical?.technical);
-
     handleSelectChange("technical", foundTechnical.technical);
   }
 
   async function handleUpdateRow(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     try {
-      console.log(formData);
       const numberFields = {
         parts_value: parseFloat(
           (formData.parts_value || "0").replace(",", "."),
@@ -230,7 +226,6 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
         window.location.reload();
       }
     } catch (error) {
-      console.log(error);
       toast.message("Erro!", {
         description: "Preencha todos os campos obrigatórios!",
       });

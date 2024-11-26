@@ -30,15 +30,5 @@ export async function getData(
     throw new Error("Failed to fetch data");
   }
 
-  const digitalScripts = await Promise.all(
-    response.data.map(async (val: any) => {
-      const { data } = await api.get(`/technical/${val.technical}`);
-      return {
-        ...val,
-        technical_name: data?.name,
-        company_name: data?.company_name,
-      };
-    }),
-  );
-  return digitalScripts;
+  return response.data;
 }

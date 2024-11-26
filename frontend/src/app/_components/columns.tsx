@@ -43,9 +43,6 @@ export const columns: ColumnDef<DigitalScript>[] = [
         </div>
       );
     },
-    filterFn: (row, id, filterValue) => {
-      return filterValue.includes(row.getValue(id));
-    },
   },
   {
     accessorKey: "order_id",
@@ -58,9 +55,6 @@ export const columns: ColumnDef<DigitalScript>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Técnico" />
     ),
-    filterFn: (row, id, filterValue) => {
-      return filterValue.includes(row.getValue(id));
-    },
   },
   {
     accessorKey: "order_classification",
