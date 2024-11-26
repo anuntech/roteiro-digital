@@ -29,7 +29,7 @@ export default async function Home() {
 
   const getDataWithTechnicalAndCompanyName = data.map((val) => {
     const technical = technicalInfo?.find(
-      (item: any) => item.technical_number == val.technical,
+      (item: any) => item.technical == val.technical,
     );
 
     return {

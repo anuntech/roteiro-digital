@@ -73,8 +73,8 @@ export function DataTableTechnicalFilter({
       .then((res) => {
         setTechnicalOptions(
           res.data.map((item: any) => ({
-            name: item.name,
-            technicalNumber: item.technical_number,
+            name: item.technical_name,
+            technicalNumber: item.technical,
           })),
         );
       });

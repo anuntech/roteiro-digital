@@ -86,7 +86,7 @@ export function CreateTechnicalDialogue() {
 
   const [formData, setFormData] = useState({
     name: "",
-    technical_number: "",
+    technical: "",
     company_name: "",
   });
 
@@ -165,10 +165,10 @@ export function CreateTechnicalDialogue() {
             />
           </div>
           <div>
-            <Label htmlFor="technical_number">Identificador</Label>
+            <Label htmlFor="technical">Identificador</Label>
             <Input
-              id="technical_number"
-              value={formData.technical_number}
+              id="technical"
+              value={formData.technical}
               onChange={handleInputChange}
             />
           </div>

@@ -10,16 +10,16 @@ import { TechnicalDataTableRowActions } from "./technical-data-table-row-actions
 
 export type TechnicalDigitalScript = {
   id: string;
-  technical_number: string;
+  technical: string;
   name: string;
   company_name: string;
 };
 
 export const technicalColumns: ColumnDef<TechnicalDigitalScript>[] = [
   {
-    accessorKey: "technical_number",
+    accessorKey: "technical",
     header: "Identificador",
-    cell: ({ row }) => row.getValue("technical_number"),
+    cell: ({ row }) => row.getValue("technical"),
   },
   {
     accessorKey: "name",

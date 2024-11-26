@@ -190,9 +190,9 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
       (item: any) => item.name === technicalName,
     );
 
-    console.log(foundTechnical?.technical_number);
+    console.log(foundTechnical?.technical);
 
-    handleSelectChange("technical", foundTechnical.technical_number);
+    handleSelectChange("technical", foundTechnical.technical);
   }
 
   async function handleUpdateRow(event: FormEvent<HTMLFormElement>) {

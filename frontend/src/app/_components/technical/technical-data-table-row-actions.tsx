@@ -85,14 +85,14 @@ export function TechnicalDataTableRowActions({
 
   const [formData, setFormData] = useState({
     name: row.name,
-    technical_number: row.technical_number,
+    technical: row.technical,
     company_name: row.company_name,
   });
 
   useEffect(() => {
     setFormData({
       name: row.name,
-      technical_number: row.technical_number,
+      technical: row.technical,
       company_name: row.company_name,
     });
   }, [row]);
@@ -183,10 +183,10 @@ export function TechnicalDataTableRowActions({
           </DialogHeader>
           <form onSubmit={handleUpdateRow} className="space-y-4">
             <div>
-              <Label htmlFor="technical_number">Identificador</Label>
+              <Label htmlFor="technical">Identificador</Label>
               <Input
-                id="technical_number"
-                value={formData.technical_number}
+                id="technical"
+                value={formData.technical}
                 onChange={handleInputChange}
                 readOnly
               />

@@ -140,7 +140,7 @@ export const CreateOs = () => {
     const technicalName = formData.technical_name;
 
     const foundTechnical = technicalInfo?.find(
-      (item: any) => item.technical_number === formData.technical,
+      (item: any) => item.technical === formData.technical,
     );
 
     return foundTechnical?.company_name;
@@ -151,7 +151,7 @@ export const CreateOs = () => {
       (item: any) => item.name === technicalName,
     );
 
-    handleSelectChange("technical", foundTechnical.technical_number);
+    handleSelectChange("technical", foundTechnical.technical);
   }
 
   return (
