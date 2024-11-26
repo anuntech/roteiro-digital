@@ -187,7 +187,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
 
   function setTechnicalNumber(technicalName: string) {
     const foundTechnical = technicalInfo?.find(
-      (item: any) => item.name === technicalName,
+      (item: any) => item.technical_name === technicalName,
     );
 
     console.log(foundTechnical?.technical);
@@ -317,7 +317,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                         {technicalInfo?.map((item: any) => (
                           <CommandItem
                             key={item.id}
-                            value={item.name}
+                            value={item.technical_name}
                             onSelect={(currentValue) => {
                               handleSelectChange(
                                 "technical_name",
@@ -339,7 +339,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                                   : "opacity-0",
                               )}
                             />
-                            {item.name}
+                            {item.technical_name}
                           </CommandItem>
                         ))}
                       </CommandGroup>
