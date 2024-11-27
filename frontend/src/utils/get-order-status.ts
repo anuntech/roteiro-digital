@@ -13,23 +13,28 @@ export async function getOrderStatus(
   methodFilter?: string,
   orderStatusFilterNotIn?: string[],
 ): Promise<any> {
-  const response = await api.get("/digital-scripts/order-status", {
-    params: {
-      dateFrom,
-      dateTo,
-      page: pageIndex,
-      orderIdFilter,
-      companyFilter: companyFilter?.join(", "),
-      technicalFilter: technicalFilter?.join(", "),
-      orderStatusFilter,
-      methodFilter,
-      orderStatusFilterNotIn: orderStatusFilterNotIn?.join(", "),
-    },
-  });
+  try {
+    const response = await api.get("/digital-scripts/order-status", {
+      params: {
+        dateFrom,
+        dateTo,
+        page: pageIndex,
+        orderIdFilter,
+        companyFilter: companyFilter?.join(", "),
+        technicalFilter: technicalFilter?.join(", "),
+        orderStatusFilter,
+        methodFilter,
+        orderStatusFilterNotIn: orderStatusFilterNotIn?.join(", "),
+      },
+    });
 
-  if (!response.data) {
-    throw new Error("Failed to fetch data");
+    if (!response.data) {
+      throw new Error("Failed to fetch data");
+    }
+
+    return response.data;
+  } catch (error: any) {
+    console.error(error.response?.data);
+    return {} as any;
   }
-
-  return response.data;
 }

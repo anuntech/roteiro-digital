@@ -9,7 +9,7 @@ export async function updateDigitalScript(app: FastifyInstance) {
     {
       schema: {
         params: z.object({
-          digitalScriptsId: z.string(),
+          digitalScriptsId: z.number(),
         }),
         body: z
           .object({

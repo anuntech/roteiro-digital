@@ -9,7 +9,7 @@ export async function deleteDigitalScript(app: FastifyInstance) {
     {
       schema: {
         params: z.object({
-          digitalScriptsId: z.string(),
+          digitalScriptsId: z.number(),
         }),
         querystring: z.object({
           password: z.string(),

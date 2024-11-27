@@ -1,5 +1,6 @@
 import { DigitalScript } from "@/app/_components/columns";
 import { api } from "@/lib/axios";
+import { AxiosError } from "axios";
 
 export async function getData(
   dateFrom: string,
@@ -12,23 +13,28 @@ export async function getData(
   methodFilter?: string,
   orderStatusFilterNotIn?: string[],
 ): Promise<DigitalScript[]> {
-  const response = await api.get("/digital-scripts", {
-    params: {
-      dateFrom,
-      dateTo,
-      page: pageIndex,
-      orderIdFilter,
-      companyFilter: companyFilter?.join(", "),
-      technicalFilter: technicalFilter?.join(", "),
-      orderStatusFilterNotIn: orderStatusFilterNotIn?.join(", "),
-      orderStatusFilter: orderStatusFilter,
-      methodFilter: methodFilter,
-    },
-  });
+  try {
+    const response = await api.get("/digital-scripts", {
+      params: {
+        dateFrom,
+        dateTo,
+        page: pageIndex,
+        orderIdFilter,
+        companyFilter: companyFilter?.join(", "),
+        technicalFilter: technicalFilter?.join(", "),
+        orderStatusFilterNotIn: orderStatusFilterNotIn?.join(", "),
+        orderStatusFilter: orderStatusFilter,
+        methodFilter: methodFilter,
+      },
+    });
 
-  if (!response.data) {
-    throw new Error("Failed to fetch data");
+    if (!response.data) {
+      throw new Error("Failed to fetch data");
+    }
+
+    return response.data;
+  } catch (error: any) {
+    console.error(error.response?.data);
+    return {} as any;
   }
-
-  return response.data;
 }
