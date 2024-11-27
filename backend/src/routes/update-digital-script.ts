@@ -9,7 +9,7 @@ export async function updateDigitalScript(app: FastifyInstance) {
     {
       schema: {
         params: z.object({
-          digitalScriptsId: z.number(),
+          digitalScriptsId: z.string(),
         }),
         body: z
           .object({
@@ -36,17 +36,19 @@ export async function updateDigitalScript(app: FastifyInstance) {
       const data = request.body;
 
       const existingScript = await prisma.checklistAnuntech.findUnique({
-        where: { id: digitalScriptsId },
+        where: { id: parseInt(digitalScriptsId) },
       });
 
       if (!existingScript) {
         return reply.status(404).send({ error: "Digital script not found" });
       }
+      const { technical, ...restData } = data;
 
       const updatedScript = await prisma.checklistAnuntech.update({
-        where: { id: digitalScriptsId },
+        where: { id: parseInt(digitalScriptsId) },
         data: {
-          ...data,
+          ...restData,
+          technical_id: technical,
         },
       });
 
