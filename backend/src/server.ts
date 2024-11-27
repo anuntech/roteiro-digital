@@ -11,9 +11,6 @@ import {
   validatorCompiler,
 } from "fastify-type-provider-zod";
 import { config } from "dotenv";
-import { createTechnical } from "./routes/create-technical";
-import { deleteTechnical } from "./routes/delete-technical";
-import { updateTechnical } from "./routes/update-technical";
 import { getTechnical } from "./routes/get-technical";
 import { getDigitalScriptsTechnical } from "./routes/get-digital-script-technical";
 import { getDigitalScriptsClassificationStats } from "./routes/get-digital-script-order-status";
@@ -38,9 +35,6 @@ app.register(
     instance.register(getSumValues);
     instance.register(deleteDigitalScript);
     instance.register(updateDigitalScript);
-    instance.register(createTechnical);
-    instance.register(deleteTechnical);
-    instance.register(updateTechnical);
     instance.register(getTechnical);
     instance.register(getDigitalScriptsTechnical);
     instance.register(getDigitalScriptsClassificationStats);

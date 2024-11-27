@@ -32,14 +32,14 @@ export async function getTechnicalByNumber(app: FastifyInstance) {
         skip: offset,
         take: 10,
         where: {
-          technical: technicalId,
+          technical_id: technicalId,
           technical_name: {
             contains: technicalFilter,
           },
         },
-        distinct: ["technical", "technical_name"],
+        distinct: ["technical_id", "technical_name"],
         select: {
-          technical: true,
+          technical_id: true,
           technical_name: true,
         },
       });

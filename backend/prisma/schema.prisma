@@ -29,7 +29,6 @@ model ChecklistAnuntech {
   notes                String?  @db.Text
   payment_receipt      String?  @db.Text
   updated_at           DateTime @updatedAt
-  technical            Int?
   technical_id         Int?
 
   @@map("checklistAnuntech")

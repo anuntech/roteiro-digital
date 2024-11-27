@@ -32,8 +32,6 @@ export async function getTechnical(app: FastifyInstance) {
         ?.map((name: string) => name.trim())
         ?.filter((name: string) => name.length > 0);
 
-      console.log(companyArray, "\n\n\n\n\n\n\n\n\n");
-
       const technicals = await prisma.checklistAnuntech.findMany({
         skip: offset,
         take: 10,
@@ -45,7 +43,7 @@ export async function getTechnical(app: FastifyInstance) {
             in: companyArray.length > 0 ? companyArray : undefined,
           },
         },
-        distinct: ["technical", "technical_name", "company_name"],
+        distinct: ["technical_id", "technical_name", "company_name"],
         select: {
           technical_id: true,
           technical_name: true,

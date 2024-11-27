@@ -80,7 +80,7 @@ export async function createDigitalScript(app: FastifyInstance) {
           technical_name,
           order_id,
           created_at,
-          technical,
+          technical_id: technical,
         },
       });
 

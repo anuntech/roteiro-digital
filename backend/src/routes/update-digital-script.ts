@@ -71,7 +71,7 @@ export async function updateDigitalScript(app: FastifyInstance) {
           created_at: updatedScript.created_at.toISOString(),
           updated_at: updatedScript.updated_at.toISOString(),
           order_id: updatedScript.order_id,
-          technical: updatedScript.technical,
+          technical: updatedScript.technical_id,
         },
       });
     }
