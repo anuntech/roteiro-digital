@@ -1,6 +1,6 @@
-import Image from 'next/image'
-import { useState, WheelEvent } from 'react'
-import { Button } from '@/components/ui/button'
+import Image from "next/image";
+import { useState, WheelEvent } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog'
+} from "@/components/ui/dialog";
 import {
   Image as ImageIcon,
   LoaderCircle,
@@ -16,44 +16,44 @@ import {
   RotateCw,
   ZoomIn,
   ZoomOut,
-} from 'lucide-react'
+} from "lucide-react";
 
 interface DataTableColumnReceiptProps {
-  photo: string
+  photo: string;
 }
 
 export function DataTableColumnReceipt({ photo }: DataTableColumnReceiptProps) {
-  const [loading, setLoading] = useState(true)
-  const [rotation, setRotation] = useState(0)
-  const [zoom, setZoom] = useState(1)
+  const [loading, setLoading] = useState(true);
+  const [rotation, setRotation] = useState(0);
+  const [zoom, setZoom] = useState(1);
 
-  const MAX_ZOOM = 3
+  const MAX_ZOOM = 3;
 
   function handleImageLoad() {
-    setLoading(false)
+    setLoading(false);
   }
 
   function rotateLeft() {
-    setRotation(rotation - 90)
+    setRotation(rotation - 90);
   }
 
   function rotateRight() {
-    setRotation(rotation + 90)
+    setRotation(rotation + 90);
   }
 
   function zoomIn() {
-    setZoom((prevZoom) => Math.min(prevZoom + 0.4, MAX_ZOOM))
+    setZoom((prevZoom) => Math.min(prevZoom + 0.4, MAX_ZOOM));
   }
 
   function zoomOut() {
-    setZoom((prevZoom) => Math.max(prevZoom - 0.4, 1))
+    setZoom((prevZoom) => Math.max(prevZoom - 0.4, 1));
   }
 
   function handleWheel(event: WheelEvent<HTMLDivElement>) {
     if (event.deltaY > 0) {
-      zoomOut()
+      zoomOut();
     } else {
-      zoomIn()
+      zoomIn();
     }
   }
 
@@ -87,14 +87,14 @@ export function DataTableColumnReceipt({ photo }: DataTableColumnReceiptProps) {
           >
             <Image
               className={`h-[50vh] rounded-lg object-contain`}
-              src={photo}
+              src={"https://vuupt.s3.amazonaws.com/" + photo}
               alt="Comprovante de pagamento"
               width={500}
               height={500}
               onLoad={handleImageLoad}
               style={{
                 transform: `rotate(${rotation}deg) scale(${zoom})`,
-                transition: 'transform 0.3s ease',
+                transition: "transform 0.3s ease",
               }}
             />
           </div>
@@ -125,5 +125,5 @@ export function DataTableColumnReceipt({ photo }: DataTableColumnReceiptProps) {
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
