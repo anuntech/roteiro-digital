@@ -9,7 +9,7 @@ export async function deleteDigitalScript(app: FastifyInstance) {
     {
       schema: {
         params: z.object({
-          digitalScriptsId: z.number(),
+          digitalScriptsId: z.string(),
         }),
         querystring: z.object({
           password: z.string(),
@@ -25,7 +25,7 @@ export async function deleteDigitalScript(app: FastifyInstance) {
       }
 
       const deleteScript = await prisma.checklistAnuntech.delete({
-        where: { id: digitalScriptsId },
+        where: { id: parseInt(digitalScriptsId) },
       });
 
       if (deleteScript) {
