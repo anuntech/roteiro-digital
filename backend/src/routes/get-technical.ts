@@ -34,7 +34,6 @@ export async function getTechnical(app: FastifyInstance) {
 
       const technicals = await prisma.checklistAnuntech.findMany({
         skip: offset,
-        take: 10,
         where: {
           technical_name: {
             contains: technicalFilter,
