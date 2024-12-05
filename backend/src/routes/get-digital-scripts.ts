@@ -59,6 +59,8 @@ export async function getDigitalScripts(app: FastifyInstance) {
       }
       if (dateTo) {
         dateFilter.lte = dayjs(dateTo).utc().endOf("day").toDate();
+      } else {
+        dateFilter.lte = dayjs(dateFrom).utc().endOf("day").toDate();
       }
 
       if (orderIdFilter || orderIdFilter != "") {
@@ -113,8 +115,6 @@ export async function getDigitalScripts(app: FastifyInstance) {
           break;
       }
 
-      console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-
       const digitalScriptsFromDb = await prisma.checklistAnuntech.findMany({
         skip: offset,
         take: 10,
@@ -147,7 +147,6 @@ export async function getDigitalScripts(app: FastifyInstance) {
           payment_method: paymentMethodForCardAndOthers,
         },
       });
-      console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBB");
 
       const digitalScripts = digitalScriptsFromDb.map((script) => {
         return {
@@ -171,7 +170,6 @@ export async function getDigitalScripts(app: FastifyInstance) {
           technical: script.technical_id,
         };
       });
-      console.log(digitalScripts);
       return reply.status(200).send(digitalScripts);
     }
   );
