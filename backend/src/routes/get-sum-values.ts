@@ -104,11 +104,15 @@ export async function getSumValues(app: FastifyInstance) {
           break;
       }
 
-      const whereConditions = {
+      const createdAt = orderIdFilter == "" && {
         created_at: {
           ...(dateFilter.gte && { gte: dateFilter.gte }),
           ...(dateFilter.lte && { lte: dateFilter.lte }),
         },
+      };
+
+      const whereConditions = {
+        ...createdAt,
         order_id: {
           contains: orderIdFilter,
         },
@@ -134,6 +138,8 @@ export async function getSumValues(app: FastifyInstance) {
         },
         where: whereConditions,
       });
+
+      console.log(totalReceivedValue);
 
       const totalCard = await prisma.checklistAnuntech.aggregate({
         _sum: {
