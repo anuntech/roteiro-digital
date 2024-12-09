@@ -240,7 +240,8 @@ export async function getSumValues(app: FastifyInstance) {
         (totalApproved._sum.labor_value || 0) +
         (totalApproved._sum.visit_fee || 0);
 
-      return reply.status(200).send({
+      // Preparar a resposta
+      let response = {
         totalReceivedValue: totalReceivedValue._sum.received_value || 0,
         totalCard: totalCard._sum.received_value || 0,
         totalCash: totalCash._sum.received_value || 0,
@@ -248,7 +249,70 @@ export async function getSumValues(app: FastifyInstance) {
         totalOthers: totalOthers._sum.received_value || 0,
         totalOpportunities: totalOpportunitiesSum,
         totalApproved: totalApprovedSum,
-      });
+      };
+
+      // Se methodFilter estiver presente, ajustar os totais
+      if (methodFilter) {
+        switch (methodFilter) {
+          case "Cartao":
+            response = {
+              totalReceivedValue: response.totalCard,
+              totalCard: response.totalCard,
+              totalCash: 0,
+              totalPix: 0,
+              totalOthers: 0,
+              totalOpportunities: 0,
+              totalApproved: 0,
+            };
+            break;
+          case "Dinheiro":
+            response = {
+              totalReceivedValue: response.totalCash,
+              totalCard: 0,
+              totalCash: response.totalCash,
+              totalPix: 0,
+              totalOthers: 0,
+              totalOpportunities: 0,
+              totalApproved: 0,
+            };
+            break;
+          case "Pix":
+            response = {
+              totalReceivedValue: response.totalPix,
+              totalCard: 0,
+              totalCash: 0,
+              totalPix: response.totalPix,
+              totalOthers: 0,
+              totalOpportunities: 0,
+              totalApproved: 0,
+            };
+            break;
+          case "Outros":
+            response = {
+              totalReceivedValue: response.totalOthers,
+              totalCard: 0,
+              totalCash: 0,
+              totalPix: 0,
+              totalOthers: response.totalOthers,
+              totalOpportunities: 0,
+              totalApproved: 0,
+            };
+            break;
+          default:
+            response = {
+              totalReceivedValue: 0,
+              totalCard: 0,
+              totalCash: 0,
+              totalPix: 0,
+              totalOthers: 0,
+              totalOpportunities: 0,
+              totalApproved: 0,
+            };
+            break;
+        }
+      }
+
+      return reply.status(200).send(response);
     }
   );
 }
