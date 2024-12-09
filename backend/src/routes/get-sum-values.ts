@@ -251,7 +251,6 @@ export async function getSumValues(app: FastifyInstance) {
         totalApproved: totalApprovedSum,
       };
 
-      // Se methodFilter estiver presente, ajustar os totais
       if (methodFilter) {
         switch (methodFilter) {
           case "Cartao":
@@ -261,8 +260,8 @@ export async function getSumValues(app: FastifyInstance) {
               totalCash: 0,
               totalPix: 0,
               totalOthers: 0,
-              totalOpportunities: 0,
-              totalApproved: 0,
+              totalOpportunities: response.totalOpportunities,
+              totalApproved: response.totalApproved,
             };
             break;
           case "Dinheiro":
@@ -272,8 +271,8 @@ export async function getSumValues(app: FastifyInstance) {
               totalCash: response.totalCash,
               totalPix: 0,
               totalOthers: 0,
-              totalOpportunities: 0,
-              totalApproved: 0,
+              totalOpportunities: response.totalOpportunities,
+              totalApproved: response.totalApproved,
             };
             break;
           case "Pix":
@@ -283,8 +282,8 @@ export async function getSumValues(app: FastifyInstance) {
               totalCash: 0,
               totalPix: response.totalPix,
               totalOthers: 0,
-              totalOpportunities: 0,
-              totalApproved: 0,
+              totalOpportunities: response.totalOpportunities,
+              totalApproved: response.totalApproved,
             };
             break;
           case "Outros":
@@ -294,8 +293,8 @@ export async function getSumValues(app: FastifyInstance) {
               totalCash: 0,
               totalPix: 0,
               totalOthers: response.totalOthers,
-              totalOpportunities: 0,
-              totalApproved: 0,
+              totalOpportunities: response.totalOpportunities,
+              totalApproved: response.totalApproved,
             };
             break;
           default:
@@ -305,8 +304,8 @@ export async function getSumValues(app: FastifyInstance) {
               totalCash: 0,
               totalPix: 0,
               totalOthers: 0,
-              totalOpportunities: 0,
-              totalApproved: 0,
+              totalOpportunities: response.totalOpportunities,
+              totalApproved: response.totalApproved,
             };
             break;
         }
