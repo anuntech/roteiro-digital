@@ -101,6 +101,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
   }, []);
 
   const [isTechnicalSelectOpen, setIsTechnicalSelectOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const [formData, setFormData] = useState({
     created_at: dayjs(row.created_at, "DD-MM-YYYY").format("YYYY-MM-DD"),
@@ -223,7 +224,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
         toast.message("Sucesso", {
           description: "Ordem de serviço criada com sucesso!",
         });
-        window.location.reload();
+        setIsOpen(false);
       }
     } catch (error) {
       toast.message("Erro!", {
@@ -234,7 +235,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
 
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
