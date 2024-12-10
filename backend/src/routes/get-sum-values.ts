@@ -55,6 +55,8 @@ export async function getSumValues(app: FastifyInstance) {
       }
       if (dateTo) {
         dateFilter.lte = dayjs(dateTo).utc().endOf("day").toDate();
+      } else {
+        dateFilter.lte = dayjs(dateFrom).utc().endOf("day").toDate();
       }
 
       let paymentMethodForCardAndOthers = {};
