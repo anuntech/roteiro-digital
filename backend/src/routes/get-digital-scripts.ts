@@ -63,8 +63,6 @@ export async function getDigitalScripts(app: FastifyInstance) {
         dateFilter.lte = dayjs(dateFrom).utc().endOf("day").toDate();
       }
 
-      console.log(dateFilter, "FILTEEEEEEEEEEEEEEEEEERRRRRRRR");
-
       if (orderIdFilter || orderIdFilter != "") {
         dateFilter.gte = null;
         dateFilter.lte = null;

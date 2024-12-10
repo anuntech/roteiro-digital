@@ -87,7 +87,7 @@ export function DataTableColumnReceipt({ photo }: DataTableColumnReceiptProps) {
           >
             <Image
               className={`h-[50vh] rounded-lg object-contain`}
-              src={"https://vuupt.s3.amazonaws.com/" + photo}
+              src={photo}
               alt="Comprovante de pagamento"
               width={500}
               height={500}
