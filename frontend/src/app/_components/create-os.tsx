@@ -343,6 +343,9 @@ export const CreateOs = () => {
                     <SelectItem value="Peça Descontinuada">
                       Peça Descontinuada
                     </SelectItem>
+                    <SelectItem value="Entrada Produto Balcão">
+                      Entrada Produto Balcão
+                    </SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
