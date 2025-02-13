@@ -3,6 +3,7 @@ import type { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { prisma } from "../lib/prisma";
+import { randomUUID } from "node:crypto";
 
 export async function createDigitalScript(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
@@ -33,7 +34,6 @@ export async function createDigitalScript(app: FastifyInstance) {
     },
     async (request, reply) => {
       const {
-        company_id,
         order_classification,
         service_order_status,
         parts_value,
@@ -61,6 +61,23 @@ export async function createDigitalScript(app: FastifyInstance) {
         return reply.status(400).send({ error: "Fill all required fields" });
       }
 
+      let company_id: number | undefined;
+
+      switch (company_name?.toLowerCase()) {
+        case "watec service":
+          company_id = 3677;
+          break;
+        case "alvitek campinas":
+          company_id = 72911;
+          break;
+
+        case "alvitek sjc":
+          company_id = 14441;
+          break;
+      }
+
+      const entity_id = parseInt(generateRandomEntityId(), 10);
+
       const digitalScript = await prisma.checklistAnuntech.create({
         data: {
           company_id,
@@ -81,10 +98,18 @@ export async function createDigitalScript(app: FastifyInstance) {
           order_id,
           created_at,
           technical_id: technical,
+          entity_id,
         },
       });
 
       return reply.status(201).send({ digitalScriptId: digitalScript.id });
     }
   );
+}
+
+// Function to generate a random entity_id
+function generateRandomEntityId() {
+  return Math.floor(Math.random() * 100000)
+    .toString()
+    .padStart(5, "0");
 }
