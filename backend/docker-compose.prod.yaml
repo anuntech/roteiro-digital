@@ -7,7 +7,7 @@ services:
     restart: always
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=postgresql://postgres:postgres@postgresql:5432/postgres
+      - DATABASE_URL=postgresql://workspace:C8ZVVsvzajT1rerr@postgres_db:5432/roteiro
     networks:
       - caddy-network
       - postgresql-network
