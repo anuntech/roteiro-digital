@@ -5,7 +5,5 @@ services:
       dockerfile: Dockerfile
     container_name: roteiro-digital-backend
     restart: always
-    ports:
-      - "3333:3333"
     environment:
       - NODE_ENV=production
