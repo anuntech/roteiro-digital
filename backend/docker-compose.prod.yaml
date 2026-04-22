@@ -7,3 +7,14 @@ services:
     restart: always
     environment:
       - NODE_ENV=production
+    networks:
+      - caddy-network
+      - postgresql-network
+
+networks:
+  caddy-network:
+    name: caddy-network
+    external: true
+  postgresql-network:
+    name: postgresql-network
+    external: true
