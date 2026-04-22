@@ -1,0 +1,20 @@
+services:
+  roteiro-digital-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: roteiro-digital-frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - /app/roteiro-digital-frontend-dist:/app/dist
+    environment:
+      - NODE_ENV=production
+    networks:
+      - caddy-network
+
+networks:
+  caddy-network:
+    name: caddy-network
+    external: true
