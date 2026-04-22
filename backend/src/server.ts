@@ -16,6 +16,7 @@ import { getDigitalScriptsTechnical } from "./routes/get-digital-script-technica
 import { getDigitalScriptsClassificationStats } from "./routes/get-digital-script-order-status";
 import { getTopTechnical } from "./routes/get-top-technical";
 import { getTechnicalByNumber } from "./routes/get-technical-by-number";
+import { prisma } from "./lib/prisma";
 
 const app = fastify();
 config();
@@ -46,6 +47,14 @@ app.register(
   { prefix: "/api" }
 );
 
-app.listen({ port: 3333, host: "0.0.0.0" }).then(() => {
+app.listen({ port: 3333, host: "0.0.0.0" }).then(async () => {
   console.log("Server running on port 3333!");
+
+  try {
+    await prisma.$connect();
+    console.log("Database connected successfully!");
+  } catch (err) {
+    console.error("Failed to connect to database:", err);
+    process.exit(1);
+  }
 });
