@@ -21,7 +21,7 @@ const app = fastify();
 config();
 
 app.register(cors, {
-  origin: "*",
+  origin: "https://roteiro.anun.tech",
 });
 
 app.setValidatorCompiler(validatorCompiler);
