@@ -3,6 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - API_BASE_URL=${API_BASE_URL}
     container_name: roteiro-digital-frontend
     restart: always
     ports:
@@ -11,6 +13,7 @@ services:
       - /app/roteiro-digital-frontend-dist:/app/dist
     environment:
       - NODE_ENV=production
+      - API_BASE_URL=${API_BASE_URL}
     networks:
       - caddy-network
 
