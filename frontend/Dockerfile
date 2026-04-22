@@ -11,14 +11,14 @@ RUN bun install
 
 COPY . .
 
-ARG API_BASE_URL
+ARG NEXT_PUBLIC_API_BASE_URL
 
-ENV API_BASE_URL=${API_BASE_URL}
+ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}
 
 RUN rm -rf .next
 
-RUN npm run build
+RUN bun run build
 
 EXPOSE 3000
 
-CMD ["npm", "run", "start"]
+CMD ["bun", "run", "start"]
