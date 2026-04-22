@@ -3,11 +3,17 @@ FROM node:21-alpine AS builder
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+RUN npm install -g bun && apk add --no-cache curl
 
-RUN npm install
+COPY package.json bun.lock ./
+
+RUN bun install
 
 COPY . .
+
+ARG API_BASE_URL
+
+ENV API_BASE_URL=${API_BASE_URL}
 
 RUN rm -rf .next
 
